@@ -95,4 +95,4 @@ See docs/User_Guide.adoc and for Raspbian Raspbian.adoc
 
 == Copyright and Licensing
 
-See LICENSE.txt
+See LICENSE
