@@ -1,2 +1,0 @@
-# baos
-BAOS SDK

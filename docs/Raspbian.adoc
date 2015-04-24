@@ -1,0 +1,142 @@
+= Crosscompile BAOS SDK for Raspbian
+
+== Cross-compile
+
+=== Install dependencies
+
+The SDK need:
+
+* CMake >= 3.0 +
+  http://www.cmake.org/
+
+* Boost C++ (Header only) +
+  http://www.boost.org/
+
+=== Install toolchain
+
+Download the toolchain to your development machine
+
+[source]
+----
+cd /tmp
+wget https://github.com/raspberrypi/tools/archive/master.tar.gz
+----
+
+Install the toolchain to /opt/toolchains/raspberrypi
+
+[source]
+----
+# Remove a possible older version from the toolchain.
+rm -f -r /opt/toolchains/raspberrypi
+
+# Unpack it and move it to /opt/toolchains/raspberrypi
+tar -xzf master.tar.gz
+mv tools-master /opt/toolchains/raspberrypi
+----
+
+The toolchain has no boost include files. We use version from /usr/include (e.g. version 1.54.0)
+
+[source]
+----
+# set a soft link to boost
+# (because in the toolchain are no boost files and set boost root to /usr/include not work)
+cd /opt/toolchains/raspberrypi/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/arm-linux-gnueabihf/include/c++/4.8.3
+ln -s /usr/include/boost/ boost
+----
+
+
+=== Build
+
+[NOTE]
+====
+Before run it open a new terminal to remove possible old environments!!
+====
+
+[source]
+----
+# compile it
+mkdir build
+cd build
+cmake -DCMAKE_TOOLCHAIN_FILE=../toolchain/raspbian.cmake -DWZSDK_SAMPLES=1 -DWZSDK_STATIC=1 -G "Unix Makefiles" ../
+make -j5
+
+# alternative: we have a script which do it
+chmod u+x build_raspbian.sh
+build_raspbian.sh
+----
+
+
+== Run the samples under the Raspberry Pi
+
+=== Preparation
+
+We required that on the Raspberry PI run Raspbian and ssh is is active.
+See also http://www.raspberrypi.org/help/quick-start-guide/
+
+
+=== Copy sample to Raspberry
+
+Open a ssh connection and copy the samples to the Raspberry PI in the /tmp folder
+
+Open a new terminal (we named it terminal 2)
+[source]
+----
+# open a ssh connection to your Raspberry PI
+ssh pi@192.168.1.33
+----
+
+In the other terminal (we named it terminal 1)
+
+[source]
+----
+# cd to the compiled samples
+cd PATH_TO_BAOS_SDK/build_raspbian/bin
+
+# copy it to the /tmp folder
+scp sample_BaosEnumerator pi@192.168.1.33:/tmp
+----
+
+Now we could run the baos sample. In terminal 2:
+
+[source]
+----
+cd /tmp
+sample_BaosEnumerator
+----
+
+
+== kBerry
+
+=== Preperation
+
+==== Connection
+
+Connect the Weinzierl kBerry BAOS Module with the Raspberry PI.
+
+==== Using the UART
+
+The default usage of the UART Interface is serial console.
+To use the UART we must turning off the UART functioning as a serial console.
+
+Open /boot/cmdline.txt and remove *console=ttyAMA0,115200* from the file
+[source]
+----
+sudo nano /boot/cmdline.txt
+----
+
+Open /etc/inittab and out comment the usage for ttyAMA0.
+For this added a *#* at the start of the line with ttyAMA0.
+[source]
+----
+sudo nano /etc/inittab
+----
+
+Reboot it. Now you could use the UART in your application.
+
+[source]
+----
+reboot
+----
+
+See also: http://www.raspberry-projects.com/pi/pi-operating-systems/raspbian/io-pins-raspbian/uart-pins
+

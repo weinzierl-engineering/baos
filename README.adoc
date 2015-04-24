@@ -1,0 +1,98 @@
+
+= BAOS SDK
+:author: Weinzierl Engineering GmbH
+:email: <info@weinzierl.de>
+
+== Introduction
+
+The BAOS Binary SDK is a C++ implementation of the 
+KNX BAOS Binary Protocol. The class library aligns itself 
+with the KNX BAOS Binary protocol, and for each protocol 
+message type a corresponding class is available to send and
+receive the message data. In addition several convenience 
+classes are provided to interpret the information, such as
+a Datapoint class for converting the raw byte stream into a
+specific parameter type. It is currently supported on the 
+following platforms: 
+
+* Windows
+* Linux
+
+In addition to the native {cpp} classes a Managed {cpp} wrapper
+is also included to provide some level of integration with 
+the .net languages, such as C# and Visual Basic.NET. 
+
+The KNX BAOS Binary SDK supports the BAOS Protocol version 
+1.2 as the 2.x versions. 
+
+
+== Contents
+
+The SDK contains:
+
+cmake::         utility files used by the cmake build system.
+docs::		    SDK documentation
+dotnet::	    .NET bindings
+ets::		    ETS3/4 Project file (used by the Samples)
+kdrive::        the kdrive BAOS C++ implementation
+samples::	    {cpp}, C# and vb sample files
+thirdparty::    open-source Poco platform abstraction library
+    
+
+== Supported Interfaces
+
+* KNX IP BAOS 770
+* KNX IP BAOS 771
+* KNX IP BAOS 772
+* KNX Serial BAOS 870
+* KNX BAOS Module 820
+* KNX BAOS Module 822
+* KNX BAOS Module 830
+* KNX BAOS Module kBerry 838
+
+
+== Requirements
+  
+* CMake >= 3.0 +
+  http://www.cmake.org/
+
+* Boost C++ (Header only) +
+  http://www.boost.org/
+  
+* Qt 5 +
+  Optional. Needed for PushButton sample +
+  http://www.qt.io
+
+
+=== Compiling
+
+==== Linux
+
+[source]
+----
+mkdir build
+cd build
+cmake -DCMAKE_BUILD_TYPE=Release -DWZSDK_STATIC=1 -DWZSDK_SAMPLES=1 -DWZSDK_SAMPLES_QT=0 -G "Unix Makefiles" ../
+make -j5
+----
+
+==== Windows
+
+[source]
+----
+# generate VS project files
+mkdir build
+cd build
+cmake -DBOOST_ROOT=D:\boost\boost_1_57_0 -DCMAKE_BUILD_TYPE=Release -DWZSDK_STATIC=1 -DWZSDK_SAMPLES=1 -DWZSDK_SAMPLES_QT=0 -G "Visual Studio 12 2013" ../
+
+# open build/BAOS_SDK.sln and compile
+----
+
+== User Guide
+
+See docs/User_Guide.adoc and for Raspbian Raspbian.adoc
+
+
+== Copyright and Licensing
+
+See LICENSE.txt

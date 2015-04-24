@@ -1,0 +1,40 @@
+
+#include "windows.h"
+
+/////////////////////////////////////////////////////////////////////// 
+// 
+// Version
+// 
+VS_VERSION_INFO VERSIONINFO
+FILEVERSION 15,1,0,0
+PRODUCTVERSION 15,1,0,0
+FILEFLAGSMASK VS_FFI_FILEFLAGSMASK
+#ifdef _DEBUG
+	FILEFLAGS VS_FF_DEBUG
+#else
+	FILEFLAGS 0x0L
+#endif
+FILEOS VOS__WINDOWS32
+FILETYPE VFT_DLL
+	
+BEGIN
+BLOCK "StringFileInfo"
+BEGIN
+ BLOCK "040904E4"
+ BEGIN
+    VALUE "CompanyName", "Weinzierl Engineering GmbH"
+    VALUE "FileDescription", "kdriveBAOS .net Dynamic Link Library"
+    VALUE "FileVersion", "15, 1, 0, 0"
+    VALUE "InternalName", "kdriveBAOS .net Wrapper"
+    VALUE "LegalCopyright", "Copyright (C) Weinzierl Engineering GmbH"
+    VALUE "OriginalFilename", "kdriveBAOS_dotnet.dll"
+    VALUE "ProductName", "kdriveBAOS_dotnet"
+    VALUE "ProductVersion", "15, 1, 0, 0"
+ END
+END
+BLOCK "VarFileInfo"
+BEGIN
+  VALUE "Translation", 0x409, 1252
+END
+END
+
