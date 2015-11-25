@@ -159,7 +159,7 @@ public:
 		If decodeProtocol is true, the BAOS protocol will be decoded and logged
 		This is used typically for Debug purposes.
 	*/
-	ScopedBaosConnection(const std::string& name, bool decodeProtocol = false);
+	explicit ScopedBaosConnection(const std::string& name, bool decodeProtocol = false);
 
 	/*!
 		Creates a ScopedBaosConnection, and connects to a remote baos
@@ -169,7 +169,7 @@ public:
 		If decodeProtocol is true, the BAOS protocol will be decoded and logged
 		This is used typically for Debug purposes.
 	*/
-	ScopedBaosConnection(const std::string ipAddress, unsigned char version, bool decodeProtocol = false);
+	explicit ScopedBaosConnection(const std::string ipAddress, unsigned char version, bool decodeProtocol = false);
 
 	/*!
 		Creates a ScopedBaosConnection, and connects to a remote baos
@@ -179,7 +179,7 @@ public:
 		If decodeProtocol is true, the BAOS protocol will be decoded and logged
 		This is used typically for Debug purposes.
 	*/
-	ScopedBaosConnection(const BaosDevice& baosDevice, bool decodeProtocol = false);
+	explicit ScopedBaosConnection(const BaosDevice& baosDevice, bool decodeProtocol = false);
 
 	/*!
 		Destroys the ScopedBaosConnection and closes the connection

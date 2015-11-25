@@ -125,7 +125,8 @@ int main(int argc, char* argv[])
 		baosEvent.setConnectorClosedEvent(BIND_CONNECTOR_CLOSED_EVENT());
 
 		// create a TPC/IP connection with the remote BAOS device
-		ScopedBaosConnection connection("Baos-Sample", true);
+		std::string name = "Baos-Sample";
+		ScopedBaosConnection connection(name, true);
 		BaosConnector::Ptr connector = connection.getConnector();
 		baosEvent.setConnector(connector);
 
