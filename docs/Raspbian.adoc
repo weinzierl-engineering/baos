@@ -31,6 +31,7 @@ rm -f -r /opt/toolchains/raspberrypi
 
 # Unpack it and move it to /opt/toolchains/raspberrypi
 tar -xzf master.tar.gz
+mkdir -p /opt/toolchains
 mv tools-master /opt/toolchains/raspberrypi
 ----
 

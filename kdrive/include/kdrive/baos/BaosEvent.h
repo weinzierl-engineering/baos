@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -65,6 +65,13 @@ public:
 	*/
 	typedef std::function<void (BaosDatapoint&)> DatapointEvent;
 	void setDatapointEvent(DatapointEvent datapointEvent);
+
+	/*!
+		Callback function called when a server value indication is
+		receieved.
+	*/
+	typedef std::function<void(unsigned short, const std::vector<unsigned char>&)> ServerItemEvent;
+	void setServerItemEvent(ServerItemEvent serverItemEvent);
 
 	/*!
 		Callback function called when a server value indication is
@@ -148,6 +155,7 @@ private:
 private:
 	std::shared_ptr<BaosConnector> connector_;
 	DatapointEvent datapointEvent_;
+	ServerItemEvent serverItemEvent_;
 	BusConnectedEvent busConnectedEvent_;
 	ConnectorClosedEvent connectorClosedEvent_;
 	mutable Poco::FastMutex mutex_;

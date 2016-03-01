@@ -1,5 +1,5 @@
 
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -42,10 +42,18 @@ public:
 	StreamConnector12(const std::string& remoteHost, unsigned short port);
 	virtual ~StreamConnector12();
 
-private:
-	virtual void rxImpl() override;
+public:
+	static const std::string ConnectorTypeLabel;
 
-	virtual std::size_t encapsulate(const connector::Packet::Ptr packet, unsigned char* buffer, std::size_t bufferSize) override;
+protected:
+	void openImpl() override;
+
+	void resetPropertiesImpl() override;
+
+private:
+	void rxImpl() override;
+
+	std::size_t encapsulate(const std::shared_ptr<connector::Packet> packet, unsigned char* buffer, std::size_t bufferSize) override;
 	int packetize(unsigned char* buffer, std::size_t bufferSize);
 	int receiveGetServerItemRes(unsigned char* buffer, std::size_t bufferSize);
 	int receiveSetServerItemRes(unsigned char* buffer, std::size_t bufferSize);
@@ -59,6 +67,7 @@ private:
 
 private:
 	std::array<unsigned char, BufferSize> rxBuffer_;
+	unsigned int descriptionStringLength_;
 };
 
 }

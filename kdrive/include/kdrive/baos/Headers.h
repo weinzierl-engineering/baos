@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -22,6 +22,7 @@
 #include "kdrive/baos/BaosHeartbeat.h"
 #include "kdrive/baos/BaosParameter.h"
 #include "kdrive/baos/BaosServerItems.h"
+#include "kdrive/baos/BaosTimers.h"
 #include "kdrive/baos/core/Headers.h"
 #include "kdrive/baos/ft12/Headers.h"
 #include "kdrive/baos/protocols/Headers.h"

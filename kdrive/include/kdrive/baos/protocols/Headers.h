@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -15,6 +15,6 @@
 
 #include "kdrive/baos/protocols/Protocol.h"
 #include "kdrive/baos/protocols/Protocol12.h"
-#include "kdrive/baos/protocols/Protocol20.h"
+#include "kdrive/baos/protocols/Protocol2x.h"
 
 #endif // __KDRIVE_BAOS_PROTOCOLS_HEADERS_H__

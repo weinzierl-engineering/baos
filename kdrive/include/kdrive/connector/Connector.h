@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -421,12 +421,26 @@ public:
 	static const std::string LastErrorCode;			/*!< Property Key for LastErrorCode */
 	static const std::string LastErrorMessage;		/*!< Property Key for LastErrorMessage */
 
+	/*!
+		A property could have meta info writeable_mode.
+		It describe when the property is writeable.
+		This is useful for GUI applications.
+		NOTE: When writeable_mode not exist then it always writeable,
+		but for read only is set.
+	*/
+	enum PropertyWriteableMode
+	{
+	    WhenClosed = 1,
+	    WhenOpened = 2,
+	    Always = WhenClosed | WhenOpened
+	};
+
 protected:
 	/*!
 		Called when a property is modified
 		We raise the PropertyModified event
 	*/
-	virtual void setPropertyUnsafe(const std::string& key, const Poco::Dynamic::Var& value);
+	void setPropertyUnsafe(const std::string& key, const Poco::Dynamic::Var& value) override;
 
 	/*!
 		Calls the packet factory to create a Packet from the raw buffer

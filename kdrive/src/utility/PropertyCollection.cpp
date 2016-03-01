@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -85,6 +85,12 @@ void PropertyCollection::removeProperty(const std::string& key)
 	{
 		map_.erase(iter);
 	}
+}
+
+bool PropertyCollection::isEmpty() const
+{
+	ScopedLock<FastMutex> lock(mutex_);
+	return map_.empty();
 }
 
 bool PropertyCollection::isEmpty(const std::string& key) const

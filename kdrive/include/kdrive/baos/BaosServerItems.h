@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -231,10 +231,166 @@ public:
 	*/
 	unsigned char getWebServicesProtocolVersion() const;
 
+	/*!
+		Gets the version of the ObjectServer web services protocol
+		Server item: Protocol Version (WebService), id 19
+	*/
+	unsigned char getRestServiceProtocolVersion() const;
+
+	/*!
+		Gets the KNX individual address
+	*/
+	unsigned short getIndividualAddress() const;
+
+	/*!
+		Gets the MAC address
+	*/
+	std::vector<unsigned char> getMacAddress() const;
+
+	/*!
+		Returns true if the KNXnet/IP Tunneling service is enabled, otherwise false
+	*/
+	bool isTunnellingEnabled() const;
+
+	/*!
+		Returns true if the BAOS Binay service is enabled, otherwise false
+	*/
+	bool isBaosBinaryEnabled() const;
+
+	/*!
+		Returns true if the BAOS Web service is enabled, otherwise false
+	*/
+	bool isBaosWebEnabled() const;
+
+	/*!
+		Returns true if the BAOS Rest service is enabled, otherwise false
+	*/
+	bool isBaosRestEnabled() const;
+
+	/*!
+		Returns true if the HTTP file service is enabled, otherwise false
+	*/
+	bool isHttpFileEnabled() const;
+
+	/*!
+		Returns true if the KNXnet/IP Search service is enabled, otherwise false
+	*/
+	bool isSearchRequestEnabled() const;
+
+	/*!
+		Returns true if the loaded application is a structed database, otherwise false
+	*/
+	bool isIsStructured() const;
+
+	/*!
+		Gets the maximum supported management clients
+	*/
+	unsigned char getMaxManagementClients() const;
+
+	/*!
+		Gets the current connected management clients
+	*/
+	unsigned char getConnectedManagementClients() const;
+
+	/*!
+		Gets the maximum supported tunneling clients
+	*/
+	unsigned char getMaxTunnellingClients() const;
+
+	/*!
+		Gets the current connected tunneling clients
+	*/
+	unsigned char getConnectedTunnellingClients() const;
+
+	/*!
+		Gets the maximum supported BAOS UDP clients
+	*/
+	unsigned char getMaxBaosUdpClients() const;
+
+	/*!
+		Gets the current connected  BAOS UDP clients
+	*/
+	unsigned char getConnectedBaosUdpClients() const;
+
+	/*!
+		Gets the maximum supported BAOS TCP clients
+	*/
+	unsigned char getMaxBaosTcpClients() const;
+
+	/*!
+		Gets the current connected  BAOS TCP clients
+	*/
+	unsigned char getConnectedBaosTcpClients() const;
+
+	/*!
+		Gets the device friendly name
+	*/
+	std::string getDeviceFriendlyName() const;
+
+	/*!
+		Gets the maximum supported datapoints
+	*/
+	unsigned short getMaxDatapoints() const;
+
+	/*!
+		Gets the current configured datapoints
+	*/
+	unsigned short getConfiguredDatapoints() const;
+
+	/*!
+		Gets the maximum supported parameter bytes
+	*/
+	unsigned short getMaxParameterBytes() const;
+
+	/*!
+		Gets the download counter
+	*/
+	unsigned short getDownloadCounter() const;
+
+	/*!
+		Gets the IP assigment methode
+	*/
+	unsigned char getIpAssignment() const;
+
+	/*!
+		Gets the IP address
+	*/
+	unsigned int getIpAddress() const;
+
+	/*!
+		Gets the subnet mask
+	*/
+	unsigned int getSubnetMask() const;
+
+	/*!
+		Gets the IP address of the default gateway
+	*/
+	unsigned int getDefaultGateway() const;
+
+	/*!
+		Gets the time since reset
+	*/
+	unsigned char getTimeSinceResetUnit() const;
+
+	/*!
+		Gets the system time
+	*/
+	std::vector<unsigned char> getSystemTime() const;
+
+	/*!
+		Gets the system timezone offset
+	*/
+	unsigned char getSystemTimezoneOffset() const;
+
+	/*!
+		Returns true if Menu is enabled, otherwise false
+	*/
+	bool isMenuEnabled() const;
+
 private:
 	std::vector<unsigned char> getItemData(unsigned short id) const;
 	unsigned char getItemByte(unsigned short id) const;
-	unsigned int getItemShort(unsigned short id) const;
+	unsigned short getItemShort(unsigned short id) const;
 	unsigned long getItemLong(unsigned short id) const;
 	ServerItem getServerItem(unsigned short id) const;
 	void setServerItem(unsigned short id, const std::vector<unsigned char>& data);

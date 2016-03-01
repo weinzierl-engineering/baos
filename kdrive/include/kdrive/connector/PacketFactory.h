@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -14,14 +14,14 @@
 #define __KDRIVE_CONNECTOR_PACKET_FACTORY_H__
 
 #include "kdrive/connector/Config.h"
-#include "kdrive/connector/Packet.h"
-#include <boost/noncopyable.hpp>
 #include <memory>
 
 namespace kdrive
 {
 namespace connector
 {
+
+class Packet;
 
 /*!
 	\class PacketFactory
@@ -31,16 +31,35 @@ namespace connector
 	creates an unknown Packet (Packet). If your application implements its
 	own Packet types it could/should also define a Packet Factory
 */
-struct kdriveConnector_API PacketFactory : private boost::noncopyable
+class kdriveConnector_API PacketFactory
 {
+public:
 	typedef std::shared_ptr<PacketFactory> Ptr;
 
+	/*!
+		Creates a PacketFactory
+	*/
+	PacketFactory() = default;
+
+	/*!
+		Copy constructor is deleted
+	*/
+	PacketFactory(const PacketFactory&) = delete;
+
+	/*!
+		Destroys the ActiveFunction
+	*/
 	virtual ~PacketFactory();
+
+	/*!
+		Assingment Operator is deleted
+	*/
+	PacketFactory& operator=(const PacketFactory&) = delete;
 
 	/*!
 		Create a packet from the buffer
 	*/
-	virtual Packet::Ptr create(const unsigned char* buffer, std::size_t bufferLength);
+	virtual std::shared_ptr<Packet> create(const unsigned char* buffer, std::size_t bufferLength);
 };
 
 }

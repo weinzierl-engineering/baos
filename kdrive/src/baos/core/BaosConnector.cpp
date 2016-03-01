@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -15,14 +15,25 @@
 
 using namespace kdrive::baos;
 
+/**************************************
+** BaosConnector
+***************************************/
+
+const std::string BaosConnector::Version = "baos.version";
+
 BaosConnector::~BaosConnector()
 {
 	disableSignals();
 }
 
+void BaosConnector::setVersion(unsigned char version)
+{
+	setProperty(Version, version);
+}
+
 unsigned char BaosConnector::getVersion() const
 {
-	return version_;
+	return getProperty(Version);
 }
 
 bool BaosConnector::isConnected() const
@@ -30,14 +41,8 @@ bool BaosConnector::isConnected() const
 	return getRxCallbackThread().isRunning();
 }
 
-void BaosConnector::setVersion(unsigned char version)
-{
-	version_ = version;
-}
-
 BaosConnector::BaosConnector(unsigned char version)
-
-	: version_(version)
 {
+	setProperty(BaosConnector::Version, version);
 	enableSignals();
 }

@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -15,12 +15,9 @@
 #include "kdrive/baos/core/API.h"
 #include "kdrive/baos/core/DataPacket.h"
 #include "kdrive/connector/Packet.h"
-#include "kdrive/utility/Logger.h"
 
 using namespace kdrive::connector;
 using namespace kdrive::baos;
-
-CLASS_LOGGER("kdrive.baos.BaosPacketFactory")
 
 BaosPacketFactory::BaosPacketFactory()
 {
@@ -33,7 +30,7 @@ BaosPacketFactory::~BaosPacketFactory()
 Packet::Ptr BaosPacketFactory::create(const unsigned char* buffer, std::size_t bufferLength)
 {
 	// not sure what this packet is
-	Packet::Ptr packet(new Packet);
+	Packet::Ptr packet = std::make_shared<Packet>();
 	packet->readFromBuffer(buffer, bufferLength);
 	return packet;
 }
@@ -44,40 +41,28 @@ DataPacket::Ptr BaosPacketFactory::createFromSubService(unsigned char subService
 
 	if (!errorCode)
 	{
-		switch (subService)
+		if ((subService >= RequestFunctions::MinRequest) &&
+		    (subService <= RequestFunctions::MaxRequest))
 		{
-			case RequestFunctions::GetServerItem:
-			case RequestFunctions::SetServerItem:
-			case RequestFunctions::GetDatapointDescription:
-			case RequestFunctions::GetDescriptionString:
-			case RequestFunctions::GetDatapointValue:
-			case RequestFunctions::SetDatapointValue:
-			case RequestFunctions::GetParameterByte:
-				packet.reset(new DataRequest);
-				break;
-
-			case ResponseFunctions::GetServerItem:
-			case ResponseFunctions::SetServerItem:
-			case ResponseFunctions::GetDatapointDescription:
-			case ResponseFunctions::GetDescriptionString:
-			case ResponseFunctions::GetDatapointValue:
-			case ResponseFunctions::SetDatapointValue:
-			case ResponseFunctions::GetParameterByte:
-				packet.reset(new DataResponse);
-				break;
-
-			case IndicationFunctions::DatapointValueIndication:
-				packet.reset(new DatapointValueIndication);
-				break;
-
-			case IndicationFunctions::ServerItemIndication:
-				packet.reset(new ServerItemIndication);
-				break;
+			packet = std::make_shared<DataRequest>();
+		}
+		else if ((subService >= ResponseFunctions::MinResponse) &&
+		         (subService <= ResponseFunctions::MaxResponse))
+		{
+			packet = std::make_shared<DataResponse>();
+		}
+		else if (subService == IndicationFunctions::DatapointValueIndication)
+		{
+			packet = std::make_shared<DatapointValueIndication>();
+		}
+		else if (subService == IndicationFunctions::ServerItemIndication)
+		{
+			packet = std::make_shared<ServerItemIndication>();
 		}
 	}
 	else
 	{
-		packet.reset(new ErrorResponse);
+		packet = std::make_shared<ErrorResponse>();
 	}
 
 	return packet;

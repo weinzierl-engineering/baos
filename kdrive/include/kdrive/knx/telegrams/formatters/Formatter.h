@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -125,15 +125,15 @@ public:
 	NullFormatter(unsigned char value);
 	virtual ~NullFormatter();
 
-	virtual std::size_t size() const;
-	virtual bool isValid() const;
+	std::size_t size() const override;
+	bool isValid() const override;
 
 	void set(unsigned char value);
 	unsigned char get() const;
 
 private:
-	virtual std::size_t readImpl(const Buffer& buffer);
-	virtual std::size_t writeImpl(Buffer& buffer);
+	std::size_t readImpl(const Buffer& buffer) override;
+	std::size_t writeImpl(Buffer& buffer) override;
 };
 
 /**************************************
@@ -147,15 +147,15 @@ public:
 	ByteFormatter(unsigned char value);
 	virtual ~ByteFormatter();
 
-	virtual std::size_t size() const;
-	virtual bool isValid() const;
+	std::size_t size() const override;
+	bool isValid() const override;
 
 	void set(unsigned char value);
 	unsigned char get() const;
 
 private:
-	virtual std::size_t readImpl(const Buffer& buffer);
-	virtual std::size_t writeImpl(Buffer& buffer);
+	std::size_t readImpl(const Buffer& buffer) override;
+	std::size_t writeImpl(Buffer& buffer) override;
 
 private:
 	unsigned char value_;
@@ -172,15 +172,15 @@ public:
 	WordFormatter(unsigned short value);
 	virtual ~WordFormatter();
 
-	virtual std::size_t size() const;
-	virtual bool isValid() const;
+	std::size_t size() const override;
+	bool isValid() const override;
 
 	void set(unsigned short value);
 	unsigned short get() const;
 
 private:
-	virtual std::size_t readImpl(const Buffer& buffer);
-	virtual std::size_t writeImpl(Buffer& buffer);
+	std::size_t readImpl(const Buffer& buffer) override;
+	std::size_t writeImpl(Buffer& buffer) override;
 
 private:
 	unsigned short value_;
@@ -197,15 +197,15 @@ public:
 	UIntFormatter(unsigned int value);
 	virtual ~UIntFormatter();
 
-	virtual std::size_t size() const;
-	virtual bool isValid() const;
+	std::size_t size() const override;
+	bool isValid() const override;
 
 	void set(unsigned int value);
 	unsigned int get() const;
 
 private:
-	virtual std::size_t readImpl(const Buffer& buffer);
-	virtual std::size_t writeImpl(Buffer& buffer);
+	std::size_t readImpl(const Buffer& buffer) override;
+	std::size_t writeImpl(Buffer& buffer) override;
 
 private:
 	unsigned int value_;
@@ -221,8 +221,8 @@ public:
 	Formatter();
 	virtual ~Formatter();
 
-	virtual std::size_t size() const;
-	virtual bool isValid() const;
+	std::size_t size() const override;
+	bool isValid() const override;
 
 protected:
 	typedef std::vector<AbstractFormatter*> Formatters;
@@ -236,8 +236,8 @@ protected:
 	const Formatters& getFormatters() const;
 
 private:
-	virtual std::size_t readImpl(const Buffer& buffer);
-	virtual std::size_t writeImpl(Buffer& buffer);
+	std::size_t readImpl(const Buffer& buffer) override;
+	std::size_t writeImpl(Buffer& buffer) override;
 
 private:
 	Formatters formatters_;
@@ -256,8 +256,8 @@ public:
 	GreedyFormatter();
 	virtual ~GreedyFormatter();
 
-	virtual std::size_t size() const;
-	virtual bool isValid() const;
+	std::size_t size() const override;
+	bool isValid() const override;
 
 	void setBuffer(const std::vector<unsigned char>& buffer);
 	const std::vector<unsigned char>& getBuffer() const;
@@ -280,8 +280,8 @@ public:
 	bool isLimited() const;
 
 private:
-	virtual std::size_t readImpl(const Buffer& buffer);
-	virtual std::size_t writeImpl(Buffer& buffer);
+	std::size_t readImpl(const Buffer& buffer) override;
+	std::size_t writeImpl(Buffer& buffer) override;
 
 private:
 	std::vector<unsigned char> buffer_;
@@ -304,7 +304,7 @@ struct kdriveKnx_API DelimitedGreedyFormatter : public GreedyFormatter
 	{
 	}
 
-	virtual void setDefaults()
+	void setDefaults() override
 	{
 		setLimit(limit);
 	}
@@ -324,15 +324,15 @@ public:
 	WordListFormatter();
 	virtual ~WordListFormatter();
 
-	virtual std::size_t size() const;
-	virtual bool isValid() const;
+	std::size_t size() const override;
+	bool isValid() const override;
 
 	void set(const std::vector<unsigned short>& values);
 	const std::vector<unsigned short>& get() const;
 
 private:
-	virtual std::size_t readImpl(const Buffer& buffer);
-	virtual std::size_t writeImpl(Buffer& buffer);
+	std::size_t readImpl(const Buffer& buffer) override;
+	std::size_t writeImpl(Buffer& buffer) override;
 
 private:
 	std::vector<unsigned short> values_;

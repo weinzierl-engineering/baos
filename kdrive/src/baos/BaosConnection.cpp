@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -85,9 +85,9 @@ void BaosConnection::connectIpNat(const std::string& ipAddress,
 	connectIpImpl(ipAddress, port, version, decodeProtocol);
 }
 
-void BaosConnection::connectSerial(const std::string& serialDeviceName, unsigned char version, bool decodeProtocol)
+void BaosConnection::connectSerial(const std::string& serialDeviceName, bool decodeProtocol)
 {
-	connectSerialImpl(serialDeviceName, version, decodeProtocol);
+	connectSerialImpl(serialDeviceName, decodeProtocol);
 }
 
 void BaosConnection::disconnect()
@@ -149,7 +149,7 @@ void BaosConnection::connectIpImpl(const std::string remoteHost,
 	baosConnector_->open();
 }
 
-void BaosConnection::connectSerialImpl(const std::string serialDeviceName, unsigned char version, bool decodeProtocol)
+void BaosConnection::connectSerialImpl(const std::string serialDeviceName, bool decodeProtocol)
 {
 	disconnect();
 
@@ -161,10 +161,8 @@ void BaosConnection::connectSerialImpl(const std::string serialDeviceName, unsig
 		protocolDecoder_.connect(*baosConnector_);
 	}
 
-	const int major = (version >> 4) & 0x0F;
-	const int minor = version & 0x0F;
-	poco_information_f3(LOGGER(), "Connect %s v%d.%d", serialDeviceName, major, minor);
-	connector->open(serialDeviceName, version);
+	poco_information_f1(LOGGER(), "Connect %s", serialDeviceName);
+	connector->open(serialDeviceName);
 }
 
 /******************************

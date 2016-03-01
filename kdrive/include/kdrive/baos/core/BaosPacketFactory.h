@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -15,6 +15,7 @@
 
 #include "kdrive/baos/Config.h"
 #include "kdrive/baos/core/Forwards.h"
+#include "kdrive/connector/Forwards.h"
 #include "kdrive/connector/PacketFactory.h"
 #include <memory>
 
@@ -43,7 +44,7 @@ public:
 		Actually, this simply returns an UnknownPacket
 		and should be overridden by the specific protocol packet factory
 	*/
-	virtual connector::Packet::Ptr create(const unsigned char* buffer, std::size_t bufferLength);
+	std::shared_ptr<connector::Packet> create(const unsigned char* buffer, std::size_t bufferLength) override;
 
 protected:
 	/*!

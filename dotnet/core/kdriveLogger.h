@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -55,15 +55,15 @@ public ref class Logger
 public:
 	enum class Level
 	{
-		None = 0,
-		Fatal,
-		Critical,
-		Error,
-		Warning,
-		Notice,
-		Information,
-		Debug,
-		Trace
+	    None = 0,
+	    Fatal,
+	    Critical,
+	    Error,
+	    Warning,
+	    Notice,
+	    Information,
+	    Debug,
+	    Trace
 	};
 
 	static void SetConsoleChannel()
@@ -106,46 +106,46 @@ public:
 
 			switch (level)
 			{
-			case Level::None:
-				break;
+				case Level::None:
+					break;
 
-			case Level::Fatal:
-				poco_fatal(logger(), s);
-				break;
+				case Level::Fatal:
+					poco_fatal(logger(), s);
+					break;
 
-			case Level::Critical:
-				poco_critical(logger(), s);
-				break;
+				case Level::Critical:
+					poco_critical(logger(), s);
+					break;
 
-			case Level::Error:
-				poco_error(logger(), s);
-				break;
+				case Level::Error:
+					poco_error(logger(), s);
+					break;
 
-			case Level::Warning:
-				poco_warning(logger(), s);
-				break;
+				case Level::Warning:
+					poco_warning(logger(), s);
+					break;
 
-			case Level::Notice:
-				poco_notice(logger(), s);
-				break;
+				case Level::Notice:
+					poco_notice(logger(), s);
+					break;
 
-			case Level::Information:
-				poco_information(logger(), s);
-				break;
+				case Level::Information:
+					poco_information(logger(), s);
+					break;
 
-			case Level::Debug:
-				poco_debug(logger(), s);
-				break;
+				case Level::Debug:
+					poco_debug(logger(), s);
+					break;
 
-			case Level::Trace:
-				poco_trace(logger(), s);
-				break;
+				case Level::Trace:
+					poco_trace(logger(), s);
+					break;
 
-			default:
-				poco_information(logger(), s);
-				break;
+				default:
+					poco_information(logger(), s);
+					break;
 			}
-		} 
+		}
 		WZ_KDRIVE_CLR_DEFAULT_CATCH
 	}
 
@@ -165,7 +165,7 @@ public:
 			{
 				logger().dump(s, 0, 0, static_cast<Poco::Message::Priority>((int)level));
 			}
-		} 
+		}
 		WZ_KDRIVE_CLR_DEFAULT_CATCH
 	}
 
@@ -182,8 +182,8 @@ public:
 	{
 		try
 		{
-			Poco::Logger::setLevel("", (int)level);
-			Poco::Logger::root().setLevel((int)level);			
+			Poco::Logger::setLevel("", static_cast<int>(level));
+			Poco::Logger::root().setLevel(static_cast<int>(level));
 		}
 		WZ_KDRIVE_CLR_DEFAULT_CATCH
 	}

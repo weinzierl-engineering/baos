@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -17,37 +17,20 @@
 #include "kdrive/utility/LoggerFormatter.h"
 #include <Poco/Logger.h>
 
-namespace kdrive
-{
-namespace utility
-{
-
-template <const char* const Name>
-struct NamedLogger
-{
-	static Poco::Logger& get()
-	{
-		return Poco::Logger::get(Name);
-	}
-};
-
-}
-} // end namespace kdrive::utility
-
-
 /*!
-	Allocates a class logger. This logger can be used
-	once for each file module. To get the logger associated with
-	the name, simply use the LOGGER() macro
+	Adds a new logger for a module
+	Note: only one logger per file
 */
 #define CLASS_LOGGER(Name) \
-	namespace { extern const char wzfClassLogger[] = Name; }
+	namespace { \
+		extern const char wzfClassLoggerName[] = Name; \
+		Poco::Logger* wzfClassLogger = nullptr; \
+	}
 
 /*!
 	Returns the logger associated with the Name allocated
 	with CLASS_LOGGER
 */
-#define LOGGER() \
-	kdrive::utility::NamedLogger<wzfClassLogger>::get()
+#define LOGGER() (*(!::wzfClassLogger ? ::wzfClassLogger = &Poco::Logger::get(::wzfClassLoggerName) : ::wzfClassLogger))
 
 #endif // __WZF_UTILITY_LOGGER_LOGGER_H__

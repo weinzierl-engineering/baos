@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -15,16 +15,12 @@
 #include "kdrive/baos/BaosServerItems.h"
 #include "kdrive/baos/core/BaosConnector.h"
 #include "kdrive/connector/Events.h"
-#include "kdrive/utility/Logger.h"
 #include <Poco/Exception.h>
-#include <Poco/Logger.h>
 #include <boost/assert.hpp>
 
 using Poco::Exception;
 using namespace kdrive::connector;
 using namespace kdrive::baos;
-
-CLASS_LOGGER("kdrive.baos.BaosHeartbeat")
 
 /******************************
 ** BaosHeartbeat

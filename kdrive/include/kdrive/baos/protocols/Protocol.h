@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -79,6 +79,7 @@ struct ProtocolFormatter
 	typedef std::tuple<unsigned short, unsigned char, unsigned char, unsigned char> Descriptor;
 	typedef std::vector<Descriptor> Descriptors;
 	typedef std::vector<ServerItem> ServerItems;
+	typedef std::vector<Timer> Timers;
 	typedef std::vector<std::string> Strings;
 	typedef std::vector<unsigned char> ParameterBytes;
 
@@ -98,6 +99,11 @@ struct ProtocolFormatter
 	static void encodeSetDatapointValue_Req(std::shared_ptr<DataPacket> dataPacket, const ServerItems& serverItems);
 
 	static void decodeGetParameterByte_Res(std::shared_ptr<DataPacket> dataPacket, ParameterBytes& parameterBytes);
+
+	static void encodeSetDatapointHistoryCommand_Req(std::shared_ptr<DataPacket> dataPacket, unsigned char command);
+
+	static void decodeGetTimer_Res(std::shared_ptr<DataPacket> dataPacket, Timers& timers);
+	static void encodeSetTimer_Req(std::shared_ptr<DataPacket> dataPacket, const Timers& timers);
 };
 
 }

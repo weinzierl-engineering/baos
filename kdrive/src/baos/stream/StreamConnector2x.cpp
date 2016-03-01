@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -12,8 +12,8 @@
 
 #include "pch/kdrive_pch.h"
 #include "kdrive/baos/Config.h"
-#include "kdrive/baos/stream/StreamConnector20.h"
-#include "kdrive/baos/protocols/Protocol20.h"
+#include "kdrive/baos/stream/StreamConnector2x.h"
+#include "kdrive/baos/protocols/Protocol2x.h"
 #include "kdrive/baos/core/DataPacket.h"
 #include "kdrive/baos/core/API.h"
 #include "kdrive/baos/core/Exception.h"
@@ -27,7 +27,7 @@ using namespace kdrive::baos;
 using namespace kdrive::connector;
 using Poco::Exception;
 
-CLASS_LOGGER("kdrive.baos.PacketFactory20")
+CLASS_LOGGER("kdrive.baos.StreamConnector2x")
 
 /**********************************
 ** Anonymous namespace
@@ -77,11 +77,21 @@ enum class ValidationCode
 };
 
 /*
+	precondition: buffer holds at least TransportHeader::HeaderSize bytes
+*/
+unsigned int getFrameSize(const unsigned char* buffer)
+{
+	const int frameSize = buffer[TransportHeader::FrameSizeHigh] << 8 |
+	                      buffer[TransportHeader::FrameSizeLow];
+	return frameSize;
+}
+
+/*
 	Attempts to read the transport packet header (KNXnet/IP)
 	If this is not a valid KNXnet/IP packet header an exception
 	will be thrown.
 */
-ValidationCode isValid(unsigned char* buffer, std::size_t bufferSize)
+ValidationCode isValid(unsigned char version, unsigned char* buffer, std::size_t bufferSize)
 {
 	if (bufferSize < TransportHeader::HeaderSize)
 	{
@@ -93,7 +103,7 @@ ValidationCode isValid(unsigned char* buffer, std::size_t bufferSize)
 		return ValidationCode::InvalidHeaderSize;
 	}
 
-	if (buffer[TransportHeader::Version] != ProtocolVersions::V20)
+	if (buffer[TransportHeader::Version] != version)
 	{
 		return ValidationCode::InvalidVersion;
 	}
@@ -106,51 +116,69 @@ ValidationCode isValid(unsigned char* buffer, std::size_t bufferSize)
 		return ValidationCode::InvalidService;
 	}
 
-	const std::size_t frameSize = buffer[TransportHeader::FrameSizeHigh] << 8 | buffer[TransportHeader::FrameSizeLow];
-	if (bufferSize < frameSize)
+	if (bufferSize < getFrameSize(buffer))
 	{
 		return ValidationCode::IncompletePacket;
 	}
 
-	return ValidationCode::Valid;;
+	return ValidationCode::Valid;
 }
 
-/*
-	precondition: buffer holds at least TransportHeader::HeaderSize bytes
-*/
-unsigned int getFrameSize(const unsigned char* buffer)
+void initProperties(kdrive::utility::PropertyCollection& collection)
 {
-	const int frameSize = buffer[TransportHeader::FrameSizeHigh] << 8 | buffer[TransportHeader::FrameSizeLow];
-	return frameSize;
+	collection.setProperty(StreamConnector2x::PortType, StreamConnector2x::ConnectorTypeLabel);
 }
 
 } // end anonymous namespace
 
 /**********************************
-** StreamConnector20
+** StreamConnector2x
 ***********************************/
 
-StreamConnector20::StreamConnector20()
+const std::string StreamConnector2x::ConnectorTypeLabel = "baos.tcp.2x";
+
+StreamConnector2x::StreamConnector2x()
 
 	: StreamConnector(ProtocolVersions::V20)
 {
-	PacketFactory20::Ptr packetFactory(new PacketFactory20);
-	setPacketFactory(packetFactory);
+	initProperties(*this);
+	setPacketFactory(std::make_shared<PacketFactory2x>());
 }
 
-StreamConnector20::StreamConnector20(const std::string& remoteHost, unsigned short port)
+StreamConnector2x::StreamConnector2x(const std::string& remoteHost, unsigned short port)
 
 	: StreamConnector(ProtocolVersions::V20, remoteHost, port)
 {
-	PacketFactory20::Ptr packetFactory(new PacketFactory20);
-	setPacketFactory(packetFactory);
+	initProperties(*this);
+	setPacketFactory(std::make_shared<PacketFactory2x>());
 }
 
-StreamConnector20::~StreamConnector20()
+StreamConnector2x::~StreamConnector2x()
 {
 }
 
-void StreamConnector20::rxImpl()
+void StreamConnector2x::resetPropertiesImpl()
+{
+	StreamConnector::resetPropertiesImpl();
+	initProperties(*this);
+}
+
+void StreamConnector2x::openImpl()
+{
+	std::shared_ptr<PacketFactory2x> packetFactory =
+	    std::dynamic_pointer_cast<PacketFactory2x>(getPacketFactory());
+
+	if (!packetFactory)
+	{
+		throw ClientException("Unable to get PacketFactory2x");
+	}
+
+	packetFactory->setProtocolVersion(getVersion());
+
+	StreamConnector::openImpl();
+}
+
+void StreamConnector2x::rxImpl()
 {
 	int length = 0;
 
@@ -174,7 +202,7 @@ void StreamConnector20::rxImpl()
 /*!
 	Encapsulate it in a KNXnet/IP Packet
 */
-std::size_t StreamConnector20::encapsulate(const Packet::Ptr packet, unsigned char* buffer, std::size_t bufferSize)
+std::size_t StreamConnector2x::encapsulate(const Packet::Ptr packet, unsigned char* buffer, std::size_t bufferSize)
 {
 	const unsigned int frameSize = packet->size() + TransportHeader::HeaderSize;
 	if (bufferSize < frameSize)
@@ -183,7 +211,7 @@ std::size_t StreamConnector20::encapsulate(const Packet::Ptr packet, unsigned ch
 	}
 
 	buffer[TransportHeader::KnxNetIpHeaderSize] = KnxNetIpHeaderSizeValue;
-	buffer[TransportHeader::Version] = ProtocolVersions::V20;
+	buffer[TransportHeader::Version] = getVersion();
 	buffer[TransportHeader::ObjectServerRequestHigh] = (ObjectServerRequestValue >> 8) & 0xFF;
 	buffer[TransportHeader::ObjectServerRequestLow] = ObjectServerRequestValue & 0xFF;
 	buffer[TransportHeader::FrameSizeHigh] = (frameSize >> 8) & 0xFF;
@@ -197,7 +225,7 @@ std::size_t StreamConnector20::encapsulate(const Packet::Ptr packet, unsigned ch
 	return frameSize;
 }
 
-void StreamConnector20::onReceive(const unsigned char* buffer, std::size_t length)
+void StreamConnector2x::onReceive(const unsigned char* buffer, std::size_t length)
 {
 	frameBuffer_.insert(frameBuffer_.end(), buffer, buffer + length);
 
@@ -218,14 +246,14 @@ void StreamConnector20::onReceive(const unsigned char* buffer, std::size_t lengt
 	}
 }
 
-bool StreamConnector20::packetize(int& bufferOffset)
+bool StreamConnector2x::packetize(int& bufferOffset)
 {
 	bool isValidPacket = false;
 	const int size = static_cast<int>(frameBuffer_.size());
 	bool eraseData = false;
 	for (int index = 0; index < size; ++index)
 	{
-		switch (isValid(&frameBuffer_.at(index), frameBuffer_.size() - index))
+		switch (isValid(getVersion(), &frameBuffer_.at(index), frameBuffer_.size() - index))
 		{
 			case ValidationCode::Valid:
 				// we have a valid frame
@@ -267,7 +295,7 @@ bool StreamConnector20::packetize(int& bufferOffset)
 	return isValidPacket;
 }
 
-void StreamConnector20::onReceiveFrame(const unsigned char* transportFrame, std::size_t length)
+void StreamConnector2x::onReceiveFrame(const unsigned char* transportFrame, std::size_t length)
 {
 	Packet::Ptr packet = create(transportFrame + TransportHeader::HeaderSize, length - TransportHeader::HeaderSize);
 	routeRx(packet);

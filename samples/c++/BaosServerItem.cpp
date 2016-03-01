@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -61,7 +61,7 @@ int main(int argc, char* argv[])
 	try
 	{
 		// create a TPC/IP connection with the remote BAOS device
-		StreamConnector20::Ptr connector = std::make_shared<StreamConnector20>();
+		StreamConnector2x::Ptr connector = std::make_shared<StreamConnector2x>();
 		connector->open(ipAdress);
 
 		// create baosServerItems value with the information of the baos device

@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -13,7 +13,7 @@
 #include "pch/kdrive_pch.h"
 #include "kdrive/baos/stream/StreamConnector.h"
 #include "kdrive/baos/stream/StreamConnector12.h"
-#include "kdrive/baos/stream/StreamConnector20.h"
+#include "kdrive/baos/stream/StreamConnector2x.h"
 #include "kdrive/baos/core/DataPacket.h"
 #include "kdrive/baos/core/BaosConnector.h"
 #include "kdrive/baos/core/API.h"
@@ -53,8 +53,9 @@ enum Defaults
 void initProperties(kdrive::utility::PropertyCollection& collection)
 {
 	collection.setProperty(StreamConnector::PortType, StreamConnector::ConnectorTypeLabel);
-	collection.setProperty(StreamConnector::IpAddress, "");
-	collection.setProperty(StreamConnector::IpPort, StreamProtocolConstants::Port);
+	collection.setProperty(StreamConnector::IpAddress, "192.168.1.1");
+	collection.setProperty(StreamConnector::IpPort, static_cast<unsigned short>(StreamProtocolConstants::Port));
+
 }
 
 struct null_deleter
@@ -74,13 +75,14 @@ BaosConnector::Ptr StreamConnectorFactory::create(unsigned char version, const s
 {
 	BaosConnector::Ptr connector;
 
-	if (version == ProtocolVersions::V12)
+	if (ProtocolVersions::is1x(version))
 	{
 		connector.reset(new StreamConnector12(remoteHost, port));
 	}
-	else if (version == ProtocolVersions::V20)
+	else if (ProtocolVersions::is2x(version))
 	{
-		connector.reset(new StreamConnector20(remoteHost, port));
+		connector.reset(new StreamConnector2x(remoteHost, port));
+		connector->setVersion(version);
 	}
 
 	if (!connector)
@@ -98,11 +100,13 @@ BaosConnector::Ptr StreamConnectorFactory::create(unsigned char version, const s
 const std::string StreamConnector::ConnectorTypeLabel = "baos.tcp";
 const std::string StreamConnector::IpAddress = "baos.tcp.ip_address";
 const std::string StreamConnector::IpPort = "baos.tcp.ip_port";
+const std::string StreamConnector::DeviceName = "baos.tcp.device_name";
 
 StreamConnector::StreamConnector(unsigned char version)
 
 	: StreamConnector(version, "", StreamProtocolConstants::Port)
 {
+	initProperties(*this);
 }
 
 StreamConnector::StreamConnector(unsigned char version, const std::string& remoteHost, unsigned short port)
@@ -135,7 +139,14 @@ void StreamConnector::open(const std::string& remoteHost, unsigned short port)
 
 std::string StreamConnector::getDescription()
 {
-	return getIpAddress();
+	if (hasPropertyKey(DeviceName))
+	{
+		return format("%s %s", getIpAddress(), getProperty(DeviceName).toString());
+	}
+	else
+	{
+		return getIpAddress();
+	}
 }
 
 void StreamConnector::setIpAddress(const std::string& ipAddress)
@@ -284,7 +295,7 @@ void StreamConnector::startHeartbeatTimer()
 	TimerCallback<StreamConnector> callback(*this, &StreamConnector::onHeartbeatTimer);
 	heartbeatTimer_.stop();
 	heartbeatTimer_.setPeriodicInterval(SendHeartbeatTimeout_ms);
-	heartbeatTimer_.start(callback);
+	startTimer(heartbeatTimer_, callback);
 }
 
 void StreamConnector::shutdownSocket()
@@ -337,7 +348,8 @@ void StreamConnector::onHeartbeatTimer(Poco::Timer& timer)
 
 			const long elapsed_ms = static_cast<long>(elapsed_us / 1000);
 			const long nextInterval = (elapsed_ms < SendHeartbeatTimeout_ms) ?
-				(SendHeartbeatTimeout_ms - elapsed_ms) : SendHeartbeatTimeout_ms;
+			                          (SendHeartbeatTimeout_ms - elapsed_ms) :
+			                          static_cast<long>(SendHeartbeatTimeout_ms);
 			timer.setPeriodicInterval(nextInterval);
 		}
 		else

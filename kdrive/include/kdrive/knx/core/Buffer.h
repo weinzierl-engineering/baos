@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -14,7 +14,6 @@
 #define __KDRIVE_KNX_TELEGRAMS_BUFFER_H__
 
 #include "kdrive/knx/Config.h"
-#include <boost/noncopyable.hpp>
 #include <vector>
 
 namespace kdrive
@@ -41,7 +40,7 @@ namespace knx
 // Use this only if you really need it!
 // const unsigned char* bufferPtr = buffer;
 // const Buffer b(const_cast<unsigned char*>(bufferPtr), bufferLength);
-class kdriveKnx_API Buffer : private boost::noncopyable
+class kdriveKnx_API Buffer
 {
 public:
 	/*!
@@ -59,11 +58,21 @@ public:
 	Buffer(unsigned char* buffer, std::size_t bufferSize);
 
 	/*!
+		Copy constructor is deleted
+	*/
+	Buffer(const Buffer&) = delete;
+
+	/*!
 		Destructor
 		Destroys the Buffer
 		\note The holded buffer will not destroyed.
 	*/
 	virtual ~Buffer();
+
+	/*!
+		Assingment Operator is deleted
+	*/
+	Buffer& operator=(const Buffer&) = delete;
 
 	/*!
 		Set buffer

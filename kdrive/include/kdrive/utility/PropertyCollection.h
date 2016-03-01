@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -80,6 +80,11 @@ public:
 		Removes the property
 	*/
 	void removeProperty(const std::string& key);
+
+	/*!
+		returns true when no properties are stored otherwise false
+	*/
+	bool isEmpty() const;
 
 	/*!
 		returns false if the key exists and the associated value is not empty

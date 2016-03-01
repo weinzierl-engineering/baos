@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -15,9 +15,11 @@
 #include "kdrive/connector/CallbackThread.h"
 #include <Poco/Logger.h>
 #include <Poco/Mutex.h>
+#include <Poco/Timer.h>
 #include <Poco/SingletonHolder.h>
 #include <boost/assert.hpp>
 
+using Poco::AbstractTimerCallback;
 using Poco::Exception;
 using Poco::Runnable;
 using Poco::Thread;
@@ -27,6 +29,7 @@ using Poco::Logger;
 using Poco::FastMutex;
 using Poco::ScopedLock;
 using Poco::SingletonHolder;
+using Poco::Timer;
 using namespace kdrive::connector;
 
 CLASS_LOGGER("kdrive.connector.CallbackThread")
@@ -536,3 +539,12 @@ void ActiveFunction::callbackAdaptor()
 	}
 }
 
+/**********************************
+** utility functions
+***********************************/
+
+Poco::Timer& kdrive::connector::startTimer(Timer& timer, const AbstractTimerCallback& method)
+{
+	timer.start(method, CallbackThreadManager::getThreadPool());
+	return timer;
+}

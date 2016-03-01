@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -12,6 +12,7 @@
 
 #include "pch/kdrive_pch.h"
 #include "kdrive/connector/PacketFactory.h"
+#include "kdrive/connector/Packet.h"
 
 using namespace kdrive::connector;
 

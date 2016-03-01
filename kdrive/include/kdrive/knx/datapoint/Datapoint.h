@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -64,7 +64,7 @@ namespace knx
 	|----------|----------|-----------------------------|-------------|---------------|
 	| DPT-17   | 17       | Scene Number                | 8           | No            |
 	|----------|----------|-----------------------------|-------------|---------------|
-	| DPT-18   | 18       | Scene Control               | 8           | No            |
+	| DPT-18   | 18       | Scene Control               | 8           | Yes           |
 	|----------|----------|-----------------------------|-------------|---------------|
 	| DPT-19   | 19       | Date Time                   | 64          | No            |
 	|----------|----------|-----------------------------|-------------|---------------|
@@ -75,6 +75,8 @@ namespace knx
 	| DPT-219  | 219      | Alarm Info                  | 48          | No            |
 	|----------|----------|-----------------------------|-------------|---------------|
 	| DPT-222  | 222      | 3x 16-Float Value           | 48          | No            |
+	|----------|----------|-----------------------------|-------------|---------------|
+	| DPT-232  | 232      | 3-byte colour RGB           | 24          | Yes           |
 	|----------|----------|-----------------------------|-------------|---------------|
 	\endverbatim
 */
@@ -190,6 +192,7 @@ public:
 	    DPT14_Bits = 32,
 	    DPT15_Bits = 32,
 	    DPT16_Bits = 112,
+	    DPT232_Bits = 24
 	};
 
 private:
@@ -300,6 +303,10 @@ kdriveKnx_API void decode_DPT18(const Datapoint& datapoint, bool& control, unsig
 // DPT-219: Alarm Info
 
 // DPT-222: 3x 16-Float Value
+
+// DPT-232: 3-byte colour RGB
+kdriveKnx_API void encode_DPT232(Datapoint& datapoint, unsigned char r, unsigned char g, unsigned char b);
+kdriveKnx_API void decode_DPT232(const Datapoint& datapoint, unsigned char& r, unsigned char& g, unsigned char& b);
 
 }
 } // end namespace kdrive::knx

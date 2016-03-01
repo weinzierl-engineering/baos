@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -16,6 +16,6 @@
 #include "kdrive/baos/stream/StreamConnection.h"
 #include "kdrive/baos/stream/StreamConnector.h"
 #include "kdrive/baos/stream/StreamConnector12.h"
-#include "kdrive/baos/stream/StreamConnector20.h"
+#include "kdrive/baos/stream/StreamConnector2x.h"
 
 #endif // __KDRIVE_BAOS_STREAM_HEADERS_H__

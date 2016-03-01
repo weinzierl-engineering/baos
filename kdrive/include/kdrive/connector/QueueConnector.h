@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -26,6 +26,7 @@ namespace connector
 {
 
 class PacketNotificationQueue;
+class CallbackThread;
 
 /***********************************
 ** QueueConnector
@@ -83,7 +84,7 @@ public:
 		And the tx thread will wait on the queue and call txImpl
 		If the tx queue is not enabled we call txImpl directly.
 	*/
-	virtual void send(Packet::Ptr packet);
+	void send(std::shared_ptr<Packet> packet) override;
 
 	/*!
 		Default implementation of receive.
@@ -91,7 +92,7 @@ public:
 		Note: for this function to work you have to call
 		enableRxQueue(true) before calling this function
 	*/
-	virtual Packet::Ptr receive();
+	std::shared_ptr<Packet> receive() override;
 
 	/*!
 		Default implementation of a timed receive.
@@ -99,17 +100,17 @@ public:
 		Note: for this function to work you have to call
 		enableRxQueue(true) before calling this function
 	*/
-	virtual Packet::Ptr waitReceive(long milliseconds);
+	std::shared_ptr<Packet> waitReceive(long milliseconds) override;
 
 	/*!
 		clears the receive queue
 	*/
-	virtual void clearRx();
+	void clearRx() override;
 
 	/*!
 		clears the transmit queue
 	*/
-	virtual void clearTx();
+	void clearTx() override;
 
 	/*******************************************
 	** Thread Management
@@ -250,20 +251,20 @@ public:
 		Waits on a queue, if validate it true throws and exception
 		otherwise returns a null packet
 	*/
-	Packet::Ptr waitQueue(NotificationQueue* notificationQueue, long milliseconds, bool validate = true);
+	std::shared_ptr<Packet> waitQueue(NotificationQueue* notificationQueue, long milliseconds, bool validate = true);
 
 	/*!
 		When we route a rx packet we add it to the rx queue (if enabled)
 		and give it to the connector to give to the notification thread
 	*/
-	virtual void routeRx(Packet::Ptr packet);
+	void routeRx(std::shared_ptr<Packet> packet) override;
 
 protected:
 	/*!
 		closeImpl
 		Closes the rx and tx threads
 	*/
-	virtual void closeImpl();
+	void closeImpl() override;
 
 	/*!
 		Returns the rx queue
@@ -288,18 +289,18 @@ protected:
 	/*!
 		Adds a packet to the rx queue if enabled
 	*/
-	void pushRx(Packet::Ptr packet);
+	void pushRx(std::shared_ptr<Packet> packet);
 
 	/*!
 		Adds a packet to the tx queue if enabled
 	*/
-	void pushTx(Packet::Ptr packet);
+	void pushTx(std::shared_ptr<Packet> packet);
 
 	/*!
 		Timed wait on a queue
 		If validate is true and exception will be thrown if a packet is not received
 	*/
-	Packet::Ptr wait(NotificationQueue& queue, long milliseconds, bool validate = true);
+	std::shared_ptr<Packet> wait(NotificationQueue& queue, long milliseconds, bool validate = true);
 
 private:
 	/*!
@@ -308,7 +309,7 @@ private:
 		If not, send will call this function directly.
 		Derived classes should override this to send
 	*/
-	virtual void txImpl(Packet::Ptr packet);
+	virtual void txImpl(std::shared_ptr<Packet> packet);
 
 	/*!
 		Receive Implementation function
@@ -330,7 +331,7 @@ private:
 	/*!
 		Adds a packet to a queue, if enabled
 	*/
-	void pushUnsafe(NotificationQueue& queue, Packet::Ptr packet, int direction);
+	void pushUnsafe(NotificationQueue& queue, std::shared_ptr<Packet> packet, int direction);
 
 	/*!
 		Adds a new queue to the list of notification queues
@@ -379,19 +380,19 @@ public:
 	/*!
 		Sends the contents of the packet
 	*/
-	virtual void send(Packet::Ptr packet);
+	void send(std::shared_ptr<Packet> packet) override;
 
 	/*!
 		generates a packet, blocks until a packet is received
 	*/
-	virtual Packet::Ptr receive();
+	std::shared_ptr<Packet> receive() override;
 
 	/*!
 		generates a packet
 		throws TimeoutException if a packet is
 		not received in the specified time
 	*/
-	virtual Packet::Ptr waitReceive(long milliseconds);
+	std::shared_ptr<Packet> waitReceive(long milliseconds) override;
 
 private:
 	QueueConnector& queueConnector_;

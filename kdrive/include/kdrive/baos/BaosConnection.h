@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -103,7 +103,7 @@ public:
 		Connects to a Serial FT1.2 BAOS device
 		\param serialDeviceName is the platform specific device name, e.g. COM1 or /dev/ttyS0
 	*/
-	void connectSerial(const std::string& serialDeviceName, unsigned char version = ProtocolVersions::V20, bool decodeProtocol = false);
+	void connectSerial(const std::string& serialDeviceName, bool decodeProtocol = false);
 
 	/*!
 		Disconnects the connection to a remote device
@@ -134,7 +134,7 @@ private:
 	unsigned char lookupVersion(const std::string remoteHost, unsigned char version);
 	void connectIpImpl(const std::string remoteHost, unsigned short port,
 	                   unsigned char version, bool decodeProtocol);
-	void connectSerialImpl(const std::string serialDeviceName, unsigned char version, bool decodeProtocol);
+	void connectSerialImpl(const std::string serialDeviceName, bool decodeProtocol);
 
 private:
 	BaosConnectorPtr baosConnector_;

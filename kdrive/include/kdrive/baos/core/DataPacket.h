@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -69,9 +69,9 @@ public:
 
 protected:
 	DataPacket();
-	virtual std::size_t sizeImpl() const;
-	virtual std::size_t readFromBufferImpl(const unsigned char* buffer, std::size_t bufferSize);
-	virtual std::size_t writeToBufferImpl(unsigned char* buffer, std::size_t bufferSize) const;
+	std::size_t sizeImpl() const override;
+	std::size_t readFromBufferImpl(const unsigned char* buffer, std::size_t bufferSize) override;
+	std::size_t writeToBufferImpl(unsigned char* buffer, std::size_t bufferSize) const override;
 
 private:
 	DataPacket(const DataPacket&);

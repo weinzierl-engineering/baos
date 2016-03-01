@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -71,6 +71,12 @@ void BaosEvent::setDatapointEvent(DatapointEvent datapointEvent)
 {
 	ScopedLock<FastMutex> lock(mutex_);
 	datapointEvent_ = datapointEvent;
+}
+
+void BaosEvent::setServerItemEvent(ServerItemEvent serverItemEvent)
+{
+	ScopedLock<FastMutex> lock(mutex_);
+	serverItemEvent_ = serverItemEvent;
 }
 
 void BaosEvent::setBusConnectedEvent(BusConnectedEvent busConnectedEvent)
@@ -179,14 +185,19 @@ void BaosEvent::onDatapointValue(DataPacket::Ptr dataPacket)
 
 void BaosEvent::onServerItemIndication(DataPacket::Ptr dataPacket)
 {
-	if (busConnectedEvent_)
+	if (busConnectedEvent_ || serverItemEvent_)
 	{
 		ProtocolFormatter::ServerItems serverItems;
 		ProtocolFormatter::decodeServerItem_Ind(dataPacket, serverItems);
 
 		for (const auto& serverItem : serverItems)
 		{
-			if ((serverItem.id == ServerItemProperties::BusConnected) &&
+			if (serverItemEvent_)
+			{
+				serverItemEvent_(serverItem.id, serverItem.data);
+			}
+
+			if (busConnectedEvent_ && (serverItem.id == ServerItemProperties::BusConnected) &&
 			    (serverItem.length == 1))
 			{
 				const bool busConnected = serverItem.data.at(0) ? true : false;

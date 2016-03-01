@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -13,20 +13,17 @@
 #include "pch/kdrive_pch.h"
 #include "kdrive/baos/protocols/Protocol.h"
 #include "kdrive/baos/protocols/Protocol12.h"
-#include "kdrive/baos/protocols/Protocol20.h"
+#include "kdrive/baos/protocols/Protocol2x.h"
 #include "kdrive/baos/stream/StreamConnector12.h"
-#include "kdrive/baos/stream/StreamConnector20.h"
+#include "kdrive/baos/stream/StreamConnector2x.h"
 #include "kdrive/baos/core/DataPacket.h"
 #include "kdrive/baos/core/BaosConnector.h"
 #include "kdrive/baos/core/API.h"
 #include "kdrive/baos/core/Exception.h"
-#include "kdrive/utility/Logger.h"
 #include <Poco/Format.h>
 
 using namespace kdrive::baos;
 using namespace kdrive::connector;
-
-CLASS_LOGGER("kdrive.baos.PacketFactory")
 
 /******************************
 ** DataRequestFactory
@@ -48,13 +45,13 @@ DataRequest::Ptr DataRequestFactory::create(unsigned char version,
 {
 	DataRequest::Ptr dataRequest;
 
-	if (version == ProtocolVersions::V12)
+	if (ProtocolVersions::is1x(version))
 	{
 		dataRequest = PacketFactory12::createDataRequest();
 	}
-	else if (version == ProtocolVersions::V20)
+	else if (ProtocolVersions::is2x(version))
 	{
-		dataRequest = PacketFactory20::createDataRequest();
+		dataRequest = PacketFactory2x::createDataRequest(version);
 	}
 
 	if (!dataRequest)
@@ -66,6 +63,7 @@ DataRequest::Ptr DataRequestFactory::create(unsigned char version,
 	dataRequest->setSubService(subService);
 	dataRequest->setOffset(offset);
 	dataRequest->setCount(count);
+	dataRequest->setVersion(version);
 
 	return dataRequest;
 }
@@ -76,9 +74,13 @@ DataRequest::Ptr DataRequestFactory::create(unsigned char version,
 
 #define PROTOCOL_FORMATTER_IMPL(Fn, dataPacket, arg1) \
 	BOOST_ASSERT(dataPacket && "Invalid Data Response"); \
-	const unsigned char version = dataPacket->getVersion(); \
-	version == ProtocolVersions::V12 ? ProtocolFormatter12::Fn(dataPacket, arg1) : \
-		ProtocolFormatter20::Fn(dataPacket, arg1)
+	ProtocolVersions::is1x(dataPacket->getVersion()) ? \
+		ProtocolFormatter12::Fn(dataPacket, arg1) : ProtocolFormatter2x::Fn(dataPacket, arg1)
+
+#define PROTOCOL_FORMATTER_IMPL_2X(Fn, dataPacket, arg1) \
+	BOOST_ASSERT(dataPacket && "Invalid Data Response"); \
+	if (ProtocolVersions::is1x(dataPacket->getVersion())) { throw ClientException("Service not support for 1.x protocols"); } \
+	ProtocolFormatter2x::Fn(dataPacket, arg1);
 
 void ProtocolFormatter::decodeGetServerItem_Res(DataPacket::Ptr dataPacket, ServerItems& serverItems)
 {
@@ -129,4 +131,19 @@ void ProtocolFormatter::decodeGetParameterByte_Res(DataPacket::Ptr dataPacket, P
 {
 	BOOST_ASSERT(dataPacket && "Invalid Data Response");
 	parameterBytes = dataPacket->getBuffer();
+}
+
+void ProtocolFormatter::encodeSetDatapointHistoryCommand_Req(std::shared_ptr<DataPacket> dataPacket, unsigned char command)
+{
+	PROTOCOL_FORMATTER_IMPL_2X(encodeSetDatapointHistoryCommand_Req, dataPacket, command);
+}
+
+void ProtocolFormatter::decodeGetTimer_Res(std::shared_ptr<DataPacket> dataPacket, Timers& timers)
+{
+	PROTOCOL_FORMATTER_IMPL_2X(decodeGetTimer_Res, dataPacket, timers);
+}
+
+void ProtocolFormatter::encodeSetTimer_Req(std::shared_ptr<DataPacket> dataPacket, const Timers& timers)
+{
+	PROTOCOL_FORMATTER_IMPL_2X(encodeSetTimer_Req, dataPacket, timers);
 }

@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -19,6 +19,8 @@
 
 using namespace kdrive::connector;
 using Poco::Exception;
+using Poco::FastMutex;
+using Poco::ScopedLock;
 
 CLASS_LOGGER("kdrive.connector.PacketTrace")
 
@@ -46,6 +48,8 @@ void PacketTrace::connect(Connector& connector)
 	connection_ = s.connect(
 	                  [this](Packet::Ptr packet, int direction)
 	{
+		ScopedLock<FastMutex> lock(mutex_);
+
 		std::size_t size = packet->size();
 		if (!size)
 		{
@@ -83,7 +87,14 @@ void PacketTrace::disconnect()
 
 void PacketTrace::addDecoder(Decoder decoder)
 {
+	ScopedLock<FastMutex> lock(mutex_);
 	decoders_.push_back(decoder);
+}
+
+void PacketTrace::clearDecoders()
+{
+	ScopedLock<FastMutex> lock(mutex_);
+	decoders_.clear();
 }
 
 /****************************************

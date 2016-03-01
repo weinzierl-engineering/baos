@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -17,12 +17,15 @@ using namespace kdrive::baos;
 
 const unsigned char ProtocolConstants::MainService = 0xF0;
 
-const unsigned char BaosDatapointCommands::NoCommand = 0x00;
-const unsigned char BaosDatapointCommands::SetNewValue = 0x01;
-const unsigned char BaosDatapointCommands::SendValueOnBus = 0x02;
-const unsigned char BaosDatapointCommands::SetNewValueAndSendOnBus = 0x03;
-const unsigned char BaosDatapointCommands::ReadNewValueViaBus = 0x04;
-const unsigned char BaosDatapointCommands::ClearTransmissionState = 0x05;
-
 const unsigned short MulticastProtocolConstants::Port = 3671;
 const std::string MulticastProtocolConstants::Address = "224.0.23.12";
+
+bool ProtocolVersions::is1x(unsigned char version)
+{
+	return version == ProtocolVersions::V12;
+}
+
+bool ProtocolVersions::is2x(unsigned char version)
+{
+	return version == ProtocolVersions::V20;
+}

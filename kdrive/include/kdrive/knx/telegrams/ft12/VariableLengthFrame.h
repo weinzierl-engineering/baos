@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -91,7 +91,7 @@ public:
 	/*!
 		\return the length of the VariableLengthFrame
 	*/
-	virtual std::size_t size() const;
+	std::size_t size() const override;
 
 	/*!
 		The VariableLengthFrame is valid if the following checks pass
@@ -105,13 +105,13 @@ public:
 
 		\return true if the VariableLengthFrame is valid
 	*/
-	virtual bool isValid() const;
+	bool isValid() const override;
 
 	/*!
 		Sets the default to the valid start and end bytes,
 		with control and checksum to 0x00
 	*/
-	virtual void setDefaults();
+	void setDefaults() override;
 
 	/*!
 		\return the start byte 1
@@ -177,8 +177,8 @@ public:
 	void setVariableAttributes();
 
 private:
-	virtual std::size_t readImpl(const Buffer& buffer);
-	virtual std::size_t writeImpl(Buffer& buffer);
+	std::size_t readImpl(const Buffer& buffer) override;
+	std::size_t writeImpl(Buffer& buffer) override;
 	unsigned char calculateChecksum() const;
 	int getChecksumOffset() const;
 

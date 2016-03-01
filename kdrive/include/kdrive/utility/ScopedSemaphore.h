@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -14,7 +14,6 @@
 #define __KDRIVE_UTILITY_SCOPED_SEMAPHORE_H__
 
 #include "kdrive/utility/Config.h"
-#include <boost/noncopyable.hpp>
 #include <string>
 
 namespace Poco
@@ -39,7 +38,7 @@ namespace utility
 	ScopedSemaphore waits in the constructor for the semaphore to become signalled.
 	The destructor increments the semaphore's value.
 */
-class wzfUtility_API ScopedSemaphore : private boost::noncopyable
+class wzfUtility_API ScopedSemaphore
 {
 public:
 	/*!
@@ -48,9 +47,19 @@ public:
 	ScopedSemaphore(Poco::Semaphore& semaphore);
 
 	/*!
+		Copy constructor is deleted
+	*/
+	ScopedSemaphore(const ScopedSemaphore&) = delete;
+
+	/*!
 		Increments the semaphore's value.
 	*/
 	~ScopedSemaphore();
+
+	/*!
+		Assingment Operator is deleted
+	*/
+	ScopedSemaphore& operator=(const ScopedSemaphore&) = delete;
 
 private:
 	Poco::Semaphore& semaphore_;
@@ -64,7 +73,7 @@ private:
 	ScopedSemaphore waits in the constructor for the semaphore to become signalled.
 	The destructor increments the semaphore's value.
 */
-class wzfUtility_API ScopedSemaphoreWithTraces : private boost::noncopyable
+class wzfUtility_API ScopedSemaphoreWithTraces
 {
 public:
 	/*!
@@ -75,10 +84,20 @@ public:
 	                          const std::string& name = "Unknown");
 
 	/*!
+		Copy constructor is deleted
+	*/
+	ScopedSemaphoreWithTraces(const ScopedSemaphoreWithTraces&) = delete;
+
+	/*!
 		Increments the semaphore's value.
 		It trace "release semaphore".
 	*/
 	~ScopedSemaphoreWithTraces();
+
+	/*!
+		Assingment Operator is deleted
+	*/
+	ScopedSemaphoreWithTraces& operator=(const ScopedSemaphoreWithTraces&) = delete;
 
 	/*!
 		Sets the semaphore name.
