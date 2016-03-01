@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2013 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -54,10 +54,12 @@ public:
 	*/
 	void initRootFileLogger(const std::string& filename);
 
+#if KDRIVE_REMOTE_SYSLOG_LOGGER_ENABLED == 1
 	/*!
 		Creates a Remote Syslog Logger
 	*/
 	void initRootRemoteLogger(const std::string& address, const std::string& name);
+#endif
 
 	/*!
 		Sets the Logger Format
@@ -135,9 +137,11 @@ void logException(Poco::Logger& logger, const std::string& message, int code = 0
 	loggerFormatter.initRootFileLogger(); \
 	poco_information(Poco::Logger::root(), "File Logger Started")
 
+#if KDRIVE_REMOTE_SYSLOG_LOGGER_ENABLED == 1
 #define INIT_ROOT_REMOTE_SYSLOG_LOGGER(ADDRESS, NAME) \
 	kdrive::utility::LoggerFormatter loggerFormatter; \
 	loggerFormatter.initRootRemoteLogger((ADDRESS), (NAME)); \
 	poco_information(Poco::Logger::root(), "Remote Syslog Logger Started")
+#endif
 
 #endif // __WZF_UTILITY_LOGGER_LOGGER_FORMATTER_H__

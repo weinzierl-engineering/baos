@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -66,16 +66,15 @@ public:
 	/*!
 		Opens a connection with the local device
 		\param serialDeviceName is the platform specific device name, e.g. COM1 or /dev/ttyS0
-		\param version is the BAOS protocol version
 	*/
-	void open(const std::string& serialDeviceName, unsigned char version = ProtocolVersions::V20);
+	void open(const std::string& serialDeviceName);
 
 	/*!
 		Returns a formatted port description.
 		Format: <SerialDeviceName>
 		e.g. COM1
 	*/
-	virtual std::string getDescription() override;
+	std::string getDescription() override;
 
 	/*!
 		Returns the serial device name used to open the serial port
@@ -93,18 +92,18 @@ private:
 		and initialises the FT1.2 protocol
 		precondition: the port is not already open
 	*/
-	virtual void openImpl() override;
+	void openImpl() override;
 
 	/*!
 		Closes the serial port
 		precondition: the serial port is open
 	*/
-	virtual void closeImpl() override;
+	void closeImpl() override;
 
 	/*!
 		\return true if the serial port is open, false otherwise
 	*/
-	virtual bool isOpenImpl() const override;
+	bool isOpenImpl() const override;
 
 	/*!
 		Calls resetPropertiesImpl from BaosConnector and
@@ -112,7 +111,7 @@ private:
 		- FT12Connector::PortType: FT12Connector::ConnectorTypeLabel
 		- KnxSerialDeviceName: ""
 	*/
-	virtual void resetPropertiesImpl() override;
+	void resetPropertiesImpl() override;
 
 	/*!
 		Called from the connector system when a packet for transmission is ready.
@@ -122,7 +121,7 @@ private:
 		is handled by ft12_, we just give it the raw buffer.
 		note: we route the orginal packet (cEmi-Format) and not the converted format
 	*/
-	virtual void txImpl(connector::Packet::Ptr packet) override;
+	void txImpl(std::shared_ptr<connector::Packet> packet) override;
 
 	/*!
 		Receive thread callback function called from the base class
@@ -130,7 +129,7 @@ private:
 		and obtain a frame. If a frame is received we pass it to the
 		FT1.2 protocol handler.
 	*/
-	virtual void rxImpl() override;
+	void rxImpl() override;
 
 	/*!
 		Called from the FT1.2 protocol when a user data variable length frame

@@ -2,6 +2,18 @@
 BAOS SDK Release Notes and Change Log
 =====================================
 
+Release BAOS-SDK-16.1.0 (2016-02-29)
+------------------------------------
+
+[KDRIVE-1039] - Added implementation for BAOS 777 (New server items, services Get/Set Timers, ...)
+[KDRIVE-1045] - Renamed BAOS error BufferToSmall to BufferTooSmall
+[KDRIVE-1052] - Added ServerItemEvent in BaosEvent
+[KDRIVE-1067] - Fixed for protocol 1.2 handle GetDescriptionString_Res with string length zero.
+                When description string is deactivate in database then each string a hard-coded length of 0 bytes.
+[KDRIVE-1069] - Fixed BaosDatapoint::isValidFlag returns the update flag and not the valid flag
+[KDRIVE-1090] - Baos ft1.2: Added version detection via PEI_Identify
+[]            - ...
+
 Release BAOS-SDK-15.1.0 (2015-04-24)
 ------------------------------------
 

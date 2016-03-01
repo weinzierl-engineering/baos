@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -30,7 +30,7 @@ POCO_IMPLEMENT_EXCEPTION(ClientException, BaosException, "BAOS Client exception"
 POCO_IMPLEMENT_EXCEPTION(ServerException, BaosException, "BAOS Server exception")
 POCO_IMPLEMENT_EXCEPTION(InternalServerException, ServerException, "Internal error")
 POCO_IMPLEMENT_EXCEPTION(NoItemFoundServerException, ServerException, "No item found")
-POCO_IMPLEMENT_EXCEPTION(BufferToSmallServerException, ServerException, "Buffer is too small")
+POCO_IMPLEMENT_EXCEPTION(BufferTooSmallServerException, ServerException, "Buffer is too small")
 POCO_IMPLEMENT_EXCEPTION(ItemNotWriteableServerException, ServerException, "Item is not writable")
 POCO_IMPLEMENT_EXCEPTION(ServiceNotSupportedServerException, ServerException, "Service is not supported")
 POCO_IMPLEMENT_EXCEPTION(BadServiceParameterServerException, ServerException, "Bad service parameter")
@@ -51,8 +51,8 @@ void throwBaosServerException(unsigned int baosServerErrorCode)
 			throw InternalServerException();
 		case BaosServerErrorCodes::NoItemFound:
 			throw NoItemFoundServerException();
-		case BaosServerErrorCodes::BufferToSmall:
-			throw BufferToSmallServerException();
+		case BaosServerErrorCodes::BufferTooSmall:
+			throw BufferTooSmallServerException();
 		case BaosServerErrorCodes::ItemNotWriteable:
 			throw ItemNotWriteableServerException();
 		case BaosServerErrorCodes::ServiceNotSupported:

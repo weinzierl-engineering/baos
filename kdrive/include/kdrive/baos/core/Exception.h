@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -33,7 +33,7 @@ DECLARE_BAOS_EXCEPTION(ClientException, BaosException, ClientError)
 DECLARE_BAOS_EXCEPTION(ServerException, BaosException, ServerError)
 DECLARE_BAOS_EXCEPTION(InternalServerException, ServerException, Internal)
 DECLARE_BAOS_EXCEPTION(NoItemFoundServerException, ServerException, NoItemFound)
-DECLARE_BAOS_EXCEPTION(BufferToSmallServerException, ServerException, BufferToSmall)
+DECLARE_BAOS_EXCEPTION(BufferTooSmallServerException, ServerException, BufferTooSmall)
 DECLARE_BAOS_EXCEPTION(ItemNotWriteableServerException, ServerException, ItemNotWriteable)
 DECLARE_BAOS_EXCEPTION(ServiceNotSupportedServerException, ServerException, ServiceNotSupported)
 DECLARE_BAOS_EXCEPTION(BadServiceParameterServerException, ServerException, BadServiceParameter)

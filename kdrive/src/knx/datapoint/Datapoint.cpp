@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -365,15 +365,13 @@ void kdrive::knx::encode_DPT11_UTC(Datapoint& datapoint)
 
 void kdrive::knx::encode_DPT11(Datapoint& datapoint, int year, int month, int day)
 {
-	// year is between 0..99
-	// i.e. valid only for 1990 to 2089
-
-	const unsigned int century = year ? static_cast<unsigned int>(static_cast<unsigned int>(year / 100) * 100) : 0;
+	// year is expected to be between 0..99
+	// but is not validated.
 
 	std::vector<unsigned char> data;
 	data.push_back(day & 0x1F);
 	data.push_back(month & 0x0F);
-	data.push_back((year - century) & 0x7F);
+	data.push_back(year & 0x7F);
 
 	setData(datapoint, data, 3);
 }
@@ -544,3 +542,18 @@ void kdrive::knx::decode_DPT18(const Datapoint& datapoint, bool& control, unsign
 	control = (data & 0x80) ? true : false;
 	sceneNumber = data & 0x3F;
 }
+
+void kdrive::knx::encode_DPT232(Datapoint& datapoint, unsigned char r, unsigned char g, unsigned char b)
+{
+	const std::vector<unsigned char> v = { r, g, b };
+	setData(datapoint, v, 3);
+}
+
+void kdrive::knx::decode_DPT232(const Datapoint& datapoint, unsigned char& r, unsigned char& g, unsigned char& b)
+{
+	const std::vector<unsigned char>& data = getData(datapoint, 3);
+	r = data.at(0);
+	g = data.at(1);
+	b = data.at(2);
+}
+

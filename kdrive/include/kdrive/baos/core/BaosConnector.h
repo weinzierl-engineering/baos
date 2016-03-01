@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -44,6 +44,11 @@ public:
 	virtual ~BaosConnector();
 
 	/*!
+		Sets the protocol version
+	*/
+	void setVersion(unsigned char version);
+
+	/*!
 		Returns the protocol version
 	*/
 	unsigned char getVersion() const;
@@ -58,12 +63,10 @@ public:
 	*/
 	bool isConnected() const;
 
-protected:
-	/*!
-		Sets the protocol version
-	*/
-	void setVersion(unsigned char version);
+public:
+	static const std::string Version; /*!< Property Key for version, set by the connector type or enumeration */
 
+protected:
 	/*!
 		Creates the BaosConnector
 		The version should be one of the versions from
@@ -72,9 +75,6 @@ protected:
 		derived from by one of the StreamConnector protocol classes
 	*/
 	BaosConnector(unsigned char version);
-
-private:
-	unsigned char version_;
 };
 
 }

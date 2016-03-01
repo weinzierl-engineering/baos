@@ -44,6 +44,7 @@ thirdparty::    open-source Poco platform abstraction library
 * KNX IP BAOS 770
 * KNX IP BAOS 771
 * KNX IP BAOS 772
+* KNX IP BAOS 777
 * KNX Serial BAOS 870
 * KNX BAOS Module 820
 * KNX BAOS Module 822

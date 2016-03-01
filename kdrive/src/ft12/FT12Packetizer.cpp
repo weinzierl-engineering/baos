@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -12,8 +12,8 @@
 
 #include "pch/kdrive_pch.h"
 #include "kdrive/ft12/FT12Packetizer.h"
-#include "kdrive/knx/telegrams/ft12/FT12.h"
 #include "kdrive/knx/defines/FT12Constants.h"
+#include "kdrive/knx/telegrams/ft12/FT12.h"
 #include "kdrive/io/serial/SerialPort.h"
 #include "kdrive/utility/ScopedSemaphore.h"
 #include "kdrive/utility/LoggerFormatter.h"

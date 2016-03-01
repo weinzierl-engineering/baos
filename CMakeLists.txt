@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+# Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 # All rights reserved.
 #
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -68,7 +68,7 @@ endif ()
 # Set compiler specific build flags
 if (CMAKE_COMPILER_IS_GNUCXX)
 
-  if ((NOT ("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "arm")) AND
+  if ((NOT ("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "arm.*")) AND
       (NOT ("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "mipsel")))
     add_definitions(-msse)
   endif ()

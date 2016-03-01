@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -18,43 +18,13 @@
 **************************************/
 
 /*!
-	kdrive access USB Port
+	kdrive remote syslog logger
+	Requires Poco::Net
+	Enabled by default
 */
-#define KDRIVE_ACCESS_USB_ENABLED (1)
+#ifndef KDRIVE_REMOTE_SYSLOG_LOGGER_ENABLED
+#define KDRIVE_REMOTE_SYSLOG_LOGGER_ENABLED (0)
+#endif // KDRIVE_REMOTE_SYSLOG_LOGGER_ENABLED
 
-/*!
-	kdrive access Tunnelling and Routing Port
-*/
-#define KDRIVE_ACCESS_IP_ENABLED (1)
-
-/*!
-	kdrive access FT1.2, Tiny Serial and Raw Serial Ports
-*/
-#define KDRIVE_ACCESS_SERIAL_ENABLED (1)
-
-/*!
-	kdrive access Baos Port
-	BaosPort is an access port implementation
-	of the BAOS binary protocol.
-*/
-#define KDRIVE_ACCESS_BAOS_ENABLED (1)
-
-/*!
-	kdrive access Datagram Port
-	DatagramPort is an access port implementation
-	of a raw UDP socket
-*/
-#define KDRIVE_ACCESS_DATAGRAM_ENABLED (1)
-
-/*!
-	kdrive access Link Layer Server Port
-	LinkLayerServerPort is an access port implementation
-	of the linux tiny serial server protocol
-*/
-#define KDRIVE_ACCESS_LLS_ENABLED (1)
-
-/*!
-*/
-#define KDRIVE_ACCESS_LOOPBACK_ENABLED (1)
 
 #endif // __KDRIVE_CONFIG_ENABLED_H__

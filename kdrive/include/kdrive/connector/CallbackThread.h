@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -20,11 +20,18 @@
 #include <Poco/Event.h>
 #include <Poco/AtomicCounter.h>
 #include <boost/signals2.hpp>
-#include <boost/noncopyable.hpp>
 #include <exception>
 #include <string>
 #include <memory>
 #include <functional>
+
+namespace Poco
+{
+
+class AbstractTimerCallback;
+class Timer;
+
+} // end namespace Poco
 
 namespace kdrive
 {
@@ -38,7 +45,7 @@ class ActiveFunction;
 ** CallbackThread
 ***********************************/
 
-class kdriveConnector_API CallbackThread : public Poco::Runnable
+class kdriveConnector_API CallbackThread final : public Poco::Runnable
 {
 public:
 	typedef std::function<void ()> Callback;
@@ -142,7 +149,7 @@ protected:
 		we don't expect exceptions, i.e. they should be handled by the callback function
 		so if we get once we simply stop the thread event loop
 	*/
-	virtual void run();
+	void run() override;
 
 	/*!
 		Wait until the thread is in the thread loop
@@ -201,11 +208,28 @@ private:
 	and starts the thread on construction
 	stops and joins the thread on destruction
 */
-class kdriveConnector_API CallbackThreadManager : private boost::noncopyable
+class kdriveConnector_API CallbackThreadManager final
 {
 public:
+	/*!
+		Creates a CallbackThreadManager
+	*/
 	explicit CallbackThreadManager(CallbackThread& callbackThread, bool scoped = true, bool useThreadPool = true);
+
+	/*!
+		Copy constructor is deleted
+	*/
+	CallbackThreadManager(const CallbackThreadManager&) = delete;
+
+	/*!
+		Destroys the CallbackThreadManager
+	*/
 	~CallbackThreadManager();
+
+	/*!
+		Assingment Operator is deleted
+	*/
+	CallbackThreadManager& operator=(const CallbackThreadManager&) = delete;
 
 	void start();
 	void start(long sleep);
@@ -215,10 +239,6 @@ public:
 	static Poco::ThreadPool& getThreadPool();
 
 private:
-	CallbackThreadManager();
-	CallbackThreadManager(const CallbackThreadManager&);
-	CallbackThreadManager& operator=(const CallbackThreadManager&);
-
 	struct ThreadPoolHolder
 	{
 		ThreadPoolHolder();
@@ -244,13 +264,30 @@ private:
 ** ActiveFunction
 ***********************************/
 
-class kdriveConnector_API ActiveFunction : private boost::noncopyable
+class kdriveConnector_API ActiveFunction final
 {
 public:
 	typedef std::function<void (ActiveFunction& activeFunction)> Callback;
 
+	/*!
+		Creates a ActiveFunction
+	*/
 	explicit ActiveFunction(Callback callback, long sleep = 0, const std::string& name = "Unknown", bool useThreadPool = true);
+
+	/*!
+		Copy constructor is deleted
+	*/
+	ActiveFunction(const ActiveFunction&) = delete;
+
+	/*!
+		Destroys the ActiveFunction
+	*/
 	~ActiveFunction();
+
+	/*!
+		Assingment Operator is deleted
+	*/
+	ActiveFunction& operator=(const ActiveFunction&) = delete;
 
 	CallbackThread& getCallbackThread();
 	const CallbackThread& getCallbackThread() const;
@@ -261,10 +298,6 @@ public:
 	bool isRunning() const;
 
 private:
-	ActiveFunction();
-	ActiveFunction(const ActiveFunction&);
-	ActiveFunction& operator=(const ActiveFunction&);
-
 	void callbackAdaptor();
 
 private:
@@ -272,6 +305,15 @@ private:
 	CallbackThread callbackThread_;
 	CallbackThreadManager callbackThreadManager_;
 };
+
+/**********************************
+** utility functions
+***********************************/
+
+/*!
+	Start the timer with the thread pool from CallbackThreadManager
+*/
+kdriveConnector_API Poco::Timer& startTimer(Poco::Timer& timer, const Poco::AbstractTimerCallback& method);
 
 }
 } // end namespace kdrive::connector

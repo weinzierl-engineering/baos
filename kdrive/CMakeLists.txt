@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+# Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 # All rights reserved.
 #
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -50,6 +50,7 @@ set (KDRIVE_BAOS_HEADER_FILES_TOP
   ${KDRIVE_BAOS_INCLUDE}/BaosHeartbeat.h 
   ${KDRIVE_BAOS_INCLUDE}/BaosParameter.h
   ${KDRIVE_BAOS_INCLUDE}/BaosServerItems.h
+  ${KDRIVE_BAOS_INCLUDE}/BaosTimers.h
   ${KDRIVE_BAOS_INCLUDE}/Config.h
   ${KDRIVE_BAOS_INCLUDE}/Headers.h
 )
@@ -63,6 +64,7 @@ set (KDRIVE_BAOS_SOURCE_FILES_TOP
   ${KDRIVE_BAOS_SRC}/BaosHeartbeat.cpp
   ${KDRIVE_BAOS_SRC}/BaosParameter.cpp
   ${KDRIVE_BAOS_SRC}/BaosServerItems.cpp
+  ${KDRIVE_BAOS_SRC}/BaosTimers.cpp
 )
 
 source_group("baos" FILES ${KDRIVE_BAOS_HEADER_FILES_TOP})
@@ -86,6 +88,7 @@ set (KDRIVE_BAOS_HEADER_FILES_CORE
   ${KDRIVE_BAOS_INCLUDE}/core/ServerItem.h
   ${KDRIVE_BAOS_INCLUDE}/core/ServiceRunner.h
   ${KDRIVE_BAOS_INCLUDE}/core/String.h
+  ${KDRIVE_BAOS_INCLUDE}/core/Timer.h
 )
 
 set (KDRIVE_BAOS_SOURCE_FILES_CORE
@@ -100,6 +103,7 @@ set (KDRIVE_BAOS_SOURCE_FILES_CORE
   ${KDRIVE_BAOS_SRC}/core/ServerItem.cpp
   ${KDRIVE_BAOS_SRC}/core/ServiceRunner.cpp
   ${KDRIVE_BAOS_SRC}/core/String.cpp
+  ${KDRIVE_BAOS_SRC}/core/Timer.cpp
 )
 
 source_group("baos\\core" FILES ${KDRIVE_BAOS_HEADER_FILES_CORE})
@@ -128,13 +132,13 @@ set (KDRIVE_BAOS_HEADER_FILES_PROTOCOLS
   ${KDRIVE_BAOS_INCLUDE}/protocols/Headers.h
   ${KDRIVE_BAOS_INCLUDE}/protocols/Protocol.h
   ${KDRIVE_BAOS_INCLUDE}/protocols/Protocol12.h
-  ${KDRIVE_BAOS_INCLUDE}/protocols/Protocol20.h
+  ${KDRIVE_BAOS_INCLUDE}/protocols/Protocol2x.h
 )
 
 set (KDRIVE_BAOS_SOURCE_FILES_PROTOCOLS
   ${KDRIVE_BAOS_SRC}/protocols/Protocol.cpp
   ${KDRIVE_BAOS_SRC}/protocols/Protocol12.cpp
-  ${KDRIVE_BAOS_SRC}/protocols/Protocol20.cpp
+  ${KDRIVE_BAOS_SRC}/protocols/Protocol2x.cpp
 )
 
 source_group("baos\\protocols" FILES ${KDRIVE_BAOS_HEADER_FILES_PROTOCOLS})
@@ -148,10 +152,13 @@ set (KDRIVE_BAOS_HEADER_FILES_SERVICES
   ${KDRIVE_BAOS_INCLUDE}/services/GetDescriptionString.h
   ${KDRIVE_BAOS_INCLUDE}/services/GetParameterByte.h
   ${KDRIVE_BAOS_INCLUDE}/services/GetServerItem.h
+  ${KDRIVE_BAOS_INCLUDE}/services/GetTimer.h
   ${KDRIVE_BAOS_INCLUDE}/services/Headers.h
   ${KDRIVE_BAOS_INCLUDE}/services/Services.h
+  ${KDRIVE_BAOS_INCLUDE}/services/SetDatapointHistoryCommand.h
   ${KDRIVE_BAOS_INCLUDE}/services/SetDatapointValue.h
   ${KDRIVE_BAOS_INCLUDE}/services/SetServerItem.h
+  ${KDRIVE_BAOS_INCLUDE}/services/SetTimer.h
 )
 
 set (KDRIVE_BAOS_SOURCE_FILES_SERVICES 
@@ -160,8 +167,11 @@ set (KDRIVE_BAOS_SOURCE_FILES_SERVICES
   ${KDRIVE_BAOS_SRC}/services/GetDescriptionString.cpp
   ${KDRIVE_BAOS_SRC}/services/GetParameterByte.cpp
   ${KDRIVE_BAOS_SRC}/services/GetServerItem.cpp
+  ${KDRIVE_BAOS_SRC}/services/GetTimer.cpp
+  ${KDRIVE_BAOS_SRC}/services/SetDatapointHistoryCommand.cpp
   ${KDRIVE_BAOS_SRC}/services/SetDatapointValue.cpp
   ${KDRIVE_BAOS_SRC}/services/SetServerItem.cpp
+  ${KDRIVE_BAOS_SRC}/services/SetTimer.cpp
 )
 
 source_group("baos\\services" FILES ${KDRIVE_BAOS_HEADER_FILES_SERVICES})
@@ -175,14 +185,14 @@ set (KDRIVE_BAOS_HEADER_FILES_STREAM
   ${KDRIVE_BAOS_INCLUDE}/stream/StreamConnection.h
   ${KDRIVE_BAOS_INCLUDE}/stream/StreamConnector.h
   ${KDRIVE_BAOS_INCLUDE}/stream/StreamConnector12.h
-  ${KDRIVE_BAOS_INCLUDE}/stream/StreamConnector20.h
+  ${KDRIVE_BAOS_INCLUDE}/stream/StreamConnector2x.h
 )
 
 set (KDRIVE_BAOS_SOURCE_FILES_STREAM
   ${KDRIVE_BAOS_SRC}/stream/StreamConnection.cpp
   ${KDRIVE_BAOS_SRC}/stream/StreamConnector.cpp
   ${KDRIVE_BAOS_SRC}/stream/StreamConnector12.cpp
-  ${KDRIVE_BAOS_SRC}/stream/StreamConnector20.cpp
+  ${KDRIVE_BAOS_SRC}/stream/StreamConnector2x.cpp
 )
 
 source_group("baos\\stream" FILES ${KDRIVE_BAOS_HEADER_FILES_STREAM})

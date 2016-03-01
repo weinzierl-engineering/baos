@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -76,7 +76,7 @@ public:
 		Format: Baos on <IpAddress>
 		e.g. 192.168.1.200
 	*/
-	virtual std::string getDescription();
+	std::string getDescription() override;
 
 	/*!
 		Sets the IPv4 address from a BAOS device.
@@ -117,6 +117,7 @@ public:
 	static const std::string ConnectorTypeLabel;
 	static const std::string IpAddress; /*!< Property Key for device IPv4 address. */
 	static const std::string IpPort; /*!< Property Key for device IPv4 port */
+	static const std::string DeviceName; /*!< Property Key for device name (optional; set in enumeration) */
 
 protected:
 	int readFromSocket(unsigned char* buffer, int maxBytesToRead);
@@ -127,16 +128,15 @@ protected:
 	    BufferSize = 2048,
 	};
 
-private:
 	/*
 		Opens the socket, starts the rx thread and the heartbeat
 	*/
-	virtual void openImpl();
+	void openImpl() override;
 
 	/*
 		Closes the socket, stops the rx thread and the heartbeat
 	*/
-	virtual void closeImpl();
+	void closeImpl() override;
 
 	/*!
 		Calls resetPropertiesImpl from BaosConnector and
@@ -145,18 +145,19 @@ private:
 		- IpAddress: ""
 		- IpPort: StreamProtocolConstants::Port
 	*/
-	virtual void resetPropertiesImpl();
+	void resetPropertiesImpl() override;
 
 	/*!
 		Encapsulate the packet and send it to the socket
 	*/
-	virtual void txImpl(connector::Packet::Ptr packet);
+	void txImpl(std::shared_ptr<connector::Packet> packet) override;
 
 	/*!
 		Encapsulate the packet to the specific BAOS version
 	*/
-	virtual std::size_t encapsulate(const connector::Packet::Ptr packet, unsigned char* buffer, std::size_t bufferSize) = 0;
+	virtual std::size_t encapsulate(const std::shared_ptr<connector::Packet> packet, unsigned char* buffer, std::size_t bufferSize) = 0;
 
+private:
 	/*!
 		Starts the heartbeat timer
 	*/

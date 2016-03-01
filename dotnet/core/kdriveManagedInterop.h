@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -128,16 +128,16 @@ public:
 
 
 	KdriveException(System::String^ message, System::Exception^ innerException)
-		
+
 		: ApplicationException(message, innerException)
 	{
-    }
+	}
 
 protected:
 	KdriveException(System::Runtime::Serialization::SerializationInfo^ info, System::Runtime::Serialization::StreamingContext context)
-		
+
 		: ApplicationException(info, context)
-    {
+	{
 	}
 
 };

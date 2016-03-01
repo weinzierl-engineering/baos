@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -15,6 +15,7 @@
 
 #include "kdrive/connector/Config.h"
 #include "kdrive/connector/Connector.h"
+#include "kdrive/connector/Packet.h"
 #include <Poco/Exception.h>
 #include <Poco/Timestamp.h>
 #include <tuple>

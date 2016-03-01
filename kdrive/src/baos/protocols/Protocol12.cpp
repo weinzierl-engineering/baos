@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -227,6 +227,11 @@ void ProtocolFormatter12::decodeGetDatapointDescription_Res(DataPacket::Ptr data
 	}
 }
 
+/*
+	NOTE: When description string activate in database then has
+	each string a hard-coded length of 32 bytes
+	otherwise (deactivate) 0.
+*/
 void ProtocolFormatter12::decodeGetDescriptionString_Res(DataPacket::Ptr dataPacket,
         ProtocolFormatter::Strings& strings)
 {
@@ -234,21 +239,28 @@ void ProtocolFormatter12::decodeGetDescriptionString_Res(DataPacket::Ptr dataPac
 
 	if (count)
 	{
-		const DataPacket::Buffer& buffer = dataPacket->getBuffer();
-		const unsigned char* begin = &buffer.at(0);
-		const unsigned char* ptr = begin;
-		const std::size_t bufferSize = buffer.size();
-
-		if (static_cast<std::size_t>(count * Protocol12::DescriptionStringLength) > bufferSize)
+		if (!dataPacket->getBuffer().empty())
 		{
-			throw ClientException("Buffer overrun while decoding String Description");
+			const DataPacket::Buffer& buffer = dataPacket->getBuffer();
+			const unsigned char* begin = &buffer.at(0);
+			const unsigned char* ptr = begin;
+			const std::size_t bufferSize = buffer.size();
+
+			if (static_cast<std::size_t>(count * Protocol12::DescriptionStringLength) > bufferSize)
+			{
+				throw ClientException("Buffer overrun while decoding String Description");
+			}
+
+			for (int i = 0; i < count; ++i)
+			{
+				const std::string s = extract(ptr, Protocol12::DescriptionStringLength);
+				strings.push_back(s);
+				ptr += Protocol12::DescriptionStringLength;
+			}
 		}
-
-		for (int i = 0; i < count; ++i)
+		else
 		{
-			const std::string s = extract(ptr, Protocol12::DescriptionStringLength);
-			strings.push_back(s);
-			ptr += Protocol12::DescriptionStringLength;
+			strings.resize(count, "");
 		}
 	}
 }

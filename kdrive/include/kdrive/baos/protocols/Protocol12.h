@@ -1,5 +1,5 @@
 
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -54,9 +54,9 @@ struct Protocol12
 
 struct kdriveRPC_baos_API HeaderPolicy12 : public HeaderPolicy
 {
-	virtual std::size_t size(const DataPacket& dataPacket);
-	virtual std::size_t read(DataPacket& dataPacket, const unsigned char* buffer, std::size_t bufferSize);
-	virtual std::size_t write(const DataPacket& dataPacket, unsigned char* buffer, std::size_t bufferSize) const;
+	std::size_t size(const DataPacket& dataPacket) override;
+	std::size_t read(DataPacket& dataPacket, const unsigned char* buffer, std::size_t bufferSize) override;
+	std::size_t write(const DataPacket& dataPacket, unsigned char* buffer, std::size_t bufferSize) const override;
 };
 
 /*!
@@ -71,7 +71,7 @@ public:
 	PacketFactory12();
 	virtual ~PacketFactory12();
 
-	virtual connector::Packet::Ptr create(const unsigned char* buffer, std::size_t bufferLength);
+	std::shared_ptr<connector::Packet> create(const unsigned char* buffer, std::size_t bufferLength) override;
 	static DataRequestPtr createDataRequest();
 };
 

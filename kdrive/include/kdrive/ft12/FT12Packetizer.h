@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -70,6 +70,16 @@ public:
 	~FT12_Packetizer();
 
 	/*!
+		Copy constructor has been disabled
+	*/
+	FT12_Packetizer(const FT12_Packetizer&) = delete;
+
+	/*!
+		Assignment operator has been disabled
+	*/
+	FT12_Packetizer& operator=(const FT12_Packetizer&) = delete;
+
+	/*!
 		Reads from the serial port and attempts to return a complete
 		FT1.2 frame. Note the frame may or may not be valid, that is,
 		the checksums are not checked, end bytes are not checked, etc
@@ -96,16 +106,6 @@ public:
 	void enableAutoAck(bool enabled);
 
 private:
-	/*!
-		Copy constructor has been disabled
-	*/
-	FT12_Packetizer(const FT12_Packetizer&);
-
-	/*!
-		Assignment operator has been disabled
-	*/
-	FT12_Packetizer& operator=(const FT12_Packetizer&);
-
 	/*!
 		Attempts to read bytesToRead bytes from the serial port
 		into the buffer. Validation is performed to ensure that

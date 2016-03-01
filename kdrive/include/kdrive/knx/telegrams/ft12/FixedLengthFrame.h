@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -80,13 +80,13 @@ public:
 		\return true if Start is 10h, End is 16h
 		and the control field and checksum are equal
 	*/
-	virtual bool isValid() const;
+	bool isValid() const override;
 
 	/*!
 		Sets the default to the valid start and end bytes,
 		with control and checksum to 0x00
 	*/
-	virtual void setDefaults();
+	void setDefaults() override;
 
 	/*!
 		\return the start byte

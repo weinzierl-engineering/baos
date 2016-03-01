@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -27,7 +27,6 @@
 #include <Poco/Net/MulticastSocket.h>
 #include <Poco/Net/SocketAddress.h>
 #include <Poco/Net/IPAddress.h>
-#include <boost/assign/list_of.hpp>
 #include <boost/assert.hpp>
 
 using namespace kdrive::baos;
@@ -193,10 +192,15 @@ void BaosEnumerator::sendSearchRequestFrame(MulticastSocket& socket)
 
 	// build SEARCH_REQUEST frame
 	const std::vector<unsigned char> request =
-	    boost::assign::list_of (0x06) (0x10) (0x02) (0x01) (0x00) (0x0E) (0x08) (0x01)
-	    (NumberParser::parse(stringTokenizer[0])) (NumberParser::parse(stringTokenizer[1]))
-	    (NumberParser::parse(stringTokenizer[2])) (NumberParser::parse(stringTokenizer[3]))
-	    ((port >> 8) & 0xFF) (port & 0xFF);
+	{
+		0x06, 0x10, 0x02, 0x01, 0x00, 0x0E, 0x08, 0x01,
+		static_cast<unsigned char>(NumberParser::parse(stringTokenizer[0])),
+		static_cast<unsigned char>(NumberParser::parse(stringTokenizer[1])),
+		static_cast<unsigned char>(NumberParser::parse(stringTokenizer[2])),
+		static_cast<unsigned char>(NumberParser::parse(stringTokenizer[3])),
+		static_cast<unsigned char>((port >> 8) & 0xFF),
+		static_cast<unsigned char>(port & 0xFF)
+	};
 
 	// send to socket
 	const SocketAddress destAddress(MulticastProtocolConstants::Address, MulticastProtocolConstants::Port);

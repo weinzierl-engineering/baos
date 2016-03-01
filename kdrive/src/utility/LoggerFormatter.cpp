@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -23,12 +23,13 @@
 #include <Poco/File.h>
 #include <Poco/Dynamic/Var.h>
 #include <Poco/Process.h>
-#include <Poco/Format.h>
 #include <Poco/NumberFormatter.h>
 #include <Poco/NumberParser.h>
 #include <Poco/StringTokenizer.h>
-#include <Poco/Net/RemoteSyslogChannel.h>
 #include <typeinfo>
+#if KDRIVE_REMOTE_SYSLOG_LOGGER_ENABLED == 1
+#include <Poco/Net/RemoteSyslogChannel.h>
+#endif
 
 using namespace kdrive::utility;
 using Poco::AutoPtr;
@@ -46,7 +47,9 @@ using Poco::format;
 using Poco::NumberFormatter;
 using Poco::NumberParser;
 using Poco::StringTokenizer;
+#if KDRIVE_REMOTE_SYSLOG_LOGGER_ENABLED == 1
 using Poco::Net::RemoteSyslogChannel;
+#endif
 
 LoggerFormatter::LoggerFormatter()
 
@@ -111,11 +114,15 @@ void LoggerFormatter::initRootFileLogger(const std::string& filename)
 	initLogger(channel);
 }
 
+#if KDRIVE_REMOTE_SYSLOG_LOGGER_ENABLED == 1
+
 void LoggerFormatter::initRootRemoteLogger(const std::string& address, const std::string& name)
 {
 	AutoPtr<RemoteSyslogChannel> channel = new RemoteSyslogChannel(address, name);
 	initLogger(channel);
 }
+
+#endif
 
 void LoggerFormatter::setFormat(const std::string& format)
 {

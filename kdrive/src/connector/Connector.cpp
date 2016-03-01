@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -81,7 +81,8 @@ Connector::Connector(PacketFactory::Ptr packetFactory)
 
 Connector::Connector(const Connector& connector)
 
-	: packetFactory_(connector.packetFactory_),
+	: PropertyCollection(connector),
+	  packetFactory_(connector.packetFactory_),
 	  semaphore_(n, max),
 	  open_(false)
 {
@@ -130,7 +131,7 @@ void Connector::open()
 	}
 	catch (Exception& e)
 	{
-		poco_error_f1(LOGGER(), "error open %s", e.displayText());
+		poco_error_f1(LOGGER(), "Open failed: %s", e.displayText());
 		raiseError(e);
 	}
 }

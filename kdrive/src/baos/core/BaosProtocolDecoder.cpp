@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -104,19 +104,29 @@ std::string ProtocolDecoder::log(unsigned char subService)
 			** Requests
 			****************************/
 		case RequestFunctions::GetServerItem:
-			return "DataRequest::GetServerItem";
+			return "RequestFunctions::GetServerItem";
 		case RequestFunctions::SetServerItem:
-			return "DataRequest::SetServerItem";
+			return "RequestFunctions::SetServerItem";
 		case RequestFunctions::GetDatapointDescription:
-			return "DataRequest::GetDatapointDescription";
+			return "RequestFunctions::GetDatapointDescription";
 		case RequestFunctions::GetDescriptionString:
-			return "DataRequest::GetDescriptionString";
+			return "RequestFunctions::GetDescriptionString";
 		case RequestFunctions::GetDatapointValue:
-			return "DataRequest::GetDatapointValue";
+			return "RequestFunctions::GetDatapointValue";
 		case RequestFunctions::SetDatapointValue:
-			return "DataRequest::SetDatapointValue";
+			return "RequestFunctions::SetDatapointValue";
 		case RequestFunctions::GetParameterByte:
-			return "DataRequest::GetParameterByte";
+			return "RequestFunctions::GetParameterByte";
+		case RequestFunctions::GetDatapointHistoryCommand:
+			return "RequestFunctions::GetDatapointHistoryCommand";
+		case RequestFunctions::GetDatapointHistoryState:
+			return "RequestFunctions::GetDatapointHistoryState";
+		case RequestFunctions::GetDatapointHistory:
+			return "RequestFunctions::GetDatapointHistory";
+		case RequestFunctions::GetTimer:
+			return "RequestFunctions::GetTimer";
+		case RequestFunctions::SetTimer:
+			return "RequestFunctions::SetTimer";
 
 			/***************************
 			** Responses
@@ -135,6 +145,16 @@ std::string ProtocolDecoder::log(unsigned char subService)
 			return "ResponseFunctions::SetDatapointValue";
 		case ResponseFunctions::GetParameterByte:
 			return "ResponseFunctions::GetParameterByte";
+		case ResponseFunctions::GetDatapointHistoryCommand:
+			return "ResponseFunctions::GetDatapointHistoryCommand";
+		case ResponseFunctions::GetDatapointHistoryState:
+			return "ResponseFunctions::GetDatapointHistoryState";
+		case ResponseFunctions::GetDatapointHistory:
+			return "ResponseFunctions::GetDatapointHistory";
+		case ResponseFunctions::GetTimer:
+			return "ResponseFunctions::GetTimer";
+		case ResponseFunctions::SetTimer:
+			return "ResponseFunctions::SetTimer";
 
 			/***************************
 			** Indications

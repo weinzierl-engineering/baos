@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -154,6 +154,163 @@ unsigned char BaosServerItems::getWebServicesProtocolVersion() const
 	return getItemByte(ServerItemProperties::WebServicesProtocolVersion);
 }
 
+unsigned char BaosServerItems::getRestServiceProtocolVersion() const
+{
+	return getItemByte(ServerItemProperties::RestServiceProtocolVersion);
+}
+
+unsigned short BaosServerItems::getIndividualAddress() const
+{
+	return getItemShort(ServerItemProperties::IndividualAddress);
+}
+
+std::vector<unsigned char> BaosServerItems::getMacAddress() const
+{
+	return getItemData(ServerItemProperties::MacAddress);
+}
+
+bool BaosServerItems::isTunnellingEnabled() const
+{
+	return getItemByte(ServerItemProperties::TunnellingEnabled) ? true : false;
+}
+
+bool BaosServerItems::isBaosBinaryEnabled() const
+{
+	return getItemByte(ServerItemProperties::BaosBinaryEnabled) ? true : false;
+}
+
+bool BaosServerItems::isBaosWebEnabled() const
+{
+	return getItemByte(ServerItemProperties::BaosWebEnabled) ? true : false;
+}
+
+bool BaosServerItems::isBaosRestEnabled() const
+{
+	return getItemByte(ServerItemProperties::BaosRestEnabled) ? true : false;
+}
+
+bool BaosServerItems::isHttpFileEnabled() const
+{
+	return getItemByte(ServerItemProperties::HttpFileEnabled) ? true : false;
+}
+
+bool BaosServerItems::isSearchRequestEnabled() const
+{
+	return getItemByte(ServerItemProperties::SearchRequestEnabled) ? true : false;
+}
+
+bool BaosServerItems::isIsStructured() const
+{
+	return getItemByte(ServerItemProperties::IsStructured) ? true : false;
+}
+
+unsigned char BaosServerItems::getMaxManagementClients() const
+{
+	return getItemByte(ServerItemProperties::MaxManagementClients);
+}
+
+unsigned char BaosServerItems::getConnectedManagementClients() const
+{
+	return getItemByte(ServerItemProperties::ConnectedManagementClients);
+}
+
+unsigned char BaosServerItems::getMaxTunnellingClients() const
+{
+	return getItemByte(ServerItemProperties::MaxTunnellingClients);
+}
+
+unsigned char BaosServerItems::getConnectedTunnellingClients() const
+{
+	return getItemByte(ServerItemProperties::ConnectedTunnellingClients);
+}
+
+unsigned char BaosServerItems::getMaxBaosUdpClients() const
+{
+	return getItemByte(ServerItemProperties::MaxBaosUdpClients);
+}
+
+unsigned char BaosServerItems::getConnectedBaosUdpClients() const
+{
+	return getItemByte(ServerItemProperties::ConnectedBaosUdpClients);
+}
+
+unsigned char BaosServerItems::getMaxBaosTcpClients() const
+{
+	return getItemByte(ServerItemProperties::MaxBaosTcpClients);
+}
+
+unsigned char BaosServerItems::getConnectedBaosTcpClients() const
+{
+	return getItemByte(ServerItemProperties::ConnectedBaosTcpClients);
+}
+
+std::string BaosServerItems::getDeviceFriendlyName() const
+{
+	const std::vector<unsigned char> data = getItemData(ServerItemProperties::DeviceFriendlyName);
+	const std::string deviceName = std::string(data.begin(), data.end());
+	return deviceName;
+}
+
+unsigned short BaosServerItems::getMaxDatapoints() const
+{
+	return getItemShort(ServerItemProperties::MaxDatapoints);
+}
+
+unsigned short BaosServerItems::getConfiguredDatapoints() const
+{
+	return getItemShort(ServerItemProperties::ConfiguredDatapoints);
+}
+
+unsigned short BaosServerItems::getMaxParameterBytes() const
+{
+	return getItemShort(ServerItemProperties::MaxParameterBytes);
+}
+
+unsigned short BaosServerItems::getDownloadCounter() const
+{
+	return getItemShort(ServerItemProperties::DownloadCounter);
+}
+
+unsigned char BaosServerItems::getIpAssignment() const
+{
+	return getItemByte(ServerItemProperties::IPAssignment);
+}
+
+unsigned int BaosServerItems::getIpAddress() const
+{
+	return getItemLong(ServerItemProperties::IPAddress);
+}
+
+unsigned int BaosServerItems::getSubnetMask() const
+{
+	return getItemLong(ServerItemProperties::SubnetMask);
+}
+
+unsigned int BaosServerItems::getDefaultGateway() const
+{
+	return getItemLong(ServerItemProperties::DefaultGateway);
+}
+
+unsigned char BaosServerItems::getTimeSinceResetUnit() const
+{
+	return getItemByte(ServerItemProperties::TimeSinceResetUnit);
+}
+
+std::vector<unsigned char> BaosServerItems::getSystemTime() const
+{
+	return getItemData(ServerItemProperties::SystemTime);
+}
+
+unsigned char BaosServerItems::getSystemTimezoneOffset() const
+{
+	return getItemByte(ServerItemProperties::SystemTimezoneOffset);
+}
+
+bool BaosServerItems::isMenuEnabled() const
+{
+	return getItemByte(ServerItemProperties::MenuEnabled) ? true : false;
+}
+
 /*!
     Returns the server item data buffer
 */
@@ -175,7 +332,7 @@ unsigned char BaosServerItems::getItemByte(unsigned short id) const
 /*!
     Returns the first two bytes of the server item as an unsigned int
 */
-unsigned int BaosServerItems::getItemShort(unsigned short id) const
+unsigned short BaosServerItems::getItemShort(unsigned short id) const
 {
 	const GetServerItem::Item& item = getServerItem(id);
 	return item.data.at(0) << 8 | item.data.at(1);
@@ -204,7 +361,7 @@ ServerItem BaosServerItems::getServerItem(unsigned short id) const
 {
 	GetServerItem getServerItem(connector_);
 	getServerItem.rpc(id, 1);
-	if (!getServerItem.getCount() == 1)
+	if (getServerItem.getCount() != 1)
 	{
 		throw ClientException("Failed for get server item");
 	}

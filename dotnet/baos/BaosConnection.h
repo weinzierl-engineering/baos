@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -274,9 +274,6 @@ public:
 	/// Indicates whether the packet trace is enabled,
 	///	if true use in conjunction with the logger
 	/// </param>
-	/// <remarks>
-	///	Only Serial BAOS devices with protocol version 2.0 are supported.
-	/// </remarks>
 	void connectSerial(System::String^ serialDeviceName, bool decodeProtocol)
 	{
 		try

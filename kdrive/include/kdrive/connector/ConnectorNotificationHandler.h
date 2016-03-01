@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -18,7 +18,7 @@
 #include "kdrive/connector/CallbackThread.h"
 #include "kdrive/connector/PacketNotification.h"
 #include <Poco/AtomicCounter.h>
-#include <boost/noncopyable.hpp>
+#include <atomic>
 #include <memory>
 
 namespace kdrive
@@ -32,13 +32,15 @@ class Connector;
 ** ConnectorNotificationHandler
 ******************************/
 
-class kdriveConnector_API ConnectorNotificationHandler : private boost::noncopyable
+class kdriveConnector_API ConnectorNotificationHandler
 {
 public:
 	typedef std::shared_ptr<ConnectorNotificationHandler> Ptr;
 
 	ConnectorNotificationHandler(Connector& connector);
+	ConnectorNotificationHandler(const ConnectorNotificationHandler&) = delete;
 	virtual ~ConnectorNotificationHandler();
+	ConnectorNotificationHandler& operator=(const ConnectorNotificationHandler&) = delete;
 
 	virtual void enableSignals(bool enabled = true);
 	virtual void disableSignals();
@@ -70,8 +72,6 @@ private:
 ** AsyncConnectorNotificationHandler
 ******************************/
 
-class PacketNotification;
-
 class kdriveConnector_API AsyncConnectorNotificationHandler : public ConnectorNotificationHandler
 {
 public:
@@ -80,10 +80,10 @@ public:
 	AsyncConnectorNotificationHandler(Connector& connector);
 	virtual ~AsyncConnectorNotificationHandler();
 
-	virtual void enableSignals(bool enabled = true);
-	virtual void routeRx(std::shared_ptr<Packet> packet);
-	virtual void routeTx(std::shared_ptr<Packet> packet);
-	virtual void routeEvent(unsigned long e);
+	void enableSignals(bool enabled = true) override;
+	void routeRx(std::shared_ptr<Packet> packet) override;
+	void routeTx(std::shared_ptr<Packet> packet) override;
+	void routeEvent(unsigned long e) override;
 
 protected:
 	using ConnectorNotificationHandler::routeQueueSignal;
@@ -97,6 +97,9 @@ private:
 	PacketNotificationQueue queue_;
 	CallbackThread callbackThread_;
 	CallbackThreadManager callbackThreadManager_;
+
+	std::atomic<bool> notifyQueueEmpty_;
+	std::atomic<bool> queueIsEmpty_;
 };
 
 }

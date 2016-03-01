@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -98,6 +98,11 @@ public:
 	bool isWriteFromBus() const;
 
 	/*!
+		Returns true if the read on init flag is set. Otherwise returns false.
+	*/
+	bool isReadOnInit() const;
+
+	/*!
 		Returns true if the transmit to bus flag is set. Otherwise returns false.
 	*/
 	bool isClientTransmitRequest() const;
@@ -191,6 +196,7 @@ private:
 	    CommunicationMask = 0x04,
 	    ReadFromBusMask = 0x08,
 	    WriteFromBusMask = 0x10,
+	    ReadOnInitMask = 0x20,
 	    TransmitRequestMask = 0x40,
 	    UpdateOnResponseMask = 0x80
 	};
@@ -222,9 +228,10 @@ private:
 					std::cout << "Datapoint id: " << desc.getId() << std::endl;
 					std::cout << "Datapoint type: " << desc.getDatapointType() << std::endl;
 				}
+			}
 			catch (Exception& exception)
 			{
-				pstd::cout << exception.displayText() << std::endl;
+				std::cerr << exception.displayText() << std::endl;
 			}
 		}
 	\endcode
@@ -258,7 +265,12 @@ public:
 	void erase(unsigned short startId, unsigned short count);
 
 	/*!
-		Reads all datapoint descriptions from the baos server.
+		Reads all datapoint descriptions from the baos server
+		when it is possible to determine how many datapoints
+		have been allocated. This is either via the protocol version
+		(i.e. protocol version 1.2 has a max of 250 datapoints)
+		or via the server item getMaxDatapoints. If the limit
+		can not be found we try to read a max of 1000 datapoints
 	*/
 	void readFromDevice();
 

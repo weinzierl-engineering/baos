@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -15,7 +15,6 @@
 
 #include "kdrive/connector/Config.h"
 #include <boost/signals2.hpp>
-#include <boost/noncopyable.hpp>
 #include <memory>
 #include <functional>
 
@@ -40,10 +39,13 @@ class Packet;
 
 	This class is primarily for internal kdrive use.
 */
-struct kdriveConnector_API ScopedConnectorSignals : private boost::noncopyable
+class kdriveConnector_API ScopedConnectorSignals final
 {
+public:
 	ScopedConnectorSignals(Connector& connector);
+	ScopedConnectorSignals(const ScopedConnectorSignals&) = delete;
 	~ScopedConnectorSignals();
+	ScopedConnectorSignals& operator=(const ScopedConnectorSignals&) = delete;
 
 	void connect(std::function<void (std::shared_ptr<Packet>, int)> fn);
 	void connectRx(std::function<void (std::shared_ptr<Packet>)> fn);

@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -44,7 +44,7 @@ struct kdriveRPC_baos_API BaosErrorCodes
 	    ServerError = 0x11000, // 69632
 	    Internal = 0x11001, // 69633
 	    NoItemFound = 0x11002, // 69634
-	    BufferToSmall = 0x11003, // 69635
+	    BufferTooSmall = 0x11003, // 69635
 	    ItemNotWriteable = 0x11004, // 69636
 	    ServiceNotSupported = 0x11005, // 69637
 	    BadServiceParameter = 0x11006, // 69638

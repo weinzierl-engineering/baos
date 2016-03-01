@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -115,7 +115,7 @@ void BaosDatapoint::clearData()
 
 bool BaosDatapoint::isValidFlag() const
 {
-	return serverItem_.serviceData & UpdateMask ? true : false;
+	return serverItem_.serviceData & ValidMask ? true : false;
 }
 
 bool BaosDatapoint::isUpdate() const

@@ -1,5 +1,5 @@
 
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -10,12 +10,11 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
 //
 
-#ifndef __KDRIVE_BAOS_STREAM_STREAM_CONNECTOR20_H__
-#define __KDRIVE_BAOS_STREAM_STREAM_CONNECTOR20_H__
+#ifndef __KDRIVE_BAOS_STREAM_STREAM_CONNECTOR2X_H__
+#define __KDRIVE_BAOS_STREAM_STREAM_CONNECTOR2X_H__
 
 #include "kdrive/baos/Config.h"
 #include "kdrive/baos/stream/StreamConnector.h"
-#include "kdrive/baos/core/BaosPacketFactory.h"
 #include "kdrive/baos/core/Forwards.h"
 #include "kdrive/baos/protocols/Protocol.h"
 #include <array>
@@ -29,25 +28,31 @@ namespace baos
 {
 
 /*!
-	\class StreamConnector20
+	\class StreamConnector2x
 	\brief The StreamConnector is responsible for creating
-	a TCP/IP stream connection with the baos server with version 2.0
+	a TCP/IP stream connection with the baos server with version 2x
 */
 
-class kdriveRPC_baos_API StreamConnector20 : public StreamConnector
+class kdriveRPC_baos_API StreamConnector2x : public StreamConnector
 {
 public:
-	typedef std::shared_ptr<StreamConnector20> Ptr;
+	typedef std::shared_ptr<StreamConnector2x> Ptr;
 
-	StreamConnector20();
-	StreamConnector20(const std::string& remoteHost, unsigned short port);
-	virtual ~StreamConnector20();
+	StreamConnector2x();
+	StreamConnector2x(const std::string& remoteHost, unsigned short port);
+	virtual ~StreamConnector2x();
+
+public:
+	static const std::string ConnectorTypeLabel;
+
+protected:
+	void resetPropertiesImpl() override;
+
+	void openImpl() override;
+	void rxImpl() override;
 
 private:
-	virtual void rxImpl() override;
-
-private:
-	virtual std::size_t encapsulate(const connector::Packet::Ptr packet, unsigned char* buffer, std::size_t bufferSize) override;
+	std::size_t encapsulate(const std::shared_ptr<connector::Packet> packet, unsigned char* buffer, std::size_t bufferSize) override;
 
 	void onReceive(const unsigned char* buffer, std::size_t length);
 	bool packetize(int& bufferOffset);
@@ -61,4 +66,4 @@ private:
 }
 } // end namespace kdrive::baos
 
-#endif // __KDRIVE_BAOS_STREAM_STREAM_CONNECTOR20_H__
+#endif // __KDRIVE_BAOS_STREAM_STREAM_CONNECTOR2X_H__

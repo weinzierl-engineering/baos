@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -13,9 +13,11 @@
 #include "pch/kdrive_pch.h"
 #include "kdrive/connector/ConnectorNotificationHandler.h"
 #include "kdrive/connector/Connector.h"
+#include "kdrive/connector/Packet.h"
 #include "kdrive/connector/PacketNotification.h"
 #include "kdrive/utility/Logger.h"
 #include <Poco/Exception.h>
+#include <thread>
 
 using namespace kdrive::connector;
 using Poco::Exception;
@@ -147,7 +149,9 @@ AsyncConnectorNotificationHandler::AsyncConnectorNotificationHandler(Connector& 
 
 	: ConnectorNotificationHandler(connector),
 	  callbackThread_(BIND_CALLBACK(), 0, "AsyncConnectorNotificationHandler"),
-	  callbackThreadManager_(callbackThread_, false, true)
+	  callbackThreadManager_(callbackThread_, false, true),
+	  notifyQueueEmpty_(false),
+	  queueIsEmpty_(false)
 {
 }
 
@@ -162,6 +166,19 @@ AsyncConnectorNotificationHandler::~AsyncConnectorNotificationHandler()
 	}
 }
 
+/*
+	When we disable the signals we want that the callbackThreadManager
+	route the previous events from the queue.
+	For this we enable notifyQueueEmpty and wait for queueIsEmpty.
+
+	The callback function set queueIsEmpty when notifyQueueEmpty is enabled.
+
+	NOTE:
+	It's not possible that we do this here in this thread because
+	we could produce deadlock when our application assumed then the
+	notifications are in the notification thread and not in this
+	thread context!
+*/
 void AsyncConnectorNotificationHandler::enableSignals(bool enabled)
 {
 	if (enabled != areSignalsEnabled())
@@ -174,12 +191,18 @@ void AsyncConnectorNotificationHandler::enableSignals(bool enabled)
 		}
 		else
 		{
-			callbackThreadManager_.stop();
-
-			while (!queue_.empty())
+			// wait until the queue is empty
+			queueIsEmpty_ = false;
+			notifyQueueEmpty_ = true;
+			while (std::atomic_exchange_explicit(&queueIsEmpty_, true, std::memory_order_acquire))
 			{
-				onThreadCallback();
+				// spin until acquired
+				std::this_thread::yield();
 			}
+			notifyQueueEmpty_ = false;
+
+			// the queue is empty so we could stop the callback thread
+			callbackThreadManager_.stop();
 		}
 	}
 }
@@ -272,6 +295,11 @@ void AsyncConnectorNotificationHandler::onThreadCallback()
 	catch (...)
 	{
 		poco_error(LOGGER(), "onSignal: unhandled exception");
+	}
+
+	if (queue_.empty() && notifyQueueEmpty_)
+	{
+		std::atomic_store_explicit(&queueIsEmpty_, false, std::memory_order_release);
 	}
 }
 

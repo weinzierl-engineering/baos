@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -94,6 +94,11 @@ bool BaosDatapointDescription::isReadFromBus() const
 bool BaosDatapointDescription::isWriteFromBus() const
 {
 	return configFlags_ & WriteFromBusMask ? true : false;
+}
+
+bool BaosDatapointDescription::isReadOnInit() const
+{
+	return configFlags_ & ReadOnInitMask ? true : false;
 }
 
 bool BaosDatapointDescription::isClientTransmitRequest() const
@@ -219,19 +224,37 @@ void BaosDatapointDescriptions::readFromDevice()
 	}
 	else
 	{
-		// currently there is no server item to get the datapoint count.
-		// So we read the first 250 (for BAOS 771 and BAOS 772) and then
-		// try to read the reset (until 1000). Success for BAOS 772
-		// and bad service parameter exception for BAOS 771
-		readDescriptions_ProtocolV20(1, 250);
+		unsigned int count = 0;
 		try
 		{
-			readDescriptions_ProtocolV20(251, 750);
+			// currently only 777 has server item to get the datapoint count
+			BaosServerItems serverItems(connector_);
+			count = serverItems.getMaxDatapoints();
 		}
-		// thrown when dp not exist
-		catch (BadServiceParameterServerException&)
+		catch (NoItemFoundServerException&)
 		{
-			poco_debug(LOGGER(), "... this BAOS device do not support more than 250 datapoints");
+			// we try to read max 1000 datapoints
+			// it's a 771 with 250 or a 772/830 with 1000 datapoints
+			count = 1000;
+		}
+
+		// We simply read blocks until we on the end or we get a BAD_SERVICE_PARAMETER error
+		// (i.e. out of range; e.g. for 771)
+
+		bool finished = false;
+		const int blockSize = 50;
+		unsigned int offset = 1;
+		while (!finished && (offset < count))
+		{
+			try
+			{
+				readDescriptions_ProtocolV20(offset, blockSize);
+				offset += blockSize;
+			}
+			catch (BadServiceParameterServerException&)
+			{
+				finished = true;
+			}
 		}
 	}
 }

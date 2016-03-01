@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -12,6 +12,7 @@
 
 #include "pch/kdrive_pch.h"
 #include "kdrive/connector/QueueConnector.h"
+#include "kdrive/connector/Packet.h"
 #include "kdrive/connector/PacketNotification.h"
 #include "kdrive/utility/Logger.h"
 #include <Poco/Thread.h>
@@ -34,7 +35,7 @@ CLASS_LOGGER("kdrive.connector.QueueConnector")
 QueueConnector::QueueConnector()
 
 	: rxQueue_(std::make_shared<NotificationQueue>()),
-      txQueue_(std::make_shared<NotificationQueue>()),
+	  txQueue_(std::make_shared<NotificationQueue>()),
 	  rxQueueEnabled_(false),
 	  txQueueEnabled_(false),
 	  maxQueueItems_(255),

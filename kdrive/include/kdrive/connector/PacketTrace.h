@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -15,6 +15,7 @@
 
 #include "kdrive/connector/Config.h"
 #include "kdrive/connector/Forwards.h"
+#include <Poco/Mutex.h>
 #include <boost/signals2/connection.hpp>
 #include <vector>
 #include <functional>
@@ -48,7 +49,10 @@ public:
 	typedef std::function<void (const unsigned char*, std::size_t, int direction)> Decoder;
 	void addDecoder(Decoder decoder);
 
+	void clearDecoders();
+
 private:
+	mutable Poco::FastMutex mutex_;
 	boost::signals2::scoped_connection connection_;
 	std::vector<Decoder> decoders_;
 };

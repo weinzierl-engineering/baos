@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -53,12 +53,12 @@ public:
 	/*!
 		\return true if an ack frame
 	*/
-	virtual bool isValid() const;
+	bool isValid() const override;
 
 	/*!
 		sets the default to the ack frame value
 	*/
-	virtual void setDefaults();
+	void setDefaults() override;
 };
 
 }

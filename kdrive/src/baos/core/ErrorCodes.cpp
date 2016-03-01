@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2015 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2016 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -32,7 +32,7 @@ std::string kdrive::baos::BaosErrorCodes::toString(unsigned int errorCode)
 			return "Internal Error";
 		case BaosErrorCodes::NoItemFound:
 			return "No Item Found";
-		case BaosErrorCodes::BufferToSmall:
+		case BaosErrorCodes::BufferTooSmall:
 			return "Buffer is too small";
 		case BaosErrorCodes::ItemNotWriteable:
 			return "Item is not writable";
