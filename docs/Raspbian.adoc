@@ -14,7 +14,7 @@ The SDK need:
 
 === Install toolchain
 
-Download the toolchain to your development machine
+Download the toolchain to your development machine (PC x86 Linux)
 
 [source]
 ----
@@ -35,7 +35,7 @@ mkdir -p /opt/toolchains
 mv tools-master /opt/toolchains/raspberrypi
 ----
 
-The toolchain has no boost include files. We use version from /usr/include (e.g. version 1.54.0)
+For legal reasons the toolchain does not contain the boost include files. We use version from /usr/include (e.g. version 1.54.0)
 
 [source]
 ----
@@ -50,7 +50,7 @@ ln -s /usr/include/boost/ boost
 
 [NOTE]
 ====
-Before run it open a new terminal to remove possible old environments!!
+Before building, its recommended to open a new terminal to ensure a clean and fresh set of environment variables
 ====
 
 [source]
@@ -71,7 +71,7 @@ build_raspbian.sh
 
 === Preparation
 
-We required that on the Raspberry PI run Raspbian and ssh is is active.
+Raspbian with enabled ssh daemon is required on the Paspberry PI.
 See also http://www.raspberrypi.org/help/quick-start-guide/
 
 
@@ -97,12 +97,20 @@ cd PATH_TO_BAOS_SDK/build_raspbian/bin
 scp sample_BaosEnumerator pi@192.168.1.33:/tmp
 ----
 
-Now we could run the baos sample. In terminal 2:
+Now we are ready to run the BAOS samples. In terminal 2:
 
+.Search for BAOS devices via IP
 [source]
 ----
 cd /tmp
 sample_BaosEnumerator
+----
+
+.Test FT1.2 BAOS connection e.g. kBerry
+[source]
+----
+cd /tmp
+sample_BaosSerial
 ----
 
 
@@ -119,14 +127,25 @@ Connect the Weinzierl kBerry BAOS Module with the Raspberry PI.
 The default usage of the UART Interface is serial console.
 To use the UART we must turning off the UART functioning as a serial console.
 
+[WARNING]
+====
+The Raspberry Pi 3 does not use the correct baud rate in Raspian out of the box, so kBerry will
+not work. To fix this, the overlay pi3-miniuart-bt-overlay must be activated.
+[source]
+----
+sudo sh -c "echo dtoverlay=pi3-miniuart-bt-overlay >>/boot/config.txt"
+----
+====
+
 Open /boot/cmdline.txt and remove *console=ttyAMA0,115200* from the file
+For Raspbian Jessie and newer the entry is *console=serial0,115200*
 [source]
 ----
 sudo nano /boot/cmdline.txt
 ----
 
-Open /etc/inittab and out comment the usage for ttyAMA0.
-For this added a *#* at the start of the line with ttyAMA0.
+[Versions before Raspbian Jessie] Open /etc/inittab and out comment the usage for ttyAMA0.
+To do so add a *#* at the start of the line with ttyAMA0.
 [source]
 ----
 sudo nano /etc/inittab
