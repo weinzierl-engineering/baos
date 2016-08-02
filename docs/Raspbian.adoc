@@ -53,6 +53,16 @@ ln -s /usr/include/boost/ boost
 Before building, its recommended to open a new terminal to ensure a clean and fresh set of environment variables
 ====
 
+
+* Switch into the designated folder for the baosSDK, 
++ 
+-----
+cd
+mkdir baosSDK
+cd baosSDK
+-----
+* Clone the github project: `git clone https://github.com/weinzierl-engineering/baos.git .`
+
 [source]
 ----
 # compile it
@@ -60,8 +70,11 @@ mkdir build
 cd build
 cmake -DCMAKE_TOOLCHAIN_FILE=../toolchain/raspbian.cmake -DWZSDK_SAMPLES=1 -DWZSDK_STATIC=1 -G "Unix Makefiles" ../
 make -j5
+----
 
-# alternative: we have a script which do it
+[source]
+----
+# alternative: theres a build script available
 chmod u+x build_raspbian.sh
 build_raspbian.sh
 ----
