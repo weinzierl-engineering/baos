@@ -14,7 +14,7 @@ The SDK need:
 
 === Install toolchain
 
-Download the toolchain to your development machine (PC x86 Linux)
+Download the toolchain to your development machine (*PC x86 Linux*)
 
 [source]
 ----
@@ -54,7 +54,7 @@ Before building, its recommended to open a new terminal to ensure a clean and fr
 ====
 
 
-* Switch into the designated folder for the baosSDK, 
+* Switch into the designated folder for the baosSDK 
 + 
 -----
 cd
@@ -68,7 +68,7 @@ cd baosSDK
 # compile it
 mkdir build
 cd build
-cmake -DCMAKE_TOOLCHAIN_FILE=../toolchain/raspbian.cmake -DWZSDK_SAMPLES=1 -DWZSDK_STATIC=1 -G "Unix Makefiles" ../
+cmake -DCMAKE_TOOLCHAIN_FILE=../cmake/raspbian-toolchain.cmake -DWZSDK_SAMPLES=1 -DWZSDK_STATIC=1 -G "Unix Makefiles" ../
 make -j5
 ----
 
@@ -157,12 +157,34 @@ For Raspbian Jessie and newer the entry is *console=serial0,115200*
 sudo nano /boot/cmdline.txt
 ----
 
+[NOTE]
+====
+Be aware, that everytime raspi-config is executed and the serial shell is enabled, the /boot/cmdline.txt is rewritten with the serial console active again
+====
+
+
 [Versions before Raspbian Jessie] Open /etc/inittab and out comment the usage for ttyAMA0.
 To do so add a *#* at the start of the line with ttyAMA0.
 [source]
 ----
 sudo nano /etc/inittab
 ----
+
+Make sure the user has the rights to access the ttyAMA0
+[source]
+----
+# Check the group of the device
+ls -l /dev/ttyAMA0
+----
+
+	crw-rw---- 1 root dialout 204, 64 Aug  4 11:33 /dev/ttyAMA0
+
+[source]
+----
+# Add the user to the group seen above
+sudo usermod -a -G dialout YOURUSERNAME
+----
+
 
 Reboot it. Now you could use the UART in your application.
 
