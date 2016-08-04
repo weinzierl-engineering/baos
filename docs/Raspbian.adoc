@@ -170,6 +170,13 @@ To do so add a *#* at the start of the line with ttyAMA0.
 sudo nano /etc/inittab
 ----
 
+Reboot it.
+
+[source]
+----
+sudo reboot
+----
+
 Make sure the user has the rights to access the ttyAMA0
 [source]
 ----
@@ -179,11 +186,17 @@ ls -l /dev/ttyAMA0
 
 	crw-rw---- 1 root dialout 204, 64 Aug  4 11:33 /dev/ttyAMA0
 
+[NOTE]
+====
+If the group is `tty` the device is still used be the kernel serial console, check your /boot/cmdline.txt to fix this and make sure the device is rebooted after modifying this file
+====
+
 [source]
 ----
 # Add the user to the group seen above
 sudo usermod -a -G dialout YOURUSERNAME
 ----
+
 
 
 Reboot it. Now you could use the UART in your application.
