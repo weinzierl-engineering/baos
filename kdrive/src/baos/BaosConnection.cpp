@@ -194,3 +194,23 @@ ScopedBaosConnection::~ScopedBaosConnection()
 	{
 	}
 }
+
+/******************************
+** ScopedSerialBaosConnection
+*******************************/
+
+ScopedSerialBaosConnection::ScopedSerialBaosConnection(const std::string& name, bool decodeProtocol)
+{
+	connectSerial(name, decodeProtocol);
+}
+
+ScopedSerialBaosConnection::~ScopedSerialBaosConnection()
+{
+	try
+	{
+		disconnect();
+	}
+	catch (...)
+	{
+	}
+}

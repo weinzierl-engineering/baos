@@ -187,6 +187,31 @@ public:
 	virtual ~ScopedBaosConnection();
 };
 
+/*!
+	\class ScopedSerialBaosConnection
+	\brief Auto-connect and disconnect of the StreamConnection
+
+	RAII for BaosConnection. Connects in the constructor
+	and disconnects in the destructor.
+*/
+class kdriveRPC_baos_API ScopedSerialBaosConnection : public BaosConnection
+{
+public:
+	/*!
+		Creates a ScopedSerialBaosConnection, and connects via FT1.2 to a baos
+		device with the specified name. e.g /dev/ttyAMA0
+
+		If decodeProtocol is true, the BAOS protocol will be decoded and logged
+		This is used typically for Debug purposes.
+	*/
+	explicit ScopedSerialBaosConnection(const std::string& name, bool decodeProtocol = false);
+
+	/*!
+		Destroys the ScopedSerialBaosConnection and closes the connection
+	*/
+	virtual ~ScopedSerialBaosConnection();
+};
+
 }
 } // end namespace kdrive::baos
 
