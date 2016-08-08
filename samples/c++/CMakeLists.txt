@@ -18,6 +18,7 @@ set(samples_TARGETS
   BaosMultiConnector
   BaosMultiThreaded
   BaosSerial
+  BaosSerialLightSwitcher
   BaosServerItem
 )
 

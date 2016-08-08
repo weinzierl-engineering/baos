@@ -71,7 +71,7 @@ void switchLight(BaosConnector::Ptr connector, bool enabled)
 	if (datapoint.getBoolean() != enabled)
 	{
 		const std::string status = enabled ? "on" : "off";
-		poco_information(LOGGER(), format("Switching DP number %d : %s", BaosApp::Ch1Request, status));
+		poco_information(LOGGER(), format("Switching DP number %d : %s", static_cast<int>(BaosApp::Ch1Request), status));
 
 		datapoint.setBoolean(enabled);
 	}
