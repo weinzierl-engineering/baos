@@ -243,7 +243,7 @@ void BaosEnumerator::addDevice(const std::vector<unsigned char>& buffer, const I
 
 		if (static_cast<std::size_t>(manOffset + 7) < buffer.size())
 		{
-			const unsigned char mancode = buffer.at(manOffset + 2) << 8 | buffer.at(manOffset + 3);
+			const unsigned int mancode = buffer.at(manOffset + 2) << 8 | buffer.at(manOffset + 3);
 			const unsigned char protocol = buffer.at(manOffset + 6);
 			const unsigned char version = buffer.at(manOffset + 7);
 
