@@ -146,7 +146,7 @@ The Raspberry Pi 3 does not use the correct baud rate in Raspian out of the box,
 not work. To fix this, the overlay pi3-miniuart-bt-overlay must be activated.
 [source]
 ----
-sudo sh -c "echo dtoverlay=pi3-miniuart-bt-overlay >>/boot/config.txt"
+sudo sh -c "echo dtoverlay=pi3-miniuart-bt >>/boot/config.txt"
 ----
 ====
 
