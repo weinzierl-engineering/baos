@@ -2,6 +2,15 @@
 BAOS SDK Release Notes and Change Log
 =====================================
 
+Release BAOS-SDK-16.1.1 (2018-02-01)
+------------------------------------
+
+[GH-2]        - Fixed kdrive/BaosEnumerator: Fix wrong data length of manufacturer ID
+[GH-3]        - Fixed BaosDatapoint::setDateLocal() and BaosDatapoint::setDateUTC() used wrong format for year
+                (since BAOS-SDK-16.1.0)
+[]            - Updated some documentaion stuff
+
+
 Release BAOS-SDK-16.1.0 (2016-02-29)
 ------------------------------------
 
