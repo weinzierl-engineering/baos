@@ -354,19 +354,31 @@ void kdrive::knx::decode_DPT10(const Datapoint& datapoint, int& day, int& hour, 
 void kdrive::knx::encode_DPT11_Local(Datapoint& datapoint)
 {
 	LocalDateTime now;
-	return encode_DPT11(datapoint, now.year(), now.month(), now.day());
+	return encode_DPT11_yyyy(datapoint, now.year(), now.month(), now.day());
 }
 
 void kdrive::knx::encode_DPT11_UTC(Datapoint& datapoint)
 {
 	DateTime now;
-	return encode_DPT11(datapoint, now.year(), now.month(), now.day());
+	return encode_DPT11_yyyy(datapoint, now.year(), now.month(), now.day());
 }
 
+/*!
+	\deprecated Replaced with encode_DPT11_knx
+*/
 void kdrive::knx::encode_DPT11(Datapoint& datapoint, int year, int month, int day)
 {
+	encode_DPT11_knx(datapoint, year, month, day);
+}
+
+void kdrive::knx::encode_DPT11_knx(Datapoint& datapoint, int year, int month, int day)
+{
 	// year is expected to be between 0..99
-	// but is not validated.
+	if ((year < 0) || (year > 99))
+	{
+		const std::string message = "Expected for year: 0..99. Get: " + std::to_string(year);
+		throw Poco::RangeException(message);
+	}
 
 	std::vector<unsigned char> data;
 	data.push_back(day & 0x1F);
@@ -376,7 +388,28 @@ void kdrive::knx::encode_DPT11(Datapoint& datapoint, int year, int month, int da
 	setData(datapoint, data, 3);
 }
 
+void kdrive::knx::encode_DPT11_yyyy(Datapoint& datapoint, int year, int month, int day)
+{
+	// year is expected to be between 1990..2089
+	if ((year < 1990) || (year > 2089))
+	{
+		const std::string message = "Expected for year: 1990..2089. Get: " + std::to_string(year);
+		throw Poco::RangeException(message);
+	}
+
+	const int knxYear = (year < 2000) ? (year - 1900) : (year - 2000);
+	encode_DPT11_knx(datapoint, knxYear, month, day);
+}
+
+/*!
+	\deprecated Replaced with decode_DPT11_knx
+*/
 void kdrive::knx::decode_DPT11(const Datapoint& datapoint, int& year, int& month, int& day)
+{
+	decode_DPT11_knx(datapoint, year, month, day);
+}
+
+void kdrive::knx::decode_DPT11_knx(const Datapoint& datapoint, int& year, int& month, int& day)
 {
 	const std::vector<unsigned char>& data = getData(datapoint, 3);
 
@@ -387,6 +420,13 @@ void kdrive::knx::decode_DPT11(const Datapoint& datapoint, int& year, int& month
 	day = ch0 & 0x1F;
 	month = ch1 & 0x0F;
 	year = ch2 & 0x7F;
+}
+
+void kdrive::knx::decode_DPT11_yyyy(const Datapoint& datapoint, int& year, int& month, int& day)
+{
+	int knxYear = 0;
+	decode_DPT11_knx(datapoint, knxYear, month, day);
+	year = (knxYear < 90) ? (knxYear + 2000) : knxYear + 1900;
 }
 
 void kdrive::knx::encode_DPT12(Datapoint& datapoint, unsigned int value)

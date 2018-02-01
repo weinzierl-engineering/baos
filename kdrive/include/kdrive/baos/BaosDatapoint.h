@@ -410,11 +410,15 @@ public:
 
 	/*!
 		set Datapoint DPT-11
+		\note The year is in KNX DPT11 format: 0..99; >=90 : 20th century; <90 : 21th century <\br>
+		e.g. 99 => 1999; 0 => 2000
 	*/
 	void setDate(int year, int month, int day);
 
 	/*!
 		get Datapoint DPT-11 (year)
+		\note The year is in KNX DPT11 format: 0..99; >=90 : 20th century; <90 : 21th century <\br>
+		e.g. 99 => 1999; 0 => 2000
 	*/
 	int getDateYear();
 

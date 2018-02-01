@@ -259,7 +259,11 @@ kdriveKnx_API void decode_DPT10(const Datapoint& datapoint, int& day, int& hour,
 kdriveKnx_API void encode_DPT11_Local(Datapoint& datapoint);
 kdriveKnx_API void encode_DPT11_UTC(Datapoint& datapoint);
 kdriveKnx_API void encode_DPT11(Datapoint& datapoint, int year, int month, int day);
+kdriveKnx_API void encode_DPT11_knx(Datapoint& datapoint, int year, int month, int day);
+kdriveKnx_API void encode_DPT11_yyyy(Datapoint& datapoint, int year, int month, int day);
 kdriveKnx_API void decode_DPT11(const Datapoint& datapoint, int& year, int& month, int& day);
+kdriveKnx_API void decode_DPT11_knx(const Datapoint& datapoint, int& year, int& month, int& day);
+kdriveKnx_API void decode_DPT11_yyyy(const Datapoint& datapoint, int& year, int& month, int& day);
 
 // DPT-12: 4 byte unsigned value
 kdriveKnx_API void encode_DPT12(Datapoint& datapoint, unsigned int value);

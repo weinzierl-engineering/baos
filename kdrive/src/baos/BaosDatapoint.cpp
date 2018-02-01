@@ -402,7 +402,7 @@ void BaosDatapoint::setDateUTC()
 void BaosDatapoint::setDate(int year, int month, int day)
 {
 	Datapoint dpt = DatapointFactory::create(DatapointTypes::DatapointType_11);
-	knx::encode_DPT11(dpt, year, month, day);
+	knx::encode_DPT11_knx(dpt, year, month, day);
 	write(dpt.getData());
 }
 
@@ -411,7 +411,7 @@ int BaosDatapoint::getDateYear()
 	Datapoint dpt = DatapointFactory::create(DatapointTypes::DatapointType_11);
 	dpt.setData(read(dpt.getSizeInBytes()));
 	int year = 0, month = 0, day = 0;
-	knx::decode_DPT11(dpt, year, month, day);
+	knx::decode_DPT11_knx(dpt, year, month, day);
 	return year;
 }
 
