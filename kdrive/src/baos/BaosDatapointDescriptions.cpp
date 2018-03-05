@@ -347,10 +347,10 @@ void BaosDatapointDescriptions::readDescriptions_ProtocolV20(unsigned short star
 			const unsigned short lastReadId = readDescriptions(currentId, remainingCount);
 			currentId = lastReadId + 1;
 			remainingCount = (lastReadId < maxId) ? (maxId - lastReadId) : 0;
-			poco_debug(LOGGER(), format("... until id %u readed", static_cast<unsigned int>(lastReadId)));
+			poco_debug(LOGGER(), format("... until id %u readded", static_cast<unsigned int>(lastReadId)));
 		}
 	}
-	// if no more activate datapoints exists in the range an excetion with "No item found" will throw
+	// if no more activate datapoints exists in the range an exception with "No item found" will throw
 	catch (NoItemFoundServerException&)
 	{
 		poco_debug(LOGGER(), "... no more active datapoint exists");

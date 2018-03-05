@@ -52,7 +52,7 @@ public:
 	virtual ~PacketFactory();
 
 	/*!
-		Assingment Operator is deleted
+		Assignment Operator is deleted
 	*/
 	PacketFactory& operator=(const PacketFactory&) = delete;
 

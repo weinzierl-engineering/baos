@@ -68,14 +68,14 @@ public:
 
 	/*!
 		Callback function called when a server value indication is
-		receieved.
+		received.
 	*/
 	typedef std::function<void(unsigned short, const std::vector<unsigned char>&)> ServerItemEvent;
 	void setServerItemEvent(ServerItemEvent serverItemEvent);
 
 	/*!
 		Callback function called when a server value indication is
-		receieved to indicate whether the bus is connected or not
+		received to indicate whether the bus is connected or not
 	*/
 	typedef std::function<void (bool)> BusConnectedEvent;
 	void setBusConnectedEvent(BusConnectedEvent busConnectedEvent);

@@ -40,8 +40,8 @@ namespace connector
 	stored in propertyCollection_ and can get and set with get/setPropertyCollection.
 
 	A packet could also have additional properties for the buffer info which are
-	handled by the drived classes. The function decode returns a copy of the
-	core properties and calls decodeImpl from the drived classes.
+	handled by the derived classes. The function decode returns a copy of the
+	core properties and calls decodeImpl from the derived classes.
 	The could append additional properties (e.g. frame.protocol) to the copy.
 
 	Because the buffer could be changed and the additional properties could
@@ -83,12 +83,12 @@ public:
 	virtual ~Packet();
 
 	/*!
-		Assingment Operator is deleted
+		Assignment Operator is deleted
 	*/
 	Packet& operator=(const Packet&) = delete;
 
 	/*!
-		Each packet has a timestamp which relects its creation time
+		Each packet has a timestamp which reflects its creation time
 	*/
 	const Poco::Timestamp& getTimestamp() const;
 
@@ -176,7 +176,7 @@ public:
 
 	/*!
 		converts an abstract packet type into a Packet type
-		if validate is true an exeption is thrown if the conversion fails
+		if validate is true an exception is thrown if the conversion fails
 	*/
 	template <class T>
 	static std::shared_ptr<T> convert(Packet::Ptr packet, bool validate)
@@ -209,7 +209,7 @@ protected:
 		Called on call decode
 		It updates the content of the propertyCollection copy
 		but do not propertyCollection_.
-		Override it in the drived class when has buffer specific properties.
+		Override it in the derived class when has buffer specific properties.
 	*/
 	virtual void decodeImpl(PropertyCollection& propertyCollection) const;
 

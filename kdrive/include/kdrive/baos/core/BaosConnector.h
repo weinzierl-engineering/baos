@@ -71,7 +71,7 @@ protected:
 		Creates the BaosConnector
 		The version should be one of the versions from
 		the API ProtocolVersions
-		This class is never directly instatiated, but is
+		This class is never directly instanced, but is
 		derived from by one of the StreamConnector protocol classes
 	*/
 	BaosConnector(unsigned char version);

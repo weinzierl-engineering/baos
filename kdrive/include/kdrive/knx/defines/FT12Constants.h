@@ -90,10 +90,10 @@ struct kdriveKnx_API FT12Constants
 	*/
 	enum FunctionCodes
 	{
-	    SendReset = 0x00, /*!< Reset of link. (Send with fixed length frame.) */
-	    SendUdat = 0x03, /*!< Send unser data. (Send with variable length frame.) */
-	    ReqStatus = 0x09, /*!< Request status of link. (Send with fixed length frame.) */
-	    RespondStatus = 0x0B /*!< Response status of link. (Send with fixed length frame.) */
+		SendReset = 0x00, /*!< Reset of link. (Send with fixed length frame.) */
+		SendUdat = 0x03, /*!< Send user data. (Send with variable length frame.) */
+		ReqStatus = 0x09, /*!< Request status of link. (Send with fixed length frame.) */
+		RespondStatus = 0x0B /*!< Response status of link. (Send with fixed length frame.) */
 	};
 
 	/*!

@@ -44,7 +44,7 @@ BaosTimers::Timers BaosTimers::getTimers()
 {
 	GetTimer getTimer(connector_);
 
-	// we set a high timer count as we hardcode the start id and count
+	// we set a high timer count as we hard-coded the start id and count
 	// this should ensure we always return all timers, unless of course
 	// there are more than 100 timers, in which case you should use
 	// GetTimer directly

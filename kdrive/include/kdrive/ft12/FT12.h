@@ -110,7 +110,7 @@ public:
 		the time-out for end of exchange in case of SEND/CONFIRM or REQUEST/RESPOND
 		ca. 510 bits. Note the baud rate isn't really the gross bit rate and there
 		is a function to work it out, but for now, we'll simply assume the baud rate is
-		the bit rate. We calcuate the timeout in milliseconds by the following:
+		the bit rate. We calculate the timeout in milliseconds by the following:
 		timeout = 510 * 1000 / bitsPerSecond (timeout in milliseconds)
 		\param bitsPerSecond the expected number of bits per second, i.e. 19200 bps for 19200 baud
 	*/
@@ -134,7 +134,7 @@ private:
 
 	/*!
 		handling function when a ack character is received from the interface
-		we set the ack event to indicate an acknowledgement has been received
+		we set the ack event to indicate an acknowledgment has been received
 		any sending thread blocking on an ack will receive the event and continue
 	*/
 	void onAckRx();

@@ -91,7 +91,7 @@ Connector::Connector(const Connector& connector)
 /*
 	Do not call closeUnsafe here, because
 	isOpenImpl and closeImpl are virtual functions!
-	The drived classes should call this!
+	The derived classes should call this!
 */
 Connector::~Connector()
 {

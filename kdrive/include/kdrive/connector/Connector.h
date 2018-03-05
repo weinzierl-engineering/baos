@@ -385,7 +385,7 @@ public:
 
 	/*!
 		Routes a rx packet to the notification signal
-		If the signal notifcation thread is active
+		If the signal notification thread is active
 		the packet will be placed on the notification queue
 		and handled in the notification thread
 		Otherwise it will be ignored
@@ -394,7 +394,7 @@ public:
 
 	/*!
 		Routes a tx packet to the notification signal
-		If the signal notifcation thread is active
+		If the signal notification thread is active
 		the packet will be placed on the notification queue
 		and handled in the notification thread
 		Otherwise it will be ignored
@@ -403,7 +403,7 @@ public:
 
 	/*!
 		Routes an event to the notification signal
-		If the signal notifcation thread is active
+		If the signal notification thread is active
 		the event will be placed on the notification queue
 		and handled in the notification thread
 		Otherwise it will be ignored
@@ -423,9 +423,9 @@ public:
 
 	/*!
 		A property could have meta info writeable_mode.
-		It describe when the property is writeable.
+		It describe when the property is writable.
 		This is useful for GUI applications.
-		NOTE: When writeable_mode not exist then it always writeable,
+		NOTE: When writeable_mode not exist then it always writable,
 		but for read only is set.
 	*/
 	enum PropertyWriteableMode
@@ -486,7 +486,7 @@ protected:
 
 	/*!
 		Should be overridden by derived classes that need to handle resetProperties
-		The default removes all proeprties and readded following properties with default values:
+		The default removes all properties and readded following properties with default values:
 		- PropertyKeys::PortType: AccessPort::AccessPortTypeLabe
 		- LastErrorCode: AccessPortErrorCodes::None
 		- LastErrorMessage: ""

@@ -65,12 +65,12 @@ public:
 	/*!
 		Destructor
 		Destroys the Buffer
-		\note The holded buffer will not destroyed.
+		\note The held buffer will not destroyed.
 	*/
 	virtual ~Buffer();
 
 	/*!
-		Assingment Operator is deleted
+		Assignment Operator is deleted
 	*/
 	Buffer& operator=(const Buffer&) = delete;
 

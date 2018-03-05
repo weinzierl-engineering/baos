@@ -45,9 +45,9 @@ namespace
 
 enum Defaults
 {
-    ReceiveTimeout_us = 150000, /*!< 150ms in microsecond */
-    SendHeartbeatTimeout_ms = 60000, /*!< 60s in millisecounds */
-    SendHeartbeatTimeout_us = SendHeartbeatTimeout_ms * 1000 /*!< 60s in microsecond */
+	ReceiveTimeout_us = 150000, /*!< 150ms in microsecond */
+	SendHeartbeatTimeout_ms = 60000, /*!< 60s in milliseconds */
+	SendHeartbeatTimeout_us = SendHeartbeatTimeout_ms * 1000 /*!< 60s in microsecond */
 };
 
 void initProperties(kdrive::utility::PropertyCollection& collection)
@@ -365,7 +365,7 @@ void StreamConnector::onHeartbeatTimer(Poco::Timer& timer)
 	}
 	catch (...)
 	{
-		poco_error(LOGGER(), "Unhandeld error in onHeartbeatTimer");
+		poco_error(LOGGER(), "Unhandled error in onHeartbeatTimer");
 		routeEvent(ConnectorEvents::Terminated);
 		timer.restart(0);
 	}

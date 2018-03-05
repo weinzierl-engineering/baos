@@ -328,7 +328,7 @@ std::size_t Formatter::readFromBuffer(const Buffer& buffer)
 		BOOST_ASSERT(formatter && "Invalid Formatter");
 
 		// Note: Here we need a const_cast, because the member buffer in the
-		// class Buffer is not const. It is not possibile to initialize non-const member (buffer_)
+		// class Buffer is not const. It is not possible to initialize non-const member (buffer_)
 		// with a const variable (bufferPtr) although the object (Buffer) is const.
 		// const_castis is normally dangerous but here it is ok:
 		// We know that buffer will not change in the class Buffer because

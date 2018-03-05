@@ -43,13 +43,13 @@ public:
 		Filters are used to indicate which datapoint values to return
 		as part of the GetDatapointValue request.
 		Filters are only supported from version 2.0 of the BAOS protocol
-		For 1.2 the request is equivalent to GetAll, irrespecive of filter value
+		For 1.2 the request is equivalent to GetAll, irrespective of filter value
 	*/
 	enum Filters
 	{
-	    GetAll = 0x00,	/*!< Get All Datpoint Values */
-	    GetValid,		/*!< Get All Valid Datpoint Values */
-	    GetUpdated		/*!< Get All Updated Datpoint Values */
+		GetAll = 0x00,	/*!< Get All Datapoint Values */
+		GetValid,		/*!< Get All Valid Datapoint Values */
+		GetUpdated		/*!< Get All Updated Datapoint Values */
 	};
 
 	/*!

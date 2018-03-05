@@ -18,7 +18,7 @@ using Poco::Exception;
 
 
 /*!
-	This functon do nothing, because a byte haven't flip.
+	This function do nothing, because a byte haven't flip.
 */
 template <>
 void kdrive::knx::flipData<unsigned char>(ByteStreamUnion<unsigned char>& u)
@@ -27,7 +27,7 @@ void kdrive::knx::flipData<unsigned char>(ByteStreamUnion<unsigned char>& u)
 }
 
 /*!
-	This functon do nothing, because a char haven't flip.
+	This function do nothing, because a char haven't flip.
 */
 template <>
 void kdrive::knx::flipData<char>(ByteStreamUnion<char>& u)

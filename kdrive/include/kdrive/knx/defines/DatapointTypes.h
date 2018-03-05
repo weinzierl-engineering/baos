@@ -44,13 +44,13 @@ struct kdriveKnx_API DatapointTypes
 	    DatapointSubType_1_16, /*!< Id="DPST-1-16" Number="16" Name="DPT_Ack" Text="acknowledge" */
 	    DatapointSubType_1_17, /*!< Id="DPST-1-17" Number="17" Name="DPT_Trigger" Text="trigger" */
 	    DatapointSubType_1_18, /*!< Id="DPST-1-18" Number="18" Name="DPT_Occupancy" Text="occupancy" */
-	    DatapointSubType_1_19, /*!< Id="DPST-1-19" Number="19" Name="DPT_Window_Door" Text="window/door" */
-	    DatapointSubType_1_21, /*!< Id="DPST-1-21" Number="21" Name="DPT_LogicalFunction" Text="logical function" */
-	    DatapointSubType_1_22, /*!< Id="DPST-1-22" Number="22" Name="DPT_Scene_AB" Text="scene" */
-	    DatapointSubType_1_23, /*!< Id="DPST-1-23" Number="23" Name="DPT_ShutterBlinds_Mode" Text="schutter/blinds mode" */
-	    DatapointSubType_1_100, /*!< Id="DPST-1-100" Number="100" Name="DPT_Heat_Cool" Text="cooling/heating" */
+		DatapointSubType_1_19, /*!< Id="DPST-1-19" Number="19" Name="DPT_Window_Door" Text="window/door" */
+		DatapointSubType_1_21, /*!< Id="DPST-1-21" Number="21" Name="DPT_LogicalFunction" Text="logical function" */
+		DatapointSubType_1_22, /*!< Id="DPST-1-22" Number="22" Name="DPT_Scene_AB" Text="scene" */
+		DatapointSubType_1_23, /*!< Id="DPST-1-23" Number="23" Name="DPT_ShutterBlinds_Mode" Text="shutter/blinds mode" */
+		DatapointSubType_1_100, /*!< Id="DPST-1-100" Number="100" Name="DPT_Heat_Cool" Text="cooling/heating" */
 
-	    DatapointType_2, /*!< Id="DPT-2" Number="2" Name="2.xxx" Text="1-bit controlled" SizeInBit="2" */
+		DatapointType_2, /*!< Id="DPT-2" Number="2" Name="2.xxx" Text="1-bit controlled" SizeInBit="2" */
 	    DatapointSubType_2_1, /*!< Id="DPST-2-1" Number="1" Name="DPT_Switch_Control" Text="switch control" */
 	    DatapointSubType_2_2, /*!< Id="DPST-2-2" Number="2" Name="DPT_Bool_Control" Text="boolean control" */
 	    DatapointSubType_2_3, /*!< Id="DPST-2-3" Number="3" Name="DPT_Enable_Control" Text="enable control" */
@@ -120,13 +120,13 @@ struct kdriveKnx_API DatapointTypes
 	    DatapointSubType_9_8, /*!< Id="DPST-9-8" Number="8" Name="DPT_Value_AirQuality" Text="parts/million (ppm)" */
 	    DatapointSubType_9_9, /*!< Id="DPST-9-9" Number="9" Name="DPT_Value_AirFlow" Text="air flow (m/h)" */
 	    DatapointSubType_9_10, /*!< Id="DPST-9-10" Number="10" Name="DPT_Value_Time1" Text="time (s)" */
-	    DatapointSubType_9_11, /*!< Id="DPST-9-11" Number="11" Name="DPT_Value_Time2" Text="time (ms)" */
-	    DatapointSubType_9_20, /*!< Id="DPST-9-20" Number="20" Name="DPT_Value_Volt" Text="voltage (mV)" */
-	    DatapointSubType_9_21, /*!< Id="DPST-9-21" Number="21" Name="DPT_Value_Curr" Text="current (mA)" */
-	    DatapointSubType_9_22, /*!< Id="DPST-9-22" Number="22" Name="DPT_PowerDensity" Text="power denisity (W/m)" */
-	    DatapointSubType_9_23, /*!< Id="DPST-9-23" Number="23" Name="DPT_KelvinPerPercent" Text="kelvin/percent (K/%)" */
-	    DatapointSubType_9_24, /*!< Id="DPST-9-24" Number="24" Name="DPT_Power" Text="power (kW)" */
-	    DatapointSubType_9_25, /*!< Id="DPST-9-25" Number="25" Name="DPT_Value_Volume_Flow" Text="volume flow (l/h)" */
+		DatapointSubType_9_11, /*!< Id="DPST-9-11" Number="11" Name="DPT_Value_Time2" Text="time (ms)" */
+		DatapointSubType_9_20, /*!< Id="DPST-9-20" Number="20" Name="DPT_Value_Volt" Text="voltage (mV)" */
+		DatapointSubType_9_21, /*!< Id="DPST-9-21" Number="21" Name="DPT_Value_Curr" Text="current (mA)" */
+		DatapointSubType_9_22, /*!< Id="DPST-9-22" Number="22" Name="DPT_PowerDensity" Text="power density (W/m)" */
+		DatapointSubType_9_23, /*!< Id="DPST-9-23" Number="23" Name="DPT_KelvinPerPercent" Text="kelvin/percent (K/%)" */
+		DatapointSubType_9_24, /*!< Id="DPST-9-24" Number="24" Name="DPT_Power" Text="power (kW)" */
+		DatapointSubType_9_25, /*!< Id="DPST-9-25" Number="25" Name="DPT_Value_Volume_Flow" Text="volume flow (l/h)" */
 	    DatapointSubType_9_26, /*!< Id="DPST-9-26" Number="26" Name="DPT_Rain_Amount" Text="rain amount (l/m)" */
 	    DatapointSubType_9_27, /*!< Id="DPST-9-27" Number="27" Name="DPT_Value_Temp_F" Text="temperature (F)" */
 	    DatapointSubType_9_28, /*!< Id="DPST-9-28" Number="28" Name="DPT_Value_Wsp_kmh" Text="wind speed (km/h)" */
@@ -141,15 +141,15 @@ struct kdriveKnx_API DatapointTypes
 	    DatapointSubType_12_1, /*!< Id="DPST-12-1" Number="1" Name="DPT_Value_4_Ucount" Text="counter pulses (unsigned)" */
 
 	    DatapointType_13, /*!< Id="DPT-13" Number="13" Name="13.xxx" Text="4-byte signed value" SizeInBit="32" */
-	    DatapointSubType_13_1, /*!< Id="DPST-13-1" Number="1" Name="DPT_Value_4_Count" Text="counter pulses (signed)" */
-	    DatapointSubType_13_2, /*!< Id="DPST-13-2" Number="2" Name="DPT_FlowRate_m3/h" Text="flow rate (m/h)" */
-	    DatapointSubType_13_10, /*!< Id="DPST-13-10" Number="10" Name="DPT_ActiveEnergy" Text="active energy (Wh)" */
-	    DatapointSubType_13_11, /*!< Id="DPST-13-11" Number="11" Name="DPT_ApparantEnergy" Text="apparant energy (VAh)" */
-	    DatapointSubType_13_12, /*!< Id="DPST-13-12" Number="12" Name="DPT_ReactiveEnergy" Text="reactive energy (VARh)" */
-	    DatapointSubType_13_13, /*!< Id="DPST-13-13" Number="13" Name="DPT_ActiveEnergy_kWh" Text="active energy (kWh)" */
-	    DatapointSubType_13_14, /*!< Id="DPST-13-14" Number="14" Name="DPT_ApparantEnergy_kVAh" Text="apparant energy (kVAh)" */
-	    DatapointSubType_13_15, /*!< Id="DPST-13-15" Number="15" Name="DPT_ReactiveEnergy_kVARh" Text="reactive energy (kVARh)" */
-	    DatapointSubType_13_100, /*!< Id="DPST-13-100" Number="100" Name="DPT_LongDeltaTimeSec" Text="time lag (s)" */
+		DatapointSubType_13_1, /*!< Id="DPST-13-1" Number="1" Name="DPT_Value_4_Count" Text="counter pulses (signed)" */
+		DatapointSubType_13_2, /*!< Id="DPST-13-2" Number="2" Name="DPT_FlowRate_m3/h" Text="flow rate (m/h)" */
+		DatapointSubType_13_10, /*!< Id="DPST-13-10" Number="10" Name="DPT_ActiveEnergy" Text="active energy (Wh)" */
+		DatapointSubType_13_11, /*!< Id="DPST-13-11" Number="11" Name="DPT_ApparantEnergy" Text="apparent energy (VAh)" */
+		DatapointSubType_13_12, /*!< Id="DPST-13-12" Number="12" Name="DPT_ReactiveEnergy" Text="reactive energy (VARh)" */
+		DatapointSubType_13_13, /*!< Id="DPST-13-13" Number="13" Name="DPT_ActiveEnergy_kWh" Text="active energy (kWh)" */
+		DatapointSubType_13_14, /*!< Id="DPST-13-14" Number="14" Name="DPT_ApparantEnergy_kVAh" Text="apparent energy (kVAh)" */
+		DatapointSubType_13_15, /*!< Id="DPST-13-15" Number="15" Name="DPT_ReactiveEnergy_kVARh" Text="reactive energy (kVARh)" */
+		DatapointSubType_13_100, /*!< Id="DPST-13-100" Number="100" Name="DPT_LongDeltaTimeSec" Text="time lag (s)" */
 
 	    DatapointType_14, /*!< Id="DPT-14" Number="14" Name="14.xxx" Text="4-byte float value" SizeInBit="32" */
 	    DatapointSubType_14_0, /*!< Id="DPST-14-0" Number="0" Name="DPT_Value_Acceleration" Text="acceleration (m/s)" */
@@ -278,25 +278,25 @@ struct kdriveKnx_API DatapointTypes
 	    DatapointSubType_20_111, /*!< Id="DPST-20-111" Number="111" Name="DPT_FanMode" Text="fan mode" */
 	    DatapointSubType_20_112, /*!< Id="DPST-20-112" Number="112" Name="DPT_MasterSlaveMode" Text="master/slave mode" */
 	    DatapointSubType_20_113, /*!< Id="DPST-20-113" Number="113" Name="DPT_StatusRoomSetp" Text="status room setpoint" */
-	    DatapointSubType_20_114, /*!< Id="DPST-20-114" Number="114" Name="DPT_Metering_DeviceType" Text="metering device type" */
-	    DatapointSubType_20_120, /*!< Id="DPST-20-120" Number="120" Name="DPT_ADAType" Text="ADA type" */
-	    DatapointSubType_20_121, /*!< Id="DPST-20-121" Number="121" Name="DPT_BackupMode" Text="backup mode" */
-	    DatapointSubType_20_122, /*!< Id="DPST-20-122" Number="122" Name="DPT_StartSynchronization" Text="start syncronization type" */
-	    DatapointSubType_20_600, /*!< Id="DPST-20-600" Number="600" Name="DPT_Behaviour_Lock_Unlock" Text="behavior lock/unlock" */
-	    DatapointSubType_20_601, /*!< Id="DPST-20-601" Number="601" Name="DPT_Behaviour_Bus_Power_Up_Down" Text="behavior bus power up/down" */
-	    DatapointSubType_20_602, /*!< Id="DPST-20-602" Number="602" Name="DPT_DALI_Fade_Time" Text="dali fade time" */
+		DatapointSubType_20_114, /*!< Id="DPST-20-114" Number="114" Name="DPT_Metering_DeviceType" Text="metering device type" */
+		DatapointSubType_20_120, /*!< Id="DPST-20-120" Number="120" Name="DPT_ADAType" Text="ADA type" */
+		DatapointSubType_20_121, /*!< Id="DPST-20-121" Number="121" Name="DPT_BackupMode" Text="backup mode" */
+		DatapointSubType_20_122, /*!< Id="DPST-20-122" Number="122" Name="DPT_StartSynchronization" Text="start synchronization type" */
+		DatapointSubType_20_600, /*!< Id="DPST-20-600" Number="600" Name="DPT_Behaviour_Lock_Unlock" Text="behavior lock/unlock" */
+		DatapointSubType_20_601, /*!< Id="DPST-20-601" Number="601" Name="DPT_Behaviour_Bus_Power_Up_Down" Text="behavior bus power up/down" */
+		DatapointSubType_20_602, /*!< Id="DPST-20-602" Number="602" Name="DPT_DALI_Fade_Time" Text="dali fade time" */
 	    DatapointSubType_20_603, /*!< Id="DPST-20-603" Number="603" Name="DPT_BlinkingMode" Text="blink mode" */
 	    DatapointSubType_20_604, /*!< Id="DPST-20-604" Number="604" Name="DPT_LightControlMode" Text="light control mode" */
 	    DatapointSubType_20_605, /*!< Id="DPST-20-605" Number="605" Name="DPT_SwitchPBModel" Text="PB switch mode" */
 	    DatapointSubType_20_606, /*!< Id="DPST-20-606" Number="606" Name="DPT_PBAction" Text="PB action mode" */
 	    DatapointSubType_20_607, /*!< Id="DPST-20-607" Number="607" Name="DPT_DimmPBModel" Text="PB dimm mode" */
-	    DatapointSubType_20_608, /*!< Id="DPST-20-608" Number="608" Name="DPT_SwitchOnMode" Text="switch on mode" */
-	    DatapointSubType_20_609, /*!< Id="DPST-20-609" Number="609" Name="DPT_LoadTypeSet" Text="load type" */
-	    DatapointSubType_20_610, /*!< Id="DPST-20-610" Number="610" Name="DPT_LoadTypeDetected" Text="load type detection" */
-	    DatapointSubType_20_801, /*!< Id="DPST-20-801" Number="801" Name="DPT_SABExcept-Behaviour" Text="SAB except behavior" */
-	    DatapointSubType_20_802, /*!< Id="DPST-20-802" Number="802" Name="DPT_SABBehaviour_Lock_Unlock" Text="SAB behavior on lock/unlock" */
-	    DatapointSubType_20_803, /*!< Id="DPST-20-803" Number="803" Name="DPT_SSSBMode" Text="SSSB mode" */
-	    DatapointSubType_20_804, /*!< Id="DPST-20-804" Number="804" Name="DPT_BlindsControlMode" Text="blinds control mode" */
+		DatapointSubType_20_608, /*!< Id="DPST-20-608" Number="608" Name="DPT_SwitchOnMode" Text="switch on mode" */
+		DatapointSubType_20_609, /*!< Id="DPST-20-609" Number="609" Name="DPT_LoadTypeSet" Text="load type" */
+		DatapointSubType_20_610, /*!< Id="DPST-20-610" Number="610" Name="DPT_LoadTypeDetected" Text="load type detection" */
+		DatapointSubType_20_801, /*!< Id="DPST-20-801" Number="801" Name="DPT_SABExcept-Behavior" Text="SAB except behavior" */
+		DatapointSubType_20_802, /*!< Id="DPST-20-802" Number="802" Name="DPT_SABBehaviour_Lock_Unlock" Text="SAB behavior on lock/unlock" */
+		DatapointSubType_20_803, /*!< Id="DPST-20-803" Number="803" Name="DPT_SSSBMode" Text="SSSB mode" */
+		DatapointSubType_20_804, /*!< Id="DPST-20-804" Number="804" Name="DPT_BlindsControlMode" Text="blinds control mode" */
 	    DatapointSubType_20_1000, /*!< Id="DPST-20-1000" Number="1000" Name="DPT_CommMode" Text="communication mode" */
 	    DatapointSubType_20_1001, /*!< Id="DPST-20-1001" Number="1001" Name="DPT_AddInfoTypes" Text="additional information type" */
 	    DatapointSubType_20_1002, /*!< Id="DPST-20-1002" Number="1002" Name="DPT_RF_ModeSelect" Text="RF mode selection" */
@@ -338,12 +338,12 @@ struct kdriveKnx_API DatapointTypes
 	    DatapointType_27, /*!< Id="DPT-27" Number="27" Name="27.xxx" Text="32-bit set" SizeInBit="32" */
 	    DatapointSubType_27_1, /*!< Id="DPST-27-1" Number="1" Name="DPT_CombinedInfoOnOff" Text="bit-combined info on/off" */
 
-	    DatapointType_29, /*!< Id="DPT-29" Number="29" Name="29.xxx" Text="electrical energy" SizeInBit="64" */
-	    DatapointSubType_29_10, /*!< Id="DPST-29-10" Number="10" Name="DPT_ActiveEnergy_V64" Text="active energy (Wh)" */
-	    DatapointSubType_29_11, /*!< Id="DPST-29-11" Number="11" Name="DPT_ApparantEnergy_V64" Text="apparant energy (VAh)" */
-	    DatapointSubType_29_12, /*!< Id="DPST-29-12" Number="12" Name="DPT_ReactiveEnergy_V64" Text="reactive energy (VARh)" */
+		DatapointType_29, /*!< Id="DPT-29" Number="29" Name="29.xxx" Text="electrical energy" SizeInBit="64" */
+		DatapointSubType_29_10, /*!< Id="DPST-29-10" Number="10" Name="DPT_ActiveEnergy_V64" Text="active energy (Wh)" */
+		DatapointSubType_29_11, /*!< Id="DPST-29-11" Number="11" Name="DPT_ApparantEnergy_V64" Text="apparent energy (VAh)" */
+		DatapointSubType_29_12, /*!< Id="DPST-29-12" Number="12" Name="DPT_ReactiveEnergy_V64" Text="reactive energy (VARh)" */
 
-	    DatapointType_30, /*!< Id="DPT-30" Number="30" Name="30.xxx" Text="24 times channel activation" SizeInBit="24" */
+		DatapointType_30, /*!< Id="DPT-30" Number="30" Name="30.xxx" Text="24 times channel activation" SizeInBit="24" */
 	    DatapointSubType_30_1010, /*!< Id="DPST-30-1010" Number="1010" Name="DPT_Channel_Activation_24" Text="activation state 0..23" */
 
 	    DatapointType_206, /*!< Id="DPT-206" Number="206" Name="206.xxx" Text="16-bit unsigned value & 8-bit enum" SizeInBit="24" */

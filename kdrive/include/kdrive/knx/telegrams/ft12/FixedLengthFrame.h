@@ -47,7 +47,7 @@ namespace ft12
 
 	It is possible to configure the FixedLengthFrame formatter to
 	auto-set the checksum whenever the control field is changed.
-	This is the default behaviour. To disable this, construct the
+	This is the default behavior. To disable this, construct the
 	FixedLengthFrame with autoSetChecksum to false.
 
 	A FixedLengthFrame is valid when:

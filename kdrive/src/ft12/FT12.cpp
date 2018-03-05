@@ -181,7 +181,7 @@ void FT12::onFixedFrameRx(const unsigned char* buffer, std::size_t bufferLength)
 	we get the control field and check the fcb valid and fcb.
 	Note, we have to toggle the fcb, but we don't do this till we are
 	sure the fcb is correct, which is why we check for the opposite of fcb
-	i.e. we toggle the valud in the compare with controlField.getFrameCountBit()
+	i.e. we toggle the value in the compare with controlField.getFrameCountBit()
 	and if this matches we toggle the actual value
 	If the user callback function is set, we call it with the data buffer
 */

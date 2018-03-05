@@ -55,7 +55,7 @@ struct kdriveKnx_API AbstractFormatter
 
 	/*!
 		Writes to the buffer from local storage
-		\exception(Poco::Exception) If buffer is too small.
+		\exception Poco::Exception If buffer is too small.
 	*/
 	std::size_t write(Buffer& buffer);
 

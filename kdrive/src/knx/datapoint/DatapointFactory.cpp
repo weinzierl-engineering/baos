@@ -67,7 +67,7 @@ Datapoint DatapointFactory::create(int datapointType)
 		case DatapointTypes::DatapointSubType_1_22:
 			return Datapoint("DPST-1-22", "22", "DPT_Scene_AB", "scene", "1");
 		case DatapointTypes::DatapointSubType_1_23:
-			return Datapoint("DPST-1-23", "23", "DPT_ShutterBlinds_Mode", "schutter/blinds mode", "1");
+			return Datapoint("DPST-1-23", "23", "DPT_ShutterBlinds_Mode", "shutter/blinds mode", "1");
 		case DatapointTypes::DatapointSubType_1_100:
 			return Datapoint("DPST-1-100", "100", "DPT_Heat_Cool", "cooling/heating", "1");
 
@@ -211,7 +211,7 @@ Datapoint DatapointFactory::create(int datapointType)
 		case DatapointTypes::DatapointSubType_9_21:
 			return Datapoint("DPST-9-21", "21", "DPT_Value_Curr", "current (mA)", "16");
 		case DatapointTypes::DatapointSubType_9_22:
-			return Datapoint("DPST-9-22", "22", "DPT_PowerDensity", "power denisity (W/m)", "16");
+			return Datapoint("DPST-9-22", "22", "DPT_PowerDensity", "power density (W/m)", "16");
 		case DatapointTypes::DatapointSubType_9_23:
 			return Datapoint("DPST-9-23", "23", "DPT_KelvinPerPercent", "kelvin/percent (K/%)", "16");
 		case DatapointTypes::DatapointSubType_9_24:
@@ -249,13 +249,13 @@ Datapoint DatapointFactory::create(int datapointType)
 		case DatapointTypes::DatapointSubType_13_10:
 			return Datapoint("DPST-13-10", "10", "DPT_ActiveEnergy", "active energy (Wh)", "32");
 		case DatapointTypes::DatapointSubType_13_11:
-			return Datapoint("DPST-13-11", "11", "DPT_ApparantEnergy", "apparant energy (VAh)", "32");
+			return Datapoint("DPST-13-11", "11", "DPT_ApparantEnergy", "apparent energy (VAh)", "32");
 		case DatapointTypes::DatapointSubType_13_12:
 			return Datapoint("DPST-13-12", "12", "DPT_ReactiveEnergy", "reactive energy (VARh)", "32");
 		case DatapointTypes::DatapointSubType_13_13:
 			return Datapoint("DPST-13-13", "13", "DPT_ActiveEnergy_kWh", "active energy (kWh)", "32");
 		case DatapointTypes::DatapointSubType_13_14:
-			return Datapoint("DPST-13-14", "14", "DPT_ApparantEnergy_kVAh", "apparant energy (kVAh)", "32");
+			return Datapoint("DPST-13-14", "14", "DPT_ApparantEnergy_kVAh", "apparent energy (kVAh)", "32");
 		case DatapointTypes::DatapointSubType_13_15:
 			return Datapoint("DPST-13-15", "15", "DPT_ReactiveEnergy_kVARh", "reactive energy (kVARh)", "32");
 		case DatapointTypes::DatapointSubType_13_100:
@@ -516,7 +516,7 @@ Datapoint DatapointFactory::create(int datapointType)
 		case DatapointTypes::DatapointSubType_20_121:
 			return Datapoint("DPST-20-121", "121", "DPT_BackupMode", "backup mode", "8");
 		case DatapointTypes::DatapointSubType_20_122:
-			return Datapoint("DPST-20-122", "122", "DPT_StartSynchronization", "start syncronization type", "8");
+			return Datapoint("DPST-20-122", "122", "DPT_StartSynchronization", "start synchronization type", "8");
 		case DatapointTypes::DatapointSubType_20_600:
 			return Datapoint("DPST-20-600", "600", "DPT_Behaviour_Lock_Unlock", "behavior lock/unlock", "8");
 		case DatapointTypes::DatapointSubType_20_601:
@@ -540,7 +540,7 @@ Datapoint DatapointFactory::create(int datapointType)
 		case DatapointTypes::DatapointSubType_20_610:
 			return Datapoint("DPST-20-610", "610", "DPT_LoadTypeDetected", "load type detection", "8");
 		case DatapointTypes::DatapointSubType_20_801:
-			return Datapoint("DPST-20-801", "801", "DPT_SABExcept-Behaviour", "SAB except behavior", "8");
+			return Datapoint("DPST-20-801", "801", "DPT_SABExcept-Behavior", "SAB except behavior", "8");
 		case DatapointTypes::DatapointSubType_20_802:
 			return Datapoint("DPST-20-802", "802", "DPT_SABBehaviour_Lock_Unlock", "SAB behavior on lock/unlock", "8");
 		case DatapointTypes::DatapointSubType_20_803:
@@ -627,7 +627,7 @@ Datapoint DatapointFactory::create(int datapointType)
 		case DatapointTypes::DatapointSubType_29_10:
 			return Datapoint("DPST-29-10", "10", "DPT_ActiveEnergy_V64", "active energy (Wh)", "64");
 		case DatapointTypes::DatapointSubType_29_11:
-			return Datapoint("DPST-29-11", "11", "DPT_ApparantEnergy_V64", "apparant energy (VAh)", "64");
+			return Datapoint("DPST-29-11", "11", "DPT_ApparantEnergy_V64", "apparent energy (VAh)", "64");
 		case DatapointTypes::DatapointSubType_29_12:
 			return Datapoint("DPST-29-12", "12", "DPT_ReactiveEnergy_V64", "reactive energy (VARh)", "64");
 

@@ -259,7 +259,7 @@ protected:
 
 	/*!
 		Gets the property value
-		If the key is not found returns the deafult value
+		If the key is not found returns the default value
 		Unsafe in that it doesn't use the mutex
 	*/
 	virtual const Poco::Dynamic::Var& getPropertyUnsafe(const std::string& key,

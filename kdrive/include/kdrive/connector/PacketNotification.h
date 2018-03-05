@@ -31,7 +31,7 @@ namespace connector
 	either a packet or event notification
 
 	We sequeze both notification types into a single notification class
-	as this mechansim is not scalable. i.e. we do not intend on adding
+	as this mechanism is not scalable. i.e. we do not intend on adding
 	new types of notifications in the future for the connector
 */
 class kdriveConnector_API PacketNotification

@@ -28,7 +28,7 @@ struct kdriveConnector_API ConnectorErrorCodes
 {
 	/*
 		Removing and reordering is not allowed.
-		Add new codes on the and and mark nor more used codes with deprecated.
+		Add new codes on the and mark nor more used codes with deprecated.
 	*/
 	enum
 	{

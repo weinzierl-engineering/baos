@@ -25,7 +25,7 @@ namespace ft12
 
 /*!
 	\class AckFrame
-	\brief Acknowledgement Frame format (single character)
+	\brief Acknowledgment Frame format (single character)
 	One single character is specified: Ack E5h
 	The single character shall be used for a positive acknowledgment.
 */

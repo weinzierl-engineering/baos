@@ -104,7 +104,9 @@ void flipBytes(ByteStreamUnion<T>& u)
 /*!
 	fromByteStream : converts a byte sequence into a given type
 	Auto-handles the conversion from little endian to big endian
-	@param index the index where the conversion should start by aware that the index is used as offset = index*n and starts with 0
+	\param buffer Pointer to input buffer
+	\param bufferLength The buffer length
+	\param index the index where the conversion should start by aware that the index is used as offset = index*n and starts with 0
 */
 template<typename T, int n>
 T fromByteStream(const unsigned char* buffer, std::size_t bufferLength, std::size_t index = 0)
@@ -140,9 +142,12 @@ T fromByteStream(const std::vector<unsigned char>& buffer, std::size_t index = 0
 }
 
 /*!
-converts a given bytestream in a vector with type T elements
-@param index the index where the conversion should start by aware that the index is used as offset = index*n and starts with 0
-@throw Poco::Exception("Buffer Overrun") , std::bad_alloc
+	converts a given bytestream in a vector with type T elements
+	\param buffer Pointer to input buffer
+	\param bufferLength The buffer length
+	\param result The result
+	\param index the index where the conversion should start by aware that the index is used as offset = index*n and starts with 0
+	\throw Poco::Exception("Buffer Overrun") , std::bad_alloc
 */
 template<typename T, int n>
 void fromByteStreamtoVector(const unsigned char* buffer, std::size_t bufferLength,
@@ -161,9 +166,11 @@ void fromByteStreamtoVector(const unsigned char* buffer, std::size_t bufferLengt
 }
 
 /*!
-converts a given bytestream in a vector with type T elements
-@param index the index where the conversion should start by aware that the index is used as offset = index*n and starts with 0
-@throw Poco::Exception("Buffer Overrun") , std::bad_alloc
+	converts a given bytestream in a vector with type T elements
+	\param buffer The input buffer
+	\param result The result
+	\param index the index where the conversion should start by aware that the index is used as offset = index*n and starts with 0
+	\throw Poco::Exception("Buffer Overrun") , std::bad_alloc
 */
 template<typename T, int n>
 void fromByteStreamtoVector(const std::vector<unsigned char>& buffer,
@@ -242,10 +249,10 @@ std::vector<unsigned char> toByteStream(T t)
 }
 
 /*!
- arrayToByteStream : converts a given vector consisting of type T values into a byte stream
- the index allows to start converting from a given point, in c tradition the index starts with 0
- Auto-handles the conversion from little endian to big endian
- @throw Poco::Exception("Buffer Overrun") , std::bad_alloc
+ 	arrayToByteStream : converts a given vector consisting of type T values into a byte stream
+ 	the index allows to start converting from a given point, in c tradition the index starts with 0
+ 	Auto-handles the conversion from little endian to big endian
+ 	\throw Poco::Exception("Buffer Overrun") , std::bad_alloc
  */
 template<typename T, int n>
 void arrayToByteStream(T* t, std::size_t bufferLength,
@@ -267,10 +274,10 @@ void arrayToByteStream(T* t, std::size_t bufferLength,
 }
 
 /*!
- vectorToByteStream : converts a given vector consisting of type T values into a byte stream
- the index allows to start converting from a given point, in c tradition the index starts with 0
- Auto-handles the conversion from little endian to big endian
- @throw Poco::Exception("Buffer Overrun") , std::bad_alloc
+ 	vectorToByteStream : converts a given vector consisting of type T values into a byte stream
+ 	the index allows to start converting from a given point, in c tradition the index starts with 0
+ 	Auto-handles the conversion from little endian to big endian
+ 	\throw Poco::Exception("Buffer Overrun") , std::bad_alloc
  */
 template<typename T, int n>
 void vectorToByteStream(std::vector<T>& t, std::vector<unsigned char>& result,

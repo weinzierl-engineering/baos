@@ -227,7 +227,7 @@ public:
 	~CallbackThreadManager();
 
 	/*!
-		Assingment Operator is deleted
+		Assignment Operator is deleted
 	*/
 	CallbackThreadManager& operator=(const CallbackThreadManager&) = delete;
 
@@ -285,7 +285,7 @@ public:
 	~ActiveFunction();
 
 	/*!
-		Assingment Operator is deleted
+		Assignment Operator is deleted
 	*/
 	ActiveFunction& operator=(const ActiveFunction&) = delete;
 

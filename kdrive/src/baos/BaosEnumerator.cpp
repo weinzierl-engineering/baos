@@ -46,7 +46,7 @@ using Poco::Net::IPAddress;
 CLASS_LOGGER("kdrive.baos.BaosEnumerator")
 
 /*********************************
-** Anonymnous namespace
+** Anonymous namespace
 **********************************/
 
 namespace
@@ -146,9 +146,9 @@ unsigned char BaosEnumerator::getVersion(const Device& device) const
 
 /*!
 	Scans an interface and enumerates all baos devices.
-	It sends a search request as outlined in the BAOS 1.2 protcol
+	It sends a search request as outlined in the BAOS 1.2 protocol
 	documentation and waits for the responses. There are lots of
-	magic numbers here and hardcoded offsets... See the spec
+	magic numbers here and hard-coded offsets... See the spec
 	for more information on what is happening here...
 
 	We implement a receive timeout, and keep receiving until this

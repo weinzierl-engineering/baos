@@ -133,7 +133,7 @@ void StreamConnector12::rxImpl()
 }
 
 /*!
-	No additioanl encapsulation is need
+	No additional encapsulation is need
 */
 std::size_t StreamConnector12::encapsulate(const Packet::Ptr packet, unsigned char* buffer, std::size_t bufferSize)
 {

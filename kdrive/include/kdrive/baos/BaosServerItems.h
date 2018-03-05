@@ -102,7 +102,7 @@ public:
 
 	/*!
 		Gets KNX serial number of device.
-		It is mapped to property PID_SERIAL_NUMBER in thie device object.
+		It is mapped to property PID_SERIAL_NUMBER in the device object.
 		Server item: serial number, id 8
 	*/
 	std::vector<unsigned char> getSerialNumber() const;
@@ -253,7 +253,7 @@ public:
 	bool isTunnellingEnabled() const;
 
 	/*!
-		Returns true if the BAOS Binay service is enabled, otherwise false
+		Returns true if the BAOS Binary service is enabled, otherwise false
 	*/
 	bool isBaosBinaryEnabled() const;
 
@@ -278,7 +278,7 @@ public:
 	bool isSearchRequestEnabled() const;
 
 	/*!
-		Returns true if the loaded application is a structed database, otherwise false
+		Returns true if the loaded application is a structured database, otherwise false
 	*/
 	bool isIsStructured() const;
 
@@ -348,7 +348,7 @@ public:
 	unsigned short getDownloadCounter() const;
 
 	/*!
-		Gets the IP assigment methode
+		Gets the IP assignment method
 	*/
 	unsigned char getIpAssignment() const;
 

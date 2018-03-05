@@ -130,7 +130,7 @@ bool KnxDpt_ConvSInt32ToKnxFl(int nInt, unsigned char* pnKnxFloat)
 	// Note:
 	//		If we shift nMantissa right, and nMantissa is odd we lost a bit!
 	//		For the last lost bit, we increase nMantissa, this is an
-	//		implizit binary rounding up of nMantissa.
+	//		implicit binary rounding up of nMantissa.
 	//		"(nMantissa + nLostBit)" in the while loop, make sure
 	//		that we have no overflow in nMantissa.
 	nLostBit  = 0;																// Set lost bit to 0

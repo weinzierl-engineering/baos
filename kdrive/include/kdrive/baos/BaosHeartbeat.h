@@ -50,7 +50,7 @@ public:
 
 	/*!
 		Destroys the BaosHeartbeat
-		Stops the hearbeat thread if it is still active
+		Stops the heartbeat thread if it is still active
 	*/
 	virtual ~BaosHeartbeat();
 
@@ -73,7 +73,7 @@ public:
 
 	/*!
 		Returns the last successful value of the server item
-		time since reset. This is called periodically as the hearbeat
+		time since reset. This is called periodically as the heartbeat
 	*/
 	unsigned long getTimeSinceReset() const;
 
@@ -107,7 +107,7 @@ private:
 /*!
 	\class ScopedBaosHeartbeat
 
-	Auto starts and stops the Hearbeat class using RAII.
+	Auto starts and stops the Heartbeat class using RAII.
 
 	\deprecated
 	This class exists only for backward compatibility.
@@ -125,7 +125,7 @@ public:
 	ScopedBaosHeartbeat(std::shared_ptr<BaosConnector> connector, unsigned int interval = 1000);
 
 	/*!
-		Destroys the scoped boas heartbeat. Stops the hearbeat thread.
+		Destroys the scoped boas heartbeat. Stops the heartbeat thread.
 	*/
 	virtual ~ScopedBaosHeartbeat();
 };

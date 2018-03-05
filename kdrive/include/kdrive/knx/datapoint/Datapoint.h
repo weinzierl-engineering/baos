@@ -100,7 +100,7 @@ class kdriveKnx_API Datapoint : public kdrive::utility::PropertyCollection
 {
 public:
 	/*!
-		Creates an empty uninitialised Datapoint
+		Creates an empty uninitialized Datapoint
 	*/
 	Datapoint();
 

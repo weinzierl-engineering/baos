@@ -99,7 +99,7 @@ public:
 	void sendBuffer(const unsigned char* buffer, std::size_t bufferSize);
 
 	/*!
-		Enables the auto-acknowledgement mechanism.
+		Enables the auto-acknowledgment mechanism.
 		If enabled the packetizer will send an ack as soon as it recognises
 		a fixed or variable length frame.
 	 */

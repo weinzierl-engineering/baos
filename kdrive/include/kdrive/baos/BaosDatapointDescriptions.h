@@ -132,7 +132,7 @@ public:
 	unsigned char getValueTypeSizeBytes() const;
 
 	/*!
-		Returns true if the value type is samller than 1 byte.
+		Returns true if the value type is smaller than 1 byte.
 		Otherwise returns false.
 		\see getValueType
 	*/

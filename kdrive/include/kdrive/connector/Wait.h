@@ -93,7 +93,7 @@ std::shared_ptr<T> waitPacketWithPolicy(WaitPolicy& waitPolicy, unsigned long ti
 *******************************/
 
 /*!
-	wait packet will block until a specific packet type <Packet> is received
+	wait packet will block until a specific packet type <b>Packet</b> is received
 	all received packets that are not of type Packet will be discarded
 */
 template <typename T>
@@ -113,7 +113,7 @@ std::shared_ptr<T> waitPacket(Connector& connector)
 *******************************/
 
 /*!
-	wait packet will wait for a specific packet type <Packet> for a specified time period
+	wait packet will wait for a specific packet type <b>Packet</b> for a specified time period
 	all received packets that are not of type Packet will be discarded
 	if the packet is not found within the specified time period an exception is thrown
 */

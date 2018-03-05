@@ -57,7 +57,7 @@ public:
 	~ScopedSemaphore();
 
 	/*!
-		Assingment Operator is deleted
+		Assignment Operator is deleted
 	*/
 	ScopedSemaphore& operator=(const ScopedSemaphore&) = delete;
 
@@ -95,7 +95,7 @@ public:
 	~ScopedSemaphoreWithTraces();
 
 	/*!
-		Assingment Operator is deleted
+		Assignment Operator is deleted
 	*/
 	ScopedSemaphoreWithTraces& operator=(const ScopedSemaphoreWithTraces&) = delete;
 

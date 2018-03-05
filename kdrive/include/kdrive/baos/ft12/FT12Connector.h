@@ -119,7 +119,7 @@ private:
 		Once the conversion is done (if required) we pack it into a FT1.2 variable length frame,
 		send it on the serial port and wait for an ack. The FT1.2 protocol
 		is handled by ft12_, we just give it the raw buffer.
-		note: we route the orginal packet (cEmi-Format) and not the converted format
+		note: we route the original packet (cEmi-Format) and not the converted format
 	*/
 	void txImpl(std::shared_ptr<connector::Packet> packet) override;
 
