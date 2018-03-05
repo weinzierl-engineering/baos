@@ -166,7 +166,6 @@ void BaosEnumerator::scanInterface(const NetworkInterface& networkInterface)
 	{
 		// initialize socket
 		MulticastSocket socket;
-		socket.setReceiveTimeout(Timespan(SearchResponseTimeout * 1000));
 		socket.bind(SocketAddress(networkInterface.address(), 0));
 		socket.setTimeToLive(DefaultMulticastTTL);
 
