@@ -364,9 +364,14 @@ public:
 	BaosDatapointDescription get(std::shared_ptr<BaosConnector> connector, unsigned short id);
 
 	/*!
-		empties the cache
+		empties the cache for all devices
 	*/
 	void clear();
+
+	/*!
+		empties the cache for a given connector
+	*/
+	void clear(const std::shared_ptr<BaosConnector> connector);
 
 	/*!
 		enable/disable the caching mechanism
@@ -384,8 +389,9 @@ private:
 	BaosDatapointDescription read(std::shared_ptr<BaosConnector> connector, unsigned short id);
 
 private:
-	typedef std::map<unsigned int, BaosDatapointDescription> Descriptions;
-	Descriptions descriptions_;
+	typedef std::map<unsigned int, BaosDatapointDescription> PerDeviceDescriptions; /*!< descriptions from one device*/
+	typedef std::map<unsigned int, PerDeviceDescriptions> WholeDescriptions; /*!< descriptions for all devices*/
+	WholeDescriptions descriptions_;
 	Poco::FastMutex mutex_;
 	bool enabled_;
 };

@@ -418,6 +418,12 @@ void DatapointDescriptionHolder::clear()
 	descriptions_.clear();
 }
 
+void DatapointDescriptionHolder::clear(const std::shared_ptr<BaosConnector> connector)
+{
+	ScopedLock<FastMutex> lock(mutex_);
+	descriptions_.erase(connector->getConnectorId());
+}
+
 void DatapointDescriptionHolder::enable(bool enabled)
 {
 	ScopedLock<FastMutex> lock(mutex_);
@@ -438,18 +444,26 @@ void DatapointDescriptionHolder::disable()
 
 BaosDatapointDescription DatapointDescriptionHolder::readFromMap(BaosConnector::Ptr connector, unsigned short id)
 {
-	BaosDatapointDescription baosDatapointDescription;
+	const unsigned int connectorId = connector->getConnectorId();
 
-	Descriptions::const_iterator iter = descriptions_.find(id);
-	if (iter != descriptions_.end())
+	// Search for descriptions for this device/connector
+	WholeDescriptions::const_iterator iterWhole = descriptions_.find(connectorId);
+	if (iterWhole != descriptions_.end())
 	{
-		baosDatapointDescription = iter->second;
+		const PerDeviceDescriptions& descriptions = iterWhole->second;
+
+		// Search description for given datapoint id
+		PerDeviceDescriptions::const_iterator iterDevice = descriptions.find(id);
+		if (iterDevice != descriptions.end())
+		{
+			return iterDevice->second;
+		}
 	}
-	else
-	{
-		baosDatapointDescription = read(connector, id);
-		descriptions_.insert(Descriptions::value_type(id, baosDatapointDescription));
-	}
+
+	// Not found in cache so we must read it and append it for next read
+	const BaosDatapointDescription baosDatapointDescription = read(connector, id);
+	const auto value = PerDeviceDescriptions::value_type(id, baosDatapointDescription);
+	descriptions_[connectorId].insert(value);
 
 	return baosDatapointDescription;
 }

@@ -12,6 +12,7 @@
 
 #include "pch/kdrive_pch.h"
 #include "kdrive/baos/core/BaosConnector.h"
+#include <atomic>
 
 using namespace kdrive::baos;
 
@@ -32,18 +33,40 @@ void initProperties(kdrive::utility::PropertyCollection& collection)
 
 }
 
+class ConnectorIdHelper
+{
+public:
+	static unsigned int getUniqueId();
+
+private:
+	static std::atomic<unsigned int> nextPortId_; /*!<A unique id for the next port */
+};
+
+std::atomic<unsigned int> ConnectorIdHelper::nextPortId_ = 1;
+
+unsigned int ConnectorIdHelper::getUniqueId()
+{
+	return nextPortId_++;
+}
+
 } // end anonymous namespace
 
 /**************************************
 ** BaosConnector
 ***************************************/
 
+const std::string BaosConnector::ConnectorId = "baos.connector_id";
 const std::string BaosConnector::Version = "baos.version";
 const std::string BaosConnector::RouteTransportPacket = "baos.route_transport_packet";
 
 BaosConnector::~BaosConnector()
 {
 	disableSignals();
+}
+
+unsigned int BaosConnector::getConnectorId() const
+{
+	return getProperty(ConnectorId);
 }
 
 void BaosConnector::setVersion(unsigned char version)
@@ -66,13 +89,18 @@ BaosConnector::BaosConnector(unsigned char version)
 {
 	initProperties(*this);
 	setProperty(BaosConnector::Version, version);
+	setProperty(BaosConnector::ConnectorId, ConnectorIdHelper::getUniqueId());
 
 	enableSignals();
 }
 
 void BaosConnector::resetPropertiesImpl()
 {
+	const unsigned int id = getProperty(BaosConnector::ConnectorId);
+
 	QueueConnector::resetPropertiesImpl();
+
 	initProperties(*this);
+	setProperty(BaosConnector::ConnectorId, id);
 }
 

@@ -45,6 +45,11 @@ public:
 	virtual ~BaosConnector();
 
 	/*!
+		Returns the connector id
+	*/
+	unsigned int getConnectorId() const;
+
+	/*!
 		Sets the protocol version
 	*/
 	void setVersion(unsigned char version);
@@ -66,6 +71,7 @@ public:
 
 
 public:
+	static const std::string ConnectorId; /*!< Property Key for the connector id, set in the constructor */
 	static const std::string Version; /*!< Property Key for version, set by the connector type or enumeration */
 	static const std::string RouteTransportPacket;	/*! Property Key for enable/disable routing of Transport Packets */
 
