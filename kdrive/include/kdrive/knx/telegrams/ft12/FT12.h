@@ -13,10 +13,13 @@
 #ifndef __KDRIVE_KNX_TELEGRAMS_FT12_FT12_H__
 #define __KDRIVE_KNX_TELEGRAMS_FT12_FT12_H__
 
+/*!
+	\deprecated
+	This header files is deprecated.
+	It was renamed to "Headers.h". Include this instead.
+*/
+
 #include "kdrive/knx/Config.h"
-#include "kdrive/knx/telegrams/ft12/AckFrame.h"
-#include "kdrive/knx/telegrams/ft12/ControlField.h"
-#include "kdrive/knx/telegrams/ft12/FixedLengthFrame.h"
-#include "kdrive/knx/telegrams/ft12/VariableLengthFrame.h"
+#include "kdrive/knx/telegrams/ft12/Headers.h"
 
 #endif // __KDRIVE_KNX_TELEGRAMS_FT12_FT12_H__

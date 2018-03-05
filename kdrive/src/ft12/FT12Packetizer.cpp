@@ -12,7 +12,6 @@
 
 #include "pch/kdrive_pch.h"
 #include "kdrive/ft12/FT12Packetizer.h"
-#include "kdrive/knx/defines/FT12Constants.h"
 #include "kdrive/knx/telegrams/ft12/FT12.h"
 #include "kdrive/io/serial/SerialPort.h"
 #include "kdrive/utility/ScopedSemaphore.h"

@@ -61,3 +61,29 @@ Packet::Ptr BasicWaitPacketPolicy::operator()(unsigned long timeout)
 	return packet;
 }
 
+/******************************
+** waitPacket
+*******************************/
+
+std::shared_ptr<Packet> kdrive::connector::waitPacket(Connector& connector, unsigned long timeout,
+        std::function<bool (std::shared_ptr<Packet>)> waitPolicy)
+{
+	TimeoutWatcher timeoutWatcher(timeout);
+
+	while (!timeoutWatcher.elapsed())
+	{
+		try
+		{
+			std::shared_ptr<Packet> packet = connector.waitReceive(timeout);
+			if (waitPolicy(packet))
+			{
+				return packet;
+			}
+		}
+		catch (...)
+		{
+		}
+	}
+
+	throw Poco::TimeoutException();
+}

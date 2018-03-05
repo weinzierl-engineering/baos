@@ -26,6 +26,7 @@
 #include <string>
 #include <tuple>
 
+
 namespace kdrive
 {
 namespace baos
@@ -194,6 +195,7 @@ struct StreamConnectorFactory
 {
 	static BaosConnector::Ptr create(unsigned char version, const std::string remoteHost, unsigned short port);
 };
+
 
 }
 } // end namespace kdrive::baos

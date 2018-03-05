@@ -243,6 +243,11 @@ public:
 	*/
 	void setMetaMap(const Map&);
 
+	/*!
+		Returns the map
+	*/
+	const Map& getMap() const;
+
 protected:
 	/*!
 		Sets the property and calls the property modified signal
@@ -264,11 +269,6 @@ protected:
 	*/
 	virtual const Poco::Dynamic::Var& getPropertyUnsafe(const std::string& key,
 	        const Poco::Dynamic::Var& defaultValue) const;
-
-	/*!
-		Returns the map
-	*/
-	const Map& getMap() const;
 
 	/*!
 		Returns the map

@@ -13,7 +13,13 @@
 #ifndef __KDRIVE_KNX_TELEGRAMS_FORMATTERS_FORMATTERS_H__
 #define __KDRIVE_KNX_TELEGRAMS_FORMATTERS_FORMATTERS_H__
 
+/*!
+	\deprecated
+	This header files is deprecated.
+	It was renamed to "Headers.h". Include this instead.
+*/
+
 #include "kdrive/knx/Config.h"
-#include "kdrive/knx/telegrams/formatters/Formatter.h"
+#include "kdrive/knx/telegrams/formatters/Headers.h"
 
 #endif // __KDRIVE_KNX_TELEGRAMS_FORMATTERS_FORMATTERS_H__

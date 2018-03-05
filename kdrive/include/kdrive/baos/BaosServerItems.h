@@ -396,7 +396,7 @@ public:
 		Set new value for suspend
 	*/
 	void setSuspend(unsigned char suspend);
-	
+
 
 private:
 	std::vector<unsigned char> getItemData(unsigned short id) const;

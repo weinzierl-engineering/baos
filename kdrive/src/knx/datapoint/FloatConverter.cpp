@@ -107,7 +107,7 @@ bool KnxDpt_ConvKnxFlToSInt32(const unsigned char* pnKnxFloat, int* pnInt)
 
 /// This function converts a long with scaling * 100 to
 /// a KNX-Float (DPT 9.xxx/EIS5)
-/// Return: true  if conversion was successful
+/// Return: true if conversion was successful
 /// 		false on error
 bool KnxDpt_ConvSInt32ToKnxFl(int nInt, unsigned char* pnKnxFloat)
 {

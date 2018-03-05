@@ -102,6 +102,7 @@ private:
 	std::atomic<bool> queueIsEmpty_;
 };
 
+
 }
 } // end namespace kdrive::connector
 

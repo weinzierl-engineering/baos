@@ -297,6 +297,7 @@ bool StreamConnector2x::packetize(int& bufferOffset)
 
 void StreamConnector2x::onReceiveFrame(const unsigned char* transportFrame, std::size_t length)
 {
+
 	Packet::Ptr packet = create(transportFrame + TransportHeader::HeaderSize, length - TransportHeader::HeaderSize);
 	routeRx(packet);
 }

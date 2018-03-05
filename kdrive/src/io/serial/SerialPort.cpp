@@ -164,6 +164,11 @@ std::size_t SerialPort::write(const char* data, std::size_t size)
 	}
 	else
 	{
+		if (txCallback_)
+		{
+			txCallback_(data, static_cast<std::size_t>(n));
+		}
+
 		return static_cast<std::size_t>(n);
 	}
 }
@@ -238,6 +243,15 @@ int SerialPort::read()
 	}
 }
 
+void SerialPort::setRxCallback(DataCallback dataCallback)
+{
+	rxCallback_ = dataCallback;
+}
+
+void SerialPort::setTxCallback(DataCallback dataCallback)
+{
+	txCallback_ = dataCallback;
+}
 
 void SerialPort::readBuffer()
 {
@@ -251,6 +265,12 @@ void SerialPort::readBuffer()
 	if (n >= 0)
 	{
 		_end += n;
+
+		if (rxCallback_)
+		{
+			rxCallback_(_cur, static_cast<std::size_t>(n));
+		}
+
 		if (_logger.debug())
 		{
 			_logger.dump(format("Received %d byte(s)", n), _cur, n, Poco::Message::PRIO_DEBUG);

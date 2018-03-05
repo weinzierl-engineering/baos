@@ -41,6 +41,10 @@
 #endif
 #endif
 
+#if defined (__GNUC__) && (__GNUC__ >= 4) && defined(KDRIVE_DLL)
+#define kdrive_API __attribute__ ((visibility ("default")))
+#endif
+
 #if !defined(kdrive_API)
 #define kdrive_API
 #endif

@@ -10,6 +10,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
 //
 
+
 #ifndef __KDRIVE_KNX_DEFINES_DATAPOINT_TYPES_H__
 #define __KDRIVE_KNX_DEFINES_DATAPOINT_TYPES_H__
 
@@ -293,7 +294,7 @@ struct kdriveKnx_API DatapointTypes
 		DatapointSubType_20_608, /*!< Id="DPST-20-608" Number="608" Name="DPT_SwitchOnMode" Text="switch on mode" */
 		DatapointSubType_20_609, /*!< Id="DPST-20-609" Number="609" Name="DPT_LoadTypeSet" Text="load type" */
 		DatapointSubType_20_610, /*!< Id="DPST-20-610" Number="610" Name="DPT_LoadTypeDetected" Text="load type detection" */
-		DatapointSubType_20_801, /*!< Id="DPST-20-801" Number="801" Name="DPT_SABExcept-Behavior" Text="SAB except behavior" */
+		DatapointSubType_20_801, /*!< Id="DPST-20-801" Number="801" Name="DPT_SABExcept-Behaviour" Text="SAB except behavior" */
 		DatapointSubType_20_802, /*!< Id="DPST-20-802" Number="802" Name="DPT_SABBehaviour_Lock_Unlock" Text="SAB behavior on lock/unlock" */
 		DatapointSubType_20_803, /*!< Id="DPST-20-803" Number="803" Name="DPT_SSSBMode" Text="SSSB mode" */
 		DatapointSubType_20_804, /*!< Id="DPST-20-804" Number="804" Name="DPT_BlindsControlMode" Text="blinds control mode" */

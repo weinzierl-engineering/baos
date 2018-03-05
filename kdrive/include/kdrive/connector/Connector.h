@@ -265,6 +265,7 @@ public:
 	*/
 	void resetProperties();
 
+
 	/*!
 		Enumerate the ports for the specific Access Port Type.
 		Return a list with possible ports.

@@ -15,11 +15,9 @@
 
 #include "kdrive/baos/Config.h"
 #include "kdrive/connector/Packet.h"
-#if KDRIVE_BAOS_DECODE_ENABLED
-#include "kdrive/access/core/AccessPacket.h"
-#endif
 #include <vector>
 #include <memory>
+
 
 namespace kdrive
 {
@@ -32,13 +30,9 @@ namespace baos
 
 struct HeaderPolicy;
 
-#if KDRIVE_BAOS_DECODE_ENABLED
-using DataPacketBaseClass = access::AccessPacket;
-#else
-using DataPacketBaseClass = connector::Packet;
-#endif
+using DataPacketBase = connector::Packet;
 
-class kdriveRPC_baos_API DataPacket : public DataPacketBaseClass
+class kdriveRPC_baos_API DataPacket : public DataPacketBase
 {
 public:
 	typedef std::shared_ptr<DataPacket> Ptr;

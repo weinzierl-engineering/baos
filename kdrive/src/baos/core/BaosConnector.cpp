@@ -16,10 +16,30 @@
 using namespace kdrive::baos;
 
 /**************************************
+** Anonymous namespace
+***************************************/
+
+namespace
+{
+
+/*!
+	The drive classes set RouteTransportPacket to visible, when supported
+*/
+void initProperties(kdrive::utility::PropertyCollection& collection)
+{
+	collection.setProperty(BaosConnector::RouteTransportPacket, false);
+
+
+}
+
+} // end anonymous namespace
+
+/**************************************
 ** BaosConnector
 ***************************************/
 
 const std::string BaosConnector::Version = "baos.version";
+const std::string BaosConnector::RouteTransportPacket = "baos.route_transport_packet";
 
 BaosConnector::~BaosConnector()
 {
@@ -41,8 +61,18 @@ bool BaosConnector::isConnected() const
 	return getRxCallbackThread().isRunning();
 }
 
+
 BaosConnector::BaosConnector(unsigned char version)
 {
+	initProperties(*this);
 	setProperty(BaosConnector::Version, version);
+
 	enableSignals();
 }
+
+void BaosConnector::resetPropertiesImpl()
+{
+	QueueConnector::resetPropertiesImpl();
+	initProperties(*this);
+}
+

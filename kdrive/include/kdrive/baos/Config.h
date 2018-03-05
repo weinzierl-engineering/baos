@@ -17,6 +17,13 @@
 
 #define kdriveRPC_baos_API kdrive_API
 
-#define KDRIVE_BAOS_DECODE_ENABLED (0)
+// The baos sdk has several extensions which can be
+// enabled if compiling with the kdriveAccess library
+// The kdriveAccess is part of the kdrive C++ source SDK
+// from Weinzierl Engineering and is not available as
+// part of the open source BAOS SDK
+// The open source BAOS SDK will not compile if this is
+// set to 1
+#define KDRIVE_BAOS_ACCESS_ENABLED (0)
 
 #endif // __BAOS_CONFIG_H__

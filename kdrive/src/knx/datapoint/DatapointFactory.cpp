@@ -10,6 +10,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
 //
 
+
 #include "pch/kdrive_pch.h"
 #include "kdrive/knx/datapoint/DatapointFactory.h"
 #include "kdrive/knx/defines/DatapointTypes.h"
@@ -540,7 +541,7 @@ Datapoint DatapointFactory::create(int datapointType)
 		case DatapointTypes::DatapointSubType_20_610:
 			return Datapoint("DPST-20-610", "610", "DPT_LoadTypeDetected", "load type detection", "8");
 		case DatapointTypes::DatapointSubType_20_801:
-			return Datapoint("DPST-20-801", "801", "DPT_SABExcept-Behavior", "SAB except behavior", "8");
+			return Datapoint("DPST-20-801", "801", "DPT_SABExcept-Behaviour", "SAB except behavior", "8");
 		case DatapointTypes::DatapointSubType_20_802:
 			return Datapoint("DPST-20-802", "802", "DPT_SABBehaviour_Lock_Unlock", "SAB behavior on lock/unlock", "8");
 		case DatapointTypes::DatapointSubType_20_803:

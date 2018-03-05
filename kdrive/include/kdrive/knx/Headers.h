@@ -13,5 +13,10 @@
 #ifndef __KDRIVE_KNX_HEADERS_H__
 #define __KDRIVE_KNX_HEADERS_H__
 
+#include "kdrive/knx/Config.h"
+#include "kdrive/knx/core/Headers.h"
+#include "kdrive/knx/datapoint/Headers.h"
+#include "kdrive/knx/defines/Headers.h"
+#include "kdrive/knx/telegrams/Headers.h"
 
 #endif // __KDRIVE_KNX_HEADERS_H__

@@ -271,6 +271,11 @@ const Var& PropertyCollection::getPropertyMeta(const std::string& key,
 	return value;
 }
 
+const PropertyCollection::Map& PropertyCollection::getMap() const
+{
+	return map_;
+}
+
 void PropertyCollection::setPropertyUnsafe(const std::string& key, const Var& value)
 {
 	Map::iterator iter = map_.find(key);
@@ -313,11 +318,6 @@ const Var& PropertyCollection::getPropertyUnsafe(const std::string& key,
 
 	const Var& value = iter->second;
 	return value;
-}
-
-const PropertyCollection::Map& PropertyCollection::getMap() const
-{
-	return map_;
 }
 
 PropertyCollection::Map& PropertyCollection::getMap()

@@ -124,6 +124,14 @@ std::shared_ptr<T> waitPacket(Connector& connector, unsigned long timeout)
 	return waitPacketWithPolicy<T>(policy, timeout);
 }
 
+/*!
+	wait packet will wait for a packet <b>Packet</b> for a specified time period
+	all received packets for that waitPolicy returns false will be discarded
+	if the packet is not found within the specified time period an exception is thrown
+*/
+std::shared_ptr<Packet> kdriveConnector_API waitPacket(Connector& connector, unsigned long timeout,
+        std::function<bool(std::shared_ptr<Packet>)> waitPolicy);
+
 }
 } // end namespace kdrive::connector
 

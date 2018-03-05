@@ -16,6 +16,7 @@
 #include "kdrive/baos/Config.h"
 #include "kdrive/connector/QueueConnector.h"
 
+
 namespace kdrive
 {
 namespace baos
@@ -61,10 +62,12 @@ public:
 		delay before a socket exception is thrown and the rx thread is
 		shutdown
 	*/
-	bool isConnected() const;
+	virtual bool isConnected() const;
+
 
 public:
 	static const std::string Version; /*!< Property Key for version, set by the connector type or enumeration */
+	static const std::string RouteTransportPacket;	/*! Property Key for enable/disable routing of Transport Packets */
 
 protected:
 	/*!
@@ -75,6 +78,13 @@ protected:
 		derived from by one of the StreamConnector protocol classes
 	*/
 	BaosConnector(unsigned char version);
+
+	/*!
+		Calls resetPropertiesImpl from base class
+		and readded own properties
+	*/
+	void resetPropertiesImpl() override;
+
 };
 
 }

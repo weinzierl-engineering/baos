@@ -13,8 +13,13 @@
 #ifndef __KDRIVE_KNX_CORE_CORE_H__
 #define __KDRIVE_KNX_CORE_CORE_H__
 
+/*!
+	\deprecated
+	This header files is deprecated.
+	It was renamed to "Headers.h". Include this instead.
+*/
+
 #include "kdrive/knx/Config.h"
-#include "kdrive/knx/core/Buffer.h"
-#include "kdrive/knx/core/ByteStream.h"
+#include "kdrive/knx/core/Headers.h"
 
 #endif // __KDRIVE_KNX_CORE_CORE_H__

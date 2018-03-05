@@ -52,6 +52,9 @@ public:
 	void clearDecoders();
 
 private:
+	bool traceBufferlessPacket(std::shared_ptr<Packet> packet, int direction);
+
+private:
 	mutable Poco::FastMutex mutex_;
 	boost::signals2::scoped_connection connection_;
 	std::vector<Decoder> decoders_;

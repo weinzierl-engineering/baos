@@ -25,6 +25,7 @@
 #include <Poco/Format.h>
 #include <Poco/ScopedLock.h>
 
+
 using namespace kdrive::baos;
 using namespace kdrive::connector;
 using Poco::Net::StreamSocket;
@@ -33,6 +34,7 @@ using Poco::Exception;
 using Poco::TimeoutException;
 using Poco::TimerCallback;
 using Poco::format;
+
 
 CLASS_LOGGER("kdrive.baos.StreamConnector")
 
@@ -266,6 +268,7 @@ void StreamConnector::txImpl(Packet::Ptr packet)
 			txBuffer_.fill(0);
 			const std::size_t size = encapsulate(packet, buffer, BufferSize);
 			socket_.sendBytes(buffer, static_cast<int>(size));
+
 		}
 
 		timestampLastSend_.update();
@@ -370,3 +373,4 @@ void StreamConnector::onHeartbeatTimer(Poco::Timer& timer)
 		timer.restart(0);
 	}
 }
+

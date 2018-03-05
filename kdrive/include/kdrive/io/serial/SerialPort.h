@@ -23,6 +23,7 @@
 #include "Poco/Timespan.h"
 #include "Poco/Buffer.h"
 #include <cctype>
+#include <functional>
 
 #if defined(_WIN32)
 #include "SerialPort_WIN32.h"
@@ -53,6 +54,11 @@ public:
 	{
 		DEFAULT_BUFFER_SIZE = 4096 /*!< Default size for the internal buffer. */
 	};
+
+	/*!
+		Data callback for rx and tx
+	*/
+	using DataCallback = std::function<void (const char*, std::size_t)>;
 
 	/*!
 		Creates the SerialPort.
@@ -197,6 +203,22 @@ public:
 	*/
 	std::size_t available() const;
 
+	/*!
+		Called when data is received, not necessarily by the
+		caller of read(...). i.e. can be used to provide
+		monitoring analysis (such as transport frames in netnnode)
+		Does not catch exceptions!
+	*/
+	void setRxCallback(DataCallback dataCallback);
+
+	/*!
+		Called when data is received, not necessarily by the
+		caller of read(...). i.e. can be used to provide
+		monitoring analysis (such as transport frames in netnnode)
+		Does not catch exceptions!
+	*/
+	void setTxCallback(DataCallback dataCallback);
+
 protected:
 	void readBuffer();
 
@@ -207,6 +229,8 @@ private:
 	Poco::Buffer<char> _buffer;
 	char* _end;
 	char* _cur;
+	DataCallback rxCallback_;
+	DataCallback txCallback_;
 };
 
 

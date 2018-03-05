@@ -53,7 +53,10 @@ void PacketTrace::connect(Connector& connector)
 		std::size_t size = packet->size();
 		if (!size)
 		{
-			poco_warning(LOGGER(), "PacketTrace Decoder, received empty packet");
+			if (!traceBufferlessPacket(packet, direction))
+			{
+				poco_warning(LOGGER(), "PacketTrace Decoder, received empty packet");
+			}
 			return;
 		}
 		std::vector<unsigned char> buffer(size, 0x00);
@@ -76,8 +79,7 @@ void PacketTrace::connect(Connector& connector)
 				poco_warning_f1(LOGGER(), "PacketTrace Decoder error %s", exception.displayText());
 			}
 		}
-	}
-	              );
+	});
 }
 
 void PacketTrace::disconnect()
@@ -95,6 +97,17 @@ void PacketTrace::clearDecoders()
 {
 	ScopedLock<FastMutex> lock(mutex_);
 	decoders_.clear();
+}
+
+bool PacketTrace::traceBufferlessPacket(Packet::Ptr packet, int direction)
+{
+	auto propertyCollection = packet->decode();
+	if (propertyCollection.hasPropertyKey("qcl.telegram"))
+	{
+		poco_information(LOGGER(), propertyCollection.getProperty("qcl.telegram"));
+		return true;
+	}
+	return false;
 }
 
 /****************************************

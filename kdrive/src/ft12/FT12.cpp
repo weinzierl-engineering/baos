@@ -12,7 +12,6 @@
 
 #include "pch/kdrive_pch.h"
 #include "kdrive/ft12/FT12.h"
-#include "kdrive/knx/defines/FT12Constants.h"
 #include "kdrive/knx/telegrams/ft12/FT12.h"
 #include "kdrive/utility/Logger.h"
 #include <Poco/Exception.h>
@@ -89,7 +88,7 @@ void FT12::onReceive(const unsigned char* buffer, std::size_t bufferSize)
 	}
 	catch (Exception& e)
 	{
-		poco_debug_f1(LOGGER(), "Ingnore error in Rx FT1.2 frame, %s", e.displayText());
+		poco_debug_f1(LOGGER(), "Ignore error in Rx FT1.2 frame, %s", e.displayText());
 	}
 }
 
