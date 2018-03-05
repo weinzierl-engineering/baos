@@ -42,11 +42,13 @@ CLASS_LOGGER("kdrive.connector.Connector")
 namespace
 {
 
+
 void initProperties(kdrive::utility::PropertyCollection& collection)
 {
 	collection.setProperty(Connector::PortType, Connector::ConnectorTypeLabel);
 	collection.setProperty(Connector::LastErrorCode, static_cast<unsigned int>(ConnectorErrorCodes::None));
 	collection.setProperty(Connector::LastErrorMessage, "");
+
 }
 
 } // end anonymous namespace
@@ -202,6 +204,7 @@ void Connector::resetProperties()
 	poco_information(LOGGER(), "resetProperties");
 	resetPropertiesImpl();
 }
+
 
 void Connector::enumerate(Ports& ports)
 {

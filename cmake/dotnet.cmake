@@ -12,15 +12,15 @@
 
 # set the target framework (.net) version
 # the VS specific default frameworks are:
-# VS 2008: 3.5; VS 2010: 4.0; VS 2012: 4.5
-# NOTE: Currently implemented for VS 2008
+# VS 2008: 3.5; VS 2010: 4.0; VS 2012: 4.5; VS 2013: 4.5.1
+# NOTE: Currently implemented for VS 2008 and VS 2013
 # FRAMEWORK_VERSION: e.g. "2.0", "3.5", ...
 function(set_dotnet_target_framework_version TARGET_PROJECT FRAMEWORK_VERSION)
   if(MSVC)
   
     # Visual Studio 2008
 	# It used a decimal value e.g. "131072" for .net 2.0
-	# It is not possibile to use .net version > 3.5
+	# It is not possible to use .net version > 3.5
 	# See: http://social.msdn.microsoft.com/Forums/vstudio/en-US/09a309a0-a8fc-407d-9fb5-7e1c1a26d397/net-framework-4-with-visual-studio-2008-and-use-it-in-vs-2008?forum=netfxsetup
 	if(MSVC90)
 	
@@ -37,9 +37,15 @@ function(set_dotnet_target_framework_version TARGET_PROJECT FRAMEWORK_VERSION)
         message (FATAL_ERROR "Visual Studio 2008 do not support .net framework: ${FRAMEWORK_VERSION}")	  
 	  endif()
 	 
+	# Visual Studio 2013
+	# It used a format like v4.5
+	# See: https://msdn.microsoft.com/en-us/library/ff770576.aspx
+	elseif(MSVC12)
+		set(VERSION_STR "v${FRAMEWORK_VERSION}")
+		
 	else()
 	  message (FATAL_ERROR "set_dotnet_target_framework_version is not implemented for current compiler")	
-	endif(MSVC90)
+	endif()
 	
     # set the target framework (.net) version
 	message (STATUS "Use .net target framework version: ${FRAMEWORK_VERSION}")	
