@@ -270,7 +270,8 @@ public:
 		have been allocated. This is either via the protocol version
 		(i.e. protocol version 1.2 has a max of 250 datapoints)
 		or via the server item getMaxDatapoints. If the limit
-		can not be found we try to read a max of 1000 datapoints
+		can not be found we try to read a max of 1000 datapoints.
+		The block size is calculated with the server item current buffer size.
 	*/
 	void readFromDevice();
 

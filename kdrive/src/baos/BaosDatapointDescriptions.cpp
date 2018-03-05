@@ -224,6 +224,7 @@ void BaosDatapointDescriptions::readFromDevice()
 	}
 	else
 	{
+		// Calculate max datapoint number
 		unsigned int count = 0;
 		try
 		{
@@ -238,11 +239,17 @@ void BaosDatapointDescriptions::readFromDevice()
 			count = 1000;
 		}
 
+		// Calculate max block size (depend on current buffer size)
+		BaosServerItems serverItems(connector_);
+		const unsigned int bufferSize = serverItems.getBufferSize();
+		unsigned short blockSize = (bufferSize - 6) / 5; // header is 6 bytes and each item has 5 bytes
+		const unsigned short maxBlock = 50;
+		blockSize = std::max(blockSize, maxBlock); // limit it because it need a lot of time to read a large range
+
 		// We simply read blocks until we on the end or we get a BAD_SERVICE_PARAMETER error
 		// (i.e. out of range; e.g. for 771)
 
 		bool finished = false;
-		const int blockSize = 50;
 		unsigned int offset = 1;
 		while (!finished && (offset < count))
 		{
@@ -347,7 +354,7 @@ void BaosDatapointDescriptions::readDescriptions_ProtocolV20(unsigned short star
 			const unsigned short lastReadId = readDescriptions(currentId, remainingCount);
 			currentId = lastReadId + 1;
 			remainingCount = (lastReadId < maxId) ? (maxId - lastReadId) : 0;
-			poco_debug(LOGGER(), format("... until id %u readded", static_cast<unsigned int>(lastReadId)));
+			poco_debug(LOGGER(), format("... until id %u read", static_cast<unsigned int>(lastReadId)));
 		}
 	}
 	// if no more activate datapoints exists in the range an exception with "No item found" will throw
