@@ -79,8 +79,8 @@ public:
 
 	enum PacketDirection
 	{
-	    Rx = 0,
-	    Tx = 1
+		Rx = 0,
+		Tx = 1
 	};
 
 	/*!
@@ -430,9 +430,9 @@ public:
 	*/
 	enum PropertyWriteableMode
 	{
-	    WhenClosed = 1,
-	    WhenOpened = 2,
-	    Always = WhenClosed | WhenOpened
+		WhenClosed = 1,
+		WhenOpened = 2,
+		Always = WhenClosed | WhenOpened
 	};
 
 protected:

@@ -31,11 +31,11 @@ public:
 
 	enum Commands
 	{
-	    Clear = 0x01,
-	    Start = 0x02,
-	    StartClear = 0x03,
-	    Stop = 0x04,
-	    StopClear = 0x05
+		Clear = 0x01,
+		Start = 0x02,
+		StartClear = 0x03,
+		Stop = 0x04,
+		StopClear = 0x05
 	};
 
 	void rpc(unsigned short offset, unsigned short count, unsigned char command,

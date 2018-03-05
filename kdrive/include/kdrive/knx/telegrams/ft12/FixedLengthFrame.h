@@ -58,11 +58,11 @@ class kdriveKnx_API FixedLengthFrame : public Formatter
 public:
 	enum Attributes
 	{
-	    StartByte_ = 0,
-	    ControlField,
-	    Checksum,
-	    EndByte,
-	    Length /*!< The constant length of the fixed length frame */
+		StartByte_ = 0,
+		ControlField,
+		Checksum,
+		EndByte,
+		Length /*!< The constant length of the fixed length frame */
 	};
 
 	/*

@@ -45,13 +45,13 @@ class wzfIOSerial_API SerialPort : private SerialPortImpl
 public:
 	enum FlowControl
 	{
-	    FLOW_NONE,   /*!< No flow control */
-	    FLOW_RTSCTS  /*!< Hardware (RTS/CTS) flow control */
+		FLOW_NONE,   /*!< No flow control */
+		FLOW_RTSCTS  /*!< Hardware (RTS/CTS) flow control */
 	};
 
 	enum
 	{
-	    DEFAULT_BUFFER_SIZE = 4096 /*!< Default size for the internal buffer. */
+		DEFAULT_BUFFER_SIZE = 4096 /*!< Default size for the internal buffer. */
 	};
 
 	/*!

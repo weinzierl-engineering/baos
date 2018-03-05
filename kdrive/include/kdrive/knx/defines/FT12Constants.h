@@ -30,7 +30,7 @@ struct kdriveKnx_API FT12Constants
 	*/
 	enum SingleCharFrames
 	{
-	    AckFrame = 0xE5 /*!< Positive acknowledge frame. */
+		AckFrame = 0xE5 /*!< Positive acknowledge frame. */
 	};
 
 	/*!
@@ -39,9 +39,9 @@ struct kdriveKnx_API FT12Constants
 	*/
 	enum ControlBytes
 	{
-	    StartFixedLengthFrame = 0x10, /*!< Start byte for frames with fixed length. */
-	    StartVarLengthFrame = 0x68, /*!< Start byte for frames with variable length. */
-	    EndFrame = 0x16, /*!< The end character. */
+		StartFixedLengthFrame = 0x10, /*!< Start byte for frames with fixed length. */
+		StartVarLengthFrame = 0x68, /*!< Start byte for frames with variable length. */
+		EndFrame = 0x16, /*!< The end character. */
 	};
 
 	/*!
@@ -50,8 +50,8 @@ struct kdriveKnx_API FT12Constants
 	*/
 	enum Directions
 	{
-	    ExternalToBauDirection = 0x00, /*!< Direction from External device to BAU */
-	    BauToExternalDirection = 0x80 /*!< Direction from BAU device to External device */
+		ExternalToBauDirection = 0x00, /*!< Direction from External device to BAU */
+		BauToExternalDirection = 0x80 /*!< Direction from BAU device to External device */
 	};
 
 	/*!
@@ -61,8 +61,8 @@ struct kdriveKnx_API FT12Constants
 	*/
 	enum PrimarySecondaryMessage
 	{
-	    SecondaryMessage = 0x00, /*!< Message from secondary station. */
-	    PrimaryMessage = 0x40 /*!< Message from primary station. */
+		SecondaryMessage = 0x00, /*!< Message from secondary station. */
+		PrimaryMessage = 0x40 /*!< Message from primary station. */
 	};
 
 	/*!
@@ -71,8 +71,8 @@ struct kdriveKnx_API FT12Constants
 	*/
 	enum FrameCountBitValid
 	{
-	    InvalidFCB = 0x00, /*!< The frame count bit is invalid */
-	    ValidFCB = 0x10 /*!< The frame count bit is valid */
+		InvalidFCB = 0x00, /*!< The frame count bit is invalid */
+		ValidFCB = 0x10 /*!< The frame count bit is valid */
 	};
 
 	/*!
@@ -81,7 +81,7 @@ struct kdriveKnx_API FT12Constants
 	*/
 	enum FrameCountBitValue
 	{
-	    FCB_SET = 0x20 /*!< The frame count bit is set */
+		FCB_SET = 0x20 /*!< The frame count bit is set */
 	};
 
 	/*!
@@ -102,7 +102,7 @@ struct kdriveKnx_API FT12Constants
 	*/
 	enum BufferConstants
 	{
-	    MaxBufferSize = 256
+		MaxBufferSize = 256
 	};
 };
 

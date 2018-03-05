@@ -94,10 +94,10 @@ private:
 
 	enum Attributes
 	{
-	    MainService = 0,
-	    SubService,
-	    Offset,
-	    Count
+		MainService = 0,
+		SubService,
+		Offset,
+		Count
 	};
 };
 

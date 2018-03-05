@@ -32,8 +32,8 @@ struct kdriveConnector_API ConnectorErrorCodes
 	*/
 	enum
 	{
-	    None = 0, /*!< No error */
-	    ConnectorError = 0x0001, /*!< kdriveConnector error */
+		None = 0, /*!< No error */
+		ConnectorError = 0x0001, /*!< kdriveConnector error */
 	};
 };
 

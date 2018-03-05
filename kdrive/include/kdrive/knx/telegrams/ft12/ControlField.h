@@ -146,20 +146,20 @@ public:
 private:
 	enum Masks
 	{
-	    DirectionMask = 0x80,
-	    PrimaryMessageMask = 0x40,
-	    FrameCountBitMask = 0x20,
-	    FrameCountBitValidMask = 0x10,
-	    FunctionCodeMask = 0x0F
+		DirectionMask = 0x80,
+		PrimaryMessageMask = 0x40,
+		FrameCountBitMask = 0x20,
+		FrameCountBitValidMask = 0x10,
+		FunctionCodeMask = 0x0F
 	};
 
 	enum Attributes
 	{
-	    Direction = 0,
-	    PrimaryMessage,
-	    FrameCountBit,
-	    FrameCountBitValid,
-	    FunctionCode
+		Direction = 0,
+		PrimaryMessage,
+		FrameCountBit,
+		FrameCountBitValid,
+		FunctionCode
 	};
 };
 

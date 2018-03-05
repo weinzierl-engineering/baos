@@ -156,10 +156,10 @@ public:
 	*/
 	enum TransmitPriority
 	{
-	    System = 0,
-	    Alarm,
-	    High,
-	    Low
+		System = 0,
+		Alarm,
+		High,
+		Low
 	};
 
 	/*!
@@ -167,21 +167,21 @@ public:
 	*/
 	enum ValueTypes
 	{
-	    Bit1 = 0, /*!< 1 bit */
-	    Bit2 = 1, /*!< 2 bit */
-	    Bit3 = 2, /*!< 3 bit */
-	    Bit4 = 3, /*!< 4 bit */
-	    Bit5 = 4, /*!< 5 bit */
-	    Bit6 = 5, /*!< 6 bit */
-	    Bit7 = 6, /*!< 7 bit */
-	    Byte1 = 7, /*!< 1 byte */
-	    Byte2 = 8, /*!< 2 bytes */
-	    Byte3 = 9, /*!< 3 bytes */
-	    Byte4 = 10, /*!< 4 bytes */
-	    Byte6 = 11, /*!< 6 bytes */
-	    Byte8 = 12, /*!< 8 bytes */
-	    Byte10 = 13, /*!< 10 bytes */
-	    Byte14 = 14 /*!< 14 bytes */
+		Bit1 = 0, /*!< 1 bit */
+		Bit2 = 1, /*!< 2 bit */
+		Bit3 = 2, /*!< 3 bit */
+		Bit4 = 3, /*!< 4 bit */
+		Bit5 = 4, /*!< 5 bit */
+		Bit6 = 5, /*!< 6 bit */
+		Bit7 = 6, /*!< 7 bit */
+		Byte1 = 7, /*!< 1 byte */
+		Byte2 = 8, /*!< 2 bytes */
+		Byte3 = 9, /*!< 3 bytes */
+		Byte4 = 10, /*!< 4 bytes */
+		Byte6 = 11, /*!< 6 bytes */
+		Byte8 = 12, /*!< 8 bytes */
+		Byte10 = 13, /*!< 10 bytes */
+		Byte14 = 14 /*!< 14 bytes */
 	};
 
 private:
@@ -192,13 +192,13 @@ private:
 
 	enum Masks
 	{
-	    TransmitPriorityMask = 0x03,
-	    CommunicationMask = 0x04,
-	    ReadFromBusMask = 0x08,
-	    WriteFromBusMask = 0x10,
-	    ReadOnInitMask = 0x20,
-	    TransmitRequestMask = 0x40,
-	    UpdateOnResponseMask = 0x80
+		TransmitPriorityMask = 0x03,
+		CommunicationMask = 0x04,
+		ReadFromBusMask = 0x08,
+		WriteFromBusMask = 0x10,
+		ReadOnInitMask = 0x20,
+		TransmitRequestMask = 0x40,
+		UpdateOnResponseMask = 0x80
 	};
 };
 

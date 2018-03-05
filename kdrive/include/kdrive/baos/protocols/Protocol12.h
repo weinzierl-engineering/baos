@@ -29,22 +29,22 @@ struct Protocol12
 {
 	enum
 	{
-	    MainService = 0,
-	    SubService,
-	    StartItem,
-	    NumberOfItems,
+		MainService = 0,
+		SubService,
+		StartItem,
+		NumberOfItems,
 
-	    HeaderSize
+		HeaderSize
 	};
 
 	enum
 	{
-	    ErrorCode = HeaderSize
+		ErrorCode = HeaderSize
 	};
 
 	enum
 	{
-	    DescriptionStringLength = 32
+		DescriptionStringLength = 32
 	};
 };
 

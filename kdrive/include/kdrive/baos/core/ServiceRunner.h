@@ -37,7 +37,7 @@ public:
 
 	enum
 	{
-	    Timeout = ProtocolConstants::Timeout
+		Timeout = ProtocolConstants::Timeout
 	};
 
 protected:

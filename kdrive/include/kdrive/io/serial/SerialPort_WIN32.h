@@ -35,13 +35,13 @@ namespace serial
 {
 
 class wzfIOSerial_API SerialPortImpl
-	/// This class provides an interface to a POSIX serial interface.
+/// This class provides an interface to a POSIX serial interface.
 {
 public:
 	enum FlowControlImpl
 	{
-	    FLOW_NONE,
-	    FLOW_RTSCTS
+		FLOW_NONE,
+		FLOW_RTSCTS
 	};
 
 	SerialPortImpl();
@@ -58,7 +58,7 @@ public:
 private:
 	enum
 	{
-	    CHARACTER_TIMEOUT = 2 // timeout for single characters in milliseconds
+		CHARACTER_TIMEOUT = 2 // timeout for single characters in milliseconds
 	};
 
 	HANDLE _handle;

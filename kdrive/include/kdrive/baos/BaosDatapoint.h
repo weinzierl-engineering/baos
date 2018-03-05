@@ -208,10 +208,10 @@ public:
 	enum TransmissionStatus
 	{
 
-	    TransmissionIdleOk = 0,
-	    TransmissionIdleError,
-	    TransmissionInProgress,
-	    TransmissionRequest
+		TransmissionIdleOk = 0,
+		TransmissionIdleError,
+		TransmissionInProgress,
+		TransmissionRequest
 	};
 
 	/*!

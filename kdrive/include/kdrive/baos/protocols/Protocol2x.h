@@ -29,18 +29,18 @@ struct Protocol2x
 {
 	enum
 	{
-	    MainService,
-	    SubService,
-	    StartItemHigh,
-	    StartItemLow,
-	    NumberOfItemsHigh,
-	    NumberOfItemsLow,
-	    HeaderSize
+		MainService,
+		SubService,
+		StartItemHigh,
+		StartItemLow,
+		NumberOfItemsHigh,
+		NumberOfItemsLow,
+		HeaderSize
 	};
 
 	enum
 	{
-	    ErrorCode = HeaderSize
+		ErrorCode = HeaderSize
 	};
 };
 

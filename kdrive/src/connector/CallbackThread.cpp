@@ -45,10 +45,10 @@ struct StopConstants
 {
 	enum
 	{
-	    Initial = -1,
-	    Stop = 0,
-	    Run = 1,
-	    RequestStop = 2
+		Initial = -1,
+		Stop = 0,
+		Run = 1,
+		RequestStop = 2
 	};
 };
 

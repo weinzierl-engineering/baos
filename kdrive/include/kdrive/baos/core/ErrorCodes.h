@@ -34,25 +34,25 @@ struct kdriveRPC_baos_API BaosErrorCodes
 	*/
 	enum Codes
 	{
-	    None = 0,
+		None = 0,
 
-	    BaosError = 0x10000, // 65536
-	    ClientError = 0x10001, // 65537
+		BaosError = 0x10000, // 65536
+		ClientError = 0x10001, // 65537
 
-	    /*! 0x10002 to 0x10FFF are reserved for future client error codes */
+		/*! 0x10002 to 0x10FFF are reserved for future client error codes */
 
-	    ServerError = 0x11000, // 69632
-	    Internal = 0x11001, // 69633
-	    NoItemFound = 0x11002, // 69634
-	    BufferTooSmall = 0x11003, // 69635
-	    ItemNotWriteable = 0x11004, // 69636
-	    ServiceNotSupported = 0x11005, // 69637
-	    BadServiceParameter = 0x11006, // 69638
-	    WrongDpId = 0x11007, // 69639
-	    BadDpCmd = 0x11008, // 69640
-	    BadDpValueLength = 0x11009, // 69641
-	    MessageInconsistent = 0x1100A, // 69642
-	    ObjectServerIsBusy = 0x1100B, // 69643
+		ServerError = 0x11000, // 69632
+		Internal = 0x11001, // 69633
+		NoItemFound = 0x11002, // 69634
+		BufferTooSmall = 0x11003, // 69635
+		ItemNotWriteable = 0x11004, // 69636
+		ServiceNotSupported = 0x11005, // 69637
+		BadServiceParameter = 0x11006, // 69638
+		WrongDpId = 0x11007, // 69639
+		BadDpCmd = 0x11008, // 69640
+		BadDpValueLength = 0x11009, // 69641
+		MessageInconsistent = 0x1100A, // 69642
+		ObjectServerIsBusy = 0x1100B, // 69643
 	};
 
 	/*!

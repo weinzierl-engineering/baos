@@ -39,8 +39,8 @@ namespace
 
 enum
 {
-    BIT00 = (1 << 0),															// Bit 0
-    BIT07 = (1 << 7)															// Bit 7
+	BIT00 = (1 << 0),															// Bit 0
+	BIT07 = (1 << 7)															// Bit 7
 };
 
 /*!

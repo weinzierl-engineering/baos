@@ -136,9 +136,9 @@ public:
 	*/
 	enum Baudrate
 	{
-	    Unknown = 0,
-	    B19200,
-	    B115200
+		Unknown = 0,
+		B19200,
+		B115200
 	};
 
 	/*!
@@ -173,8 +173,8 @@ public:
 	*/
 	enum ProgrammingMode
 	{
-	    NotActive = 0,
-	    Active
+		NotActive = 0,
+		Active
 	};
 
 	/*!
@@ -208,8 +208,8 @@ public:
 	*/
 	enum IndicationSetting
 	{
-	    IndicationSetting_NotActive = 0,
-	    IndicationSetting_Active
+		IndicationSetting_NotActive = 0,
+		IndicationSetting_Active
 	};
 
 	/*!

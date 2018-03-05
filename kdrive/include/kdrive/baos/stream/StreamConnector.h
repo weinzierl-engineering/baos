@@ -125,7 +125,7 @@ protected:
 
 	enum Defaults
 	{
-	    BufferSize = 2048,
+		BufferSize = 2048,
 	};
 
 	/*

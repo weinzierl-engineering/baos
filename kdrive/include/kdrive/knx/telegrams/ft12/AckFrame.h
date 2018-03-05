@@ -34,7 +34,7 @@ class kdriveKnx_API AckFrame : public ByteFormatter
 public:
 	enum Attributes
 	{
-	    Length = 1	/*!< The constant length of the ack frame */
+		Length = 1	/*!< The constant length of the ack frame */
 	};
 
 	/*!

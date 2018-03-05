@@ -45,8 +45,8 @@ namespace
 
 enum Defaults
 {
-    DefaultBaudrate = 19200,
-    RxBufferLength = 30
+	DefaultBaudrate = 19200,
+	RxBufferLength = 30
 };
 
 void initProperties(kdrive::utility::PropertyCollection& collection)
@@ -57,8 +57,8 @@ void initProperties(kdrive::utility::PropertyCollection& collection)
 
 enum EmiCodes
 {
-    Emi_PEI_Identify_Req = 0xA7,
-    Emi_PEI_Identify_Con = 0xA8
+	Emi_PEI_Identify_Req = 0xA7,
+	Emi_PEI_Identify_Con = 0xA8
 };
 
 /*******************************
@@ -230,9 +230,9 @@ public:
 public:
 	enum SupportedProtocols
 	{
-	    SupportedEmi1 = 0x01, /*! reserved for EMI 1 (no device known with FT 1.2 EMI 1) */
-	    SupportedEmi2 = 0x02, /*! (reserved; NOTE: EMI 2 devives do not send this in PEI_Identify services) */
-	    SupportedEmiC = 0x04
+		SupportedEmi1 = 0x01, /*! reserved for EMI 1 (no device known with FT 1.2 EMI 1) */
+		SupportedEmi2 = 0x02, /*! (reserved; NOTE: EMI 2 devives do not send this in PEI_Identify services) */
+		SupportedEmiC = 0x04
 	};
 
 private:

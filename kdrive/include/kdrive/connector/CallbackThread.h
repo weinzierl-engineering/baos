@@ -248,8 +248,8 @@ private:
 	private:
 		enum Defaults
 		{
-		    MinCapacity = 2,
-		    MaxCapacity = 500
+			MinCapacity = 2,
+			MaxCapacity = 500
 		};
 	};
 

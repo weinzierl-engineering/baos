@@ -36,10 +36,10 @@ public:
 
 	enum DescriptorFields
 	{
-	    Id = 0,
-	    ValueType,
-	    ConfigFlags,
-	    DatapointType,
+		Id = 0,
+		ValueType,
+		ConfigFlags,
+		DatapointType,
 	};
 
 	typedef std::tuple<unsigned short, unsigned char, unsigned char, unsigned char> Descriptor;

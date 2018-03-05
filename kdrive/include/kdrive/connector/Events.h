@@ -30,25 +30,25 @@ struct kdriveConnector_API ConnectorEvents
 {
 	enum Event
 	{
-	    // Common access port events
-	    Error = 0, /*!< The error signal is emitted when an error occurred */
-	    Opening, /*!< The opening signal is emitted when the port is about to be opened */
-	    Opened, /*!< The opened signal is emitted when the port was opened */
-	    Closing, /*!< The closing signal is emitted when the port is about to be closed */
-	    Closed, /*!< The closed signal is emitted when the port was closed */
-	    Terminated, /*!< The terminated signal is emitted when the port was closed (internally) on error */
+		// Common access port events
+		Error = 0, /*!< The error signal is emitted when an error occurred */
+		Opening, /*!< The opening signal is emitted when the port is about to be opened */
+		Opened, /*!< The opened signal is emitted when the port was opened */
+		Closing, /*!< The closing signal is emitted when the port is about to be closed */
+		Closed, /*!< The closed signal is emitted when the port was closed */
+		Terminated, /*!< The terminated signal is emitted when the port was closed (internally) on error */
 
-	    // connector transport events
-	    TransportConnected, /*!< The transport connected signal is emitted when connector transport is connected */
-	    TransportDisconnected, /*!< The transport connected signal is emitted when connector transport is disconnected */
-	    TransportReset, /*!< The transport connected signal is emitted when connector transport is reset */
+		// connector transport events
+		TransportConnected, /*!< The transport connected signal is emitted when connector transport is connected */
+		TransportDisconnected, /*!< The transport connected signal is emitted when connector transport is disconnected */
+		TransportReset, /*!< The transport connected signal is emitted when connector transport is reset */
 
-	    // connector packet events
-	    PacketIndication, /*! A packet was received from the connector */
-	    PacketConfirm, /*! An acknowledgment was received from the connector */
-	    PacketConfirmTimeout, /*! A acknowledgment was not received from the connector */
+		// connector packet events
+		PacketIndication, /*! A packet was received from the connector */
+		PacketConfirm, /*! An acknowledgment was received from the connector */
+		PacketConfirmTimeout, /*! A acknowledgment was not received from the connector */
 
-	    PropertyModified, /*! Indicates that a connector property has been modified */
+		PropertyModified, /*! Indicates that a connector property has been modified */
 	};
 
 	static std::string toString(unsigned long eventType);

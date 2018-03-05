@@ -63,19 +63,19 @@ class kdriveKnx_API VariableLengthFrame : public Formatter
 public:
 	enum Attributes
 	{
-	    StartByte1 = 0,
-	    Length1,
-	    Length2,
-	    StartByte2,
-	    ControlField,
-	    LinkUserDataBytes,
-	    Checksum,
-	    EndByte
+		StartByte1 = 0,
+		Length1,
+		Length2,
+		StartByte2,
+		ControlField,
+		LinkUserDataBytes,
+		Checksum,
+		EndByte
 	};
 
 	enum Lengths
 	{
-	    HeaderLength = EndByte - 1  /*!< HeaderLength is end byte - 1, i.e. control field is not part of head length */
+		HeaderLength = EndByte - 1  /*!< HeaderLength is end byte - 1, i.e. control field is not part of head length */
 	};
 
 	/*!

@@ -176,23 +176,23 @@ public:
 
 	enum SizeInBits
 	{
-	    DPT1_Bits = 1,
-	    DPT2_Bits = 2,
-	    DPT3_Bits = 4,
-	    DPT4_Bits = 8,
-	    DPT5_Bits = 8,
-	    DPT6_Bits = 8,
-	    DPT7_Bits = 16,
-	    DPT8_Bits = 16,
-	    DPT9_Bits = 16,
-	    DPT10_Bits = 24,
-	    DPT11_Bits = 24,
-	    DPT12_Bits = 32,
-	    DPT13_Bits = 32,
-	    DPT14_Bits = 32,
-	    DPT15_Bits = 32,
-	    DPT16_Bits = 112,
-	    DPT232_Bits = 24
+		DPT1_Bits = 1,
+		DPT2_Bits = 2,
+		DPT3_Bits = 4,
+		DPT4_Bits = 8,
+		DPT5_Bits = 8,
+		DPT6_Bits = 8,
+		DPT7_Bits = 16,
+		DPT8_Bits = 16,
+		DPT9_Bits = 16,
+		DPT10_Bits = 24,
+		DPT11_Bits = 24,
+		DPT12_Bits = 32,
+		DPT13_Bits = 32,
+		DPT14_Bits = 32,
+		DPT15_Bits = 32,
+		DPT16_Bits = 112,
+		DPT232_Bits = 24
 	};
 
 private:

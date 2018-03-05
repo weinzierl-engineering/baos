@@ -100,9 +100,9 @@ std::string ProtocolDecoder::log(unsigned char subService)
 {
 	switch (subService)
 	{
-			/***************************
-			** Requests
-			****************************/
+		/***************************
+		** Requests
+		****************************/
 		case RequestFunctions::GetServerItem:
 			return "RequestFunctions::GetServerItem";
 		case RequestFunctions::SetServerItem:
@@ -128,9 +128,9 @@ std::string ProtocolDecoder::log(unsigned char subService)
 		case RequestFunctions::SetTimer:
 			return "RequestFunctions::SetTimer";
 
-			/***************************
-			** Responses
-			****************************/
+		/***************************
+		** Responses
+		****************************/
 		case ResponseFunctions::GetServerItem:
 			return "ResponseFunctions::GetServerItem";
 		case ResponseFunctions::SetServerItem:
@@ -156,9 +156,9 @@ std::string ProtocolDecoder::log(unsigned char subService)
 		case ResponseFunctions::SetTimer:
 			return "ResponseFunctions::SetTimer";
 
-			/***************************
-			** Indications
-			****************************/
+		/***************************
+		** Indications
+		****************************/
 		case IndicationFunctions::DatapointValueIndication:
 			return "IndicationFunctions::DatapointValueIndication";
 		case IndicationFunctions::ServerItemIndication:

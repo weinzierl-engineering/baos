@@ -42,38 +42,38 @@ namespace
 */
 enum TransportHeader
 {
-    // KNXnet/IP header
-    KnxNetIpHeaderSize = 0,
-    Version,
-    ObjectServerRequestHigh,
-    ObjectServerRequestLow,
-    FrameSizeHigh,
-    FrameSizeLow,
+	// KNXnet/IP header
+	KnxNetIpHeaderSize = 0,
+	Version,
+	ObjectServerRequestHigh,
+	ObjectServerRequestLow,
+	FrameSizeHigh,
+	FrameSizeLow,
 
-    // Connection header
-    StructureLength, /*< The value is in baos protocol 2 always 4 */
-    Reserved1,
-    Reserved2,
-    Reserved3,
+	// Connection header
+	StructureLength, /*< The value is in baos protocol 2 always 4 */
+	Reserved1,
+	Reserved2,
+	Reserved3,
 
-    HeaderSize, /*< Note: This is not a field. It's only a helper */
+	HeaderSize, /*< Note: This is not a field. It's only a helper */
 };
 
 enum Defaults
 {
-    KnxNetIpHeaderSizeValue = 0x06,			/*!< Size of the KNXNet/IP Header */
-    StructureLengthValue = 0x04,			/*!< Size of the Connection Header */
-    ObjectServerMessageSizeValue = 0x06,	/*!< Size of Object Server Message Header */
-    ObjectServerRequestValue = 0xF080,		/*!< Object Server Request ID */
+	KnxNetIpHeaderSizeValue = 0x06,			/*!< Size of the KNXNet/IP Header */
+	StructureLengthValue = 0x04,			/*!< Size of the Connection Header */
+	ObjectServerMessageSizeValue = 0x06,	/*!< Size of Object Server Message Header */
+	ObjectServerRequestValue = 0xF080,		/*!< Object Server Request ID */
 };
 
 enum class ValidationCode
 {
-    Valid = 0,
-    IncompletePacket,
-    InvalidHeaderSize,
-    InvalidVersion,
-    InvalidService
+	Valid = 0,
+	IncompletePacket,
+	InvalidHeaderSize,
+	InvalidVersion,
+	InvalidService
 };
 
 /*

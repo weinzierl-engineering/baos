@@ -54,9 +54,9 @@ namespace
 
 enum
 {
-    RxBufferLength = 300,
-    DefaultMulticastTTL = 16,
-    SearchResponseTimeout = 500 /*!< Timeout for get a search response in ms. */
+	RxBufferLength = 300,
+	DefaultMulticastTTL = 16,
+	SearchResponseTimeout = 500 /*!< Timeout for get a search response in ms. */
 };
 
 } // end anonymous namespace
