@@ -311,6 +311,17 @@ bool BaosServerItems::isMenuEnabled() const
 	return getItemByte(ServerItemProperties::MenuEnabled) ? true : false;
 }
 
+bool BaosServerItems::isSuspendEnabled() const
+{
+	return getItemByte(ServerItemProperties::SuspendEnabled) ? true : false;
+}
+
+void BaosServerItems::setSuspend(unsigned char suspend)
+{
+	const std::vector<unsigned char> v(1, suspend);
+	setServerItem(ServerItemProperties::SuspendEnabled, v);
+}
+
 /*!
     Returns the server item data buffer
 */

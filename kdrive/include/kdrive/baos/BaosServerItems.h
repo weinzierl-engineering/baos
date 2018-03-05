@@ -387,6 +387,17 @@ public:
 	*/
 	bool isMenuEnabled() const;
 
+	/*!
+		Returns true if Suspend is enabled, otherwise false
+	*/
+	bool isSuspendEnabled() const;
+
+	/*!
+		Set new value for suspend
+	*/
+	void setSuspend(unsigned char suspend);
+	
+
 private:
 	std::vector<unsigned char> getItemData(unsigned short id) const;
 	unsigned char getItemByte(unsigned short id) const;

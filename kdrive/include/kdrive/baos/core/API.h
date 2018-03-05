@@ -174,6 +174,7 @@ struct kdriveRPC_baos_API ServerItemProperties
 		SystemTime = 47, /*!< (Read Only; variable length; from V2.1) */
 		SystemTimezoneOffset = 48, /*!< (Read Only; 1 byte (signed); from V2.1) */
 		MenuEnabled = 49, /*!< (Read Only; 1 byte; from V2.1) */
+		SuspendEnabled = 50, /*!< (Read/Write; 1 byte; from 2.1) */
 	};
 };
 
