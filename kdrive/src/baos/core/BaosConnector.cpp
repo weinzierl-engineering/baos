@@ -42,7 +42,7 @@ private:
 	static std::atomic<unsigned int> nextPortId_; /*!<A unique id for the next port */
 };
 
-std::atomic<unsigned int> ConnectorIdHelper::nextPortId_ = 1;
+std::atomic<unsigned int> ConnectorIdHelper::nextPortId_(1);
 
 unsigned int ConnectorIdHelper::getUniqueId()
 {
