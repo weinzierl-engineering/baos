@@ -6,8 +6,8 @@
 // Version
 // 
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION 16,1,1,0
-PRODUCTVERSION 16,1,1,0
+FILEVERSION 18,1,0,0
+PRODUCTVERSION 18,1,0,0
 FILEFLAGSMASK VS_FFI_FILEFLAGSMASK
 #ifdef _DEBUG
 	FILEFLAGS VS_FF_DEBUG
@@ -24,12 +24,12 @@ BEGIN
  BEGIN
     VALUE "CompanyName", "Weinzierl Engineering GmbH"
     VALUE "FileDescription", "kdriveBAOS .net Dynamic Link Library"
-    VALUE "FileVersion", "16, 1, 1, 0"
+    VALUE "FileVersion", "18, 1, 0, 0"
     VALUE "InternalName", "kdriveBAOS .net Wrapper"
     VALUE "LegalCopyright", "Copyright (C) Weinzierl Engineering GmbH"
     VALUE "OriginalFilename", "kdriveBAOS_dotnet.dll"
     VALUE "ProductName", "kdriveBAOS_dotnet"
-    VALUE "ProductVersion", "16, 1, 1, 0"
+    VALUE "ProductVersion", "18, 1, 0, 0"
  END
 END
 BLOCK "VarFileInfo"
