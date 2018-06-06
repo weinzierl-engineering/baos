@@ -2,6 +2,12 @@
 BAOS SDK Release Notes and Change Log
 =====================================
 
+Release BAOS-SDK-18.2.0 (2018-06-06)
+------------------------------------
+
+[GH-8]        - Added support for BAOS USB
+
+
 Release BAOS-SDK-18.1.0 (2018-03-06)
 ------------------------------------
 
@@ -11,9 +17,9 @@ Release BAOS-SDK-18.1.0 (2018-03-06)
 [GH-5]        - Added server item 50 SuspendEnabled
 [GH-6]        - Fixed: The BaosDatapointDescription cache not supported multiple different devices/connectors
 [...]         - Small stuff:
-                * cmake/dotnet.cmake: Use for the .net binding with VS 2013 .net 4.5.1
-                * cmake/warning.cmake: Enable -Wextra warnings under gcc
-                * ...
+				* cmake/dotnet.cmake: Use for the .net binding with VS 2013 .net 4.5.1
+				* cmake/warning.cmake: Enable -Wextra warnings under gcc
+				* ...
 
 
 Release BAOS-SDK-16.1.1 (2018-02-01)
