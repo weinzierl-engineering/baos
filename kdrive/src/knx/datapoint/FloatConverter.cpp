@@ -1,248 +1,63 @@
-//
-// Copyright (c) 2002-2018 WEINZIERL ENGINEERING GmbH
-// All rights reserved.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT
-// SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY DAMAGES OR OTHER LIABILITY,
-// WHETHER IN CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
-//
 
 #include "pch/kdrive_pch.h"
 #include "kdrive/knx/datapoint/FloatConverter.h"
 #include <Poco/Exception.h>
 #include <boost/assert.hpp>
-
-using Poco::Exception;
-using namespace kdrive::knx;
-
+using Poco::Exception;using namespace kdrive::knx;
 #ifndef LOBYTE
 #define LOBYTE(w)           ((unsigned char)(w))
 #endif
-
 #ifndef HIBYTE
-#define HIBYTE(w)           ((unsigned char)(((unsigned short)(w) >> 8) & 0xFF))
+#define HIBYTE(w)           ((unsigned char)(((unsigned short)(w) >> \
+(0x9dd+7439-0x26e4)) & (0x17ac+344-0x1805)))
 #endif
-
-/*********************************
-** Anonymous Namespace
-*********************************/
-
-namespace
-{
-
-/*!
-	The following function are adapted from the KNX-Stack
-*/
-
-enum
-{
-	BIT00 = (1 << 0),															// Bit 0
-	BIT07 = (1 << 7)															// Bit 7
-};
-
-/*!
-	Retrieves a 16 bit word
-*/
-inline unsigned short BUILD_WORD(unsigned char nHigh, unsigned char nLow)
-{
-	return (nHigh << 8) | nLow;
-}
-
-/*!
-	Shift bits left
-*/
-inline unsigned int SHL(unsigned int nVal, unsigned int nShift)
-{
-	return (nVal << nShift);
-}
-
-/*!
-	Shift bits right
-*/
-inline unsigned int SHR(unsigned int nVal, unsigned int nShift)
-{
-	return (nVal >> nShift);
-}
-
-/// This function converts a Knx-Float (DPT 9.xxx/EIS5)
-/// to a long with scaling * 100
-/// Return: true  if conversion was successful
-/// 		false on error
-bool KnxDpt_ConvKnxFlToSInt32(const unsigned char* pnKnxFloat, int* pnInt)
-{
-	unsigned short nRaw;														// KNX float raw data
-	unsigned short nMultipli;													// Multiplicator
-	int nMantissa;																// Mantissa
-
-	if ((pnKnxFloat[0] == 0x7F) && (pnKnxFloat[1] == 0xFF))						// If Knx float error value
-	{
-		// invalid KNX value
-		return false;															// Return error
-	}
-
-	nRaw = BUILD_WORD(pnKnxFloat[0], pnKnxFloat[1]);							// Build the raw word
-	nMantissa = nRaw & 0x07FF;													// Extract pos. mantissa
-	nMultipli = SHL(BIT00, (SHR(pnKnxFloat[0], 3) & 0x0F));						// Build 2^(exponent)
-
-	if (pnKnxFloat[0] & 0x80)													// If value negative
-	{
-		// Mathematic for neg signment:
-		//
-		//	FloatValue = (nMantissa - 2048) * 2^nExponent / 100.0
-		//
-		//	Mantissa is ranged from -2048 to 2047 and 100 times of value.
-		//	E.g. if you have only set the signed bit,
-		//	the result is (0-2048)/100 = - 20.48 and not 0.0
-		nMantissa -= 2048;														// Build complement
-	}
-
-	*pnInt = (int)nMantissa * nMultipli;										// Build signed int
-
-	return true;																// Return success
-}
-
-
-/// This function converts a long with scaling * 100 to
-/// a KNX-Float (DPT 9.xxx/EIS5)
-/// Return: true if conversion was successful
-/// 		false on error
-bool KnxDpt_ConvSInt32ToKnxFl(int nInt, unsigned char* pnKnxFloat)
-{
-	unsigned int nMantissa;														// Mantissa of Knx-Float
-	unsigned short nMantissaMax;												// Maxima of mantissa
-	unsigned char  nExponent;													// Exponent of Knx-Float
-	unsigned char  nLostBit;													// Last shifted bit = lost bit
-
-	if (nInt >= 0)																// If value positive
-	{
-		nMantissa = (unsigned int)nInt;											// Init mantissa
-		nMantissaMax = 2047;													// Maxima of pos range
-	}
-	else																		// Else: Value negative
-	{
-		nMantissa = (unsigned int)-nInt;										// Init positive mantissa
-		nMantissaMax = 2048;													// Maxima of neg range
-	}
-
-	// Note:
-	//		If we shift nMantissa right, and nMantissa is odd we lost a bit!
-	//		For the last lost bit, we increase nMantissa, this is an
-	//		implicit binary rounding up of nMantissa.
-	//		"(nMantissa + nLostBit)" in the while loop, make sure
-	//		that we have no overflow in nMantissa.
-	nLostBit  = 0;																// Set lost bit to 0
-	nExponent = 0;																// Set exponent to 0
-	while ((nMantissa + nLostBit) > nMantissaMax)								// Loop until (nInt / 2^nExponent) <= nMantissaMax
-	{
-		nLostBit = (unsigned char)(nMantissa & 0x01);							// Remember the lost bit in the next shift operation
-		nMantissa >>= 1;														// Calc 2^nExponent
-		nExponent++;															// Calc nExponent
-	}
-
-	nMantissa += nLostBit;														// Round up nMantissa
-
-	if (nExponent > 15)															// If value is out of range
-	{
-		// Error: Value out of KNX float16 range
-		pnKnxFloat[0] = 0x7F;													// Set Knx float to error value
-		pnKnxFloat[1] = 0xFF;													// Set Knx float to error value
-		return false;															// Return error
-	}
-
-	if (nInt >= 0)																// If value positive
-	{
-		pnKnxFloat[0] = 0x00;													// Set the sign to pos
-	}
-	else																		// Else: Value negative
-	{
-		nMantissa = 2048 - nMantissa;											// Calculate a signed mantissa
-		pnKnxFloat[0] = BIT07;													// Set the sign to neg
-	}
-
-	// Set value to format SEEEEMMM MMMMMMMM
-	// Sign already set before
-	pnKnxFloat[0] |= (nExponent << 3) & 0x78;									// Set sEEEEmmm
-	pnKnxFloat[0] |= HIBYTE(nMantissa);											// Set seeeMMM
-	pnKnxFloat[1]  = LOBYTE(nMantissa);											// Set MMMMMMMM
-
-	return true;																// Return success
-}
-
-/// This function converts a KNX-Float (DPT 9.xxx/EIS5) to a IEEE-Float
-/// The format of the KNX-float is MEEEEMMM MMMMMMMM
-/// Return: true  if conversion was successful
-/// 		false on error
-bool KnxDpt_ConvKnxFlToIeeeFl(const unsigned char* pnKnxFloat, float* pfValue)
-{
-	int nLongInt;																// Value*100 as int
-
-	if (KnxDpt_ConvKnxFlToSInt32(pnKnxFloat, &nLongInt))							// If conversation was success
-	{
-		*pfValue = static_cast<float>(nLongInt / 100.0);						// Adapt value range
-		return true;															// Return success
-	}
-
-	return false;																// Return error
-}
-
-
-/// This function converts a IEEE-Float to
-/// a KNX-Float (DPT 9.xxx/EIS5)
-/// Return: true  if conversion was successful
-/// 		false on error
-bool KnxDpt_ConvIeeeFlToKnxFl(float fIeeeFloat, unsigned char* pnKnxFloat)
-{
-	int nInt;																	// Value * 100
-
-	fIeeeFloat *= 100.0;														// Map value to float*100
-	if (fIeeeFloat > 0)															// If value positive
-	{
-		nInt = (int)(fIeeeFloat + 0.5);											// Map to signed int*100
-	}
-	else																		// Else: Value negative
-	{
-		nInt = (int)(fIeeeFloat - 0.5);											// Map to signed int*100
-	}
-
-	return KnxDpt_ConvSInt32ToKnxFl(nInt, pnKnxFloat);							// Do the conversion
-}
-
-
-} // end anonymous namespace
-
-/*********************************
-** FloatConverter
-*********************************/
-
-float FloatConverter::toFloat2(unsigned char msb, unsigned char lsb)
-{
-	return toFloat4FromFloat2(msb, lsb);
-}
-
-std::tuple<unsigned char, unsigned char> FloatConverter::toFloat2FromFloat4(float f)
-{
-	unsigned char knxFloat[2] = {0};
-
-	if (!KnxDpt_ConvIeeeFlToKnxFl(f, knxFloat))
-	{
-		throw Exception("Value out of KNX float16 range");
-	}
-
-	return std::make_tuple(knxFloat[0], knxFloat[1]);
-}
-
-float FloatConverter::toFloat4FromFloat2(unsigned char msb, unsigned char lsb)
-{
-	const unsigned char knxFloat[2] = {msb, lsb};
-	float ieeeFloat = 0;
-
-	if (!KnxDpt_ConvKnxFlToIeeeFl(knxFloat, &ieeeFloat))
-	{
-		throw Exception("Invalid KNX float value");
-	}
-
-	return ieeeFloat;
-}
+namespace{enum{z29f4a76e7e=((0xa2f+3234-0x16d0)<<(0x113a+643-0x13bd)),
+zb7abd287b2=((0x119b+1928-0x1922)<<(0x18fa+3186-0x2565))};inline unsigned short 
+zbd8225acd5(unsigned char zd2969cd9a0,unsigned char zbab9feb3b8){return(
+zd2969cd9a0<<(0x14cd+3819-0x23b0))|zbab9feb3b8;}inline unsigned int zc774514371(
+unsigned int zbcc37c79d8,unsigned int zb9144bc744){return(zbcc37c79d8<<
+zb9144bc744);}inline unsigned int zcaf0822456(unsigned int zbcc37c79d8,unsigned 
+int zb9144bc744){return(zbcc37c79d8>>zb9144bc744);}bool z96835402e2(const 
+unsigned char*zf1b4948a61,int*z4a168aa0ed){unsigned short z3fbf55ec47;unsigned 
+short z6a3d60feee;int zc776ffe020;if((zf1b4948a61[(0x1246+906-0x15d0)]==
+(0xef1+5987-0x25d5))&&(zf1b4948a61[(0x56+7302-0x1cdb)]==(0x34d+2253-0xb1b))){
+return false;}z3fbf55ec47=zbd8225acd5(zf1b4948a61[(0x1f6c+535-0x2183)],
+zf1b4948a61[(0x929+627-0xb9b)]);zc776ffe020=z3fbf55ec47&(0x1948+199-0x1210);
+z6a3d60feee=zc774514371(z29f4a76e7e,(zcaf0822456(zf1b4948a61[
+(0x19bc+1967-0x216b)],(0x1e5d+1336-0x2392))&(0xa27+714-0xce2)));if(zf1b4948a61[
+(0x129c+1486-0x186a)]&(0x1793+2387-0x2066)){zc776ffe020-=(0xbb2+6112-0x1b92);}*
+z4a168aa0ed=(int)zc776ffe020*z6a3d60feee;return true;}bool zc614577611(int 
+za5d37097ad,unsigned char*zf1b4948a61){unsigned int zc776ffe020;unsigned short 
+z71c19641b2;unsigned char z1d09706214;unsigned char z54c29ce3a2;if(za5d37097ad>=
+(0xb1c+1486-0x10ea)){zc776ffe020=(unsigned int)za5d37097ad;z71c19641b2=
+(0x8e6+4658-0x1319);}else{zc776ffe020=(unsigned int)-za5d37097ad;z71c19641b2=
+(0xc15+1028-0x819);}z54c29ce3a2=(0x53a+399-0x6c9);z1d09706214=(0xa3b+490-0xc25);
+while((zc776ffe020+z54c29ce3a2)>z71c19641b2){z54c29ce3a2=(unsigned char)(
+zc776ffe020&(0xfc7+4768-0x2266));zc776ffe020>>=(0x1f65+85-0x1fb9);z1d09706214++;
+}zc776ffe020+=z54c29ce3a2;if(z1d09706214>(0x3bd+1364-0x902)){zf1b4948a61[
+(0xcb6+1965-0x1463)]=(0xe53+3752-0x1c7c);zf1b4948a61[(0x18c3+2071-0x20d9)]=
+(0x30a+4516-0x13af);return false;}if(za5d37097ad>=(0x1a+6389-0x190f)){
+zf1b4948a61[(0xc3f+296-0xd67)]=(0x559+6952-0x2081);}else{zc776ffe020=
+(0x212c+1868-0x2078)-zc776ffe020;zf1b4948a61[(0x111d+5076-0x24f1)]=zb7abd287b2;}
+zf1b4948a61[(0x1877+69-0x18bc)]|=(z1d09706214<<(0x413+7479-0x2147))&
+(0x2007+1006-0x237d);zf1b4948a61[(0x115+4637-0x1332)]|=HIBYTE(zc776ffe020);
+zf1b4948a61[(0x474+8487-0x259a)]=LOBYTE(zc776ffe020);return true;}bool 
+zdef5f59c85(const unsigned char*zf1b4948a61,float*z9cc9e2d328){int z0ebbf53421;
+if(z96835402e2(zf1b4948a61,&z0ebbf53421)){*z9cc9e2d328=static_cast<float>(
+z0ebbf53421/100.0);return true;}return false;}bool z0c13fe1e16(float z7478171ae5
+,unsigned char*zf1b4948a61){int za5d37097ad;z7478171ae5*=100.0;if(z7478171ae5>
+(0x14af+4321-0x2590)){za5d37097ad=(int)(z7478171ae5+0.5);}else{za5d37097ad=(int)
+(z7478171ae5-0.5);}return zc614577611(za5d37097ad,zf1b4948a61);}}float 
+zac29c93fda::z03088b6602(unsigned char zba1cbc76ee,unsigned char z68419f84d9){
+return zdfe51b7ee0(zba1cbc76ee,z68419f84d9);}std::tuple<unsigned char,unsigned 
+char>zac29c93fda::zb219ab2908(float f){unsigned char z97f999352c[
+(0x4b2+1480-0xa78)]={(0x81+1911-0x7f8)};if(!z0c13fe1e16(f,z97f999352c)){throw 
+Exception(
+"\x56\x61\x6c\x75\x65\x20\x6f\x75\x74\x20\x6f\x66\x20\x4b\x4e\x58\x20\x66\x6c\x6f\x61\x74\x31\x36\x20\x72\x61\x6e\x67\x65"
+);}return std::make_tuple(z97f999352c[(0x380+7825-0x2211)],z97f999352c[
+(0x10d9+5150-0x24f6)]);}float zac29c93fda::zdfe51b7ee0(unsigned char zba1cbc76ee
+,unsigned char z68419f84d9){const unsigned char z97f999352c[(0x57d+5777-0x1c0c)]
+={zba1cbc76ee,z68419f84d9};float zb41d1f2878=(0x3ad+6777-0x1e26);if(!zdef5f59c85
+(z97f999352c,&zb41d1f2878)){throw Exception(
+"\x49\x6e\x76\x61\x6c\x69\x64\x20\x4b\x4e\x58\x20\x66\x6c\x6f\x61\x74\x20\x76\x61\x6c\x75\x65"
+);}return zb41d1f2878;}

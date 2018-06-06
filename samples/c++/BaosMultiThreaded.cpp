@@ -52,8 +52,8 @@ namespace
 
 enum
 {
-    MinId = 1,
-    MaxId = 250
+	MinId = 1,
+	MaxId = 250
 };
 
 /*!

@@ -25,6 +25,7 @@
 #include "kdrive/baos/BaosTimers.h"
 #include "kdrive/baos/core/Headers.h"
 #include "kdrive/baos/ft12/Headers.h"
+#include "kdrive/baos/usb/Headers.h"
 #include "kdrive/baos/protocols/Headers.h"
 #include "kdrive/baos/services/Headers.h"
 #include "kdrive/baos/stream/Headers.h"

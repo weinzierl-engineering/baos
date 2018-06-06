@@ -15,6 +15,7 @@
 
 #include "kdrive/baos/Config.h"
 #include "kdrive/baos/core/API.h"
+#include "kdrive/utility/Forwards.h"
 
 namespace Poco
 {
@@ -33,8 +34,16 @@ namespace kdrive
 namespace baos
 {
 
+class BaosIpEnumerator;
+
 /*!
-	\class BaosEnumerator
+	Deprecated
+	Renamed BaosEnumerator to BaosIpEnumerator
+*/
+typedef BaosIpEnumerator BaosEnumerator;
+
+/*!
+	\class BaosIpEnumerator
 	\brief Finds all available IP BAOS devices on the network
 
 	The BaosEnumerator scans all available network interfaces
@@ -55,7 +64,7 @@ namespace baos
 	\note BaosEnumerator supports only IP Baos devices.
 	FT 1.2 Serial device are not supported.
 */
-class kdriveRPC_baos_API BaosEnumerator
+class kdriveRPC_baos_API BaosIpEnumerator
 {
 public:
 	/*!
@@ -63,12 +72,12 @@ public:
 		If autoScan is true it will automatically scan the network
 		If false, you will have to explicitly run scan
 	*/
-	BaosEnumerator(bool autoScan = true);
+	BaosIpEnumerator(bool autoScan = true);
 
 	/*!
 		Destroys the BaosEnumerator
 	*/
-	~BaosEnumerator();
+	~BaosIpEnumerator();
 
 	typedef BaosDevice Device;
 	typedef BaosDevices Devices;
@@ -130,6 +139,68 @@ private:
 	void waitForSearchResponseFrames(Poco::Net::MulticastSocket& socket);
 	bool waitForRx(Poco::Net::MulticastSocket& socket, std::vector<unsigned char>& buffer);
 	void addDevice(const std::vector<unsigned char>& buffer, const Poco::Net::IPAddress& networkInterface);
+
+private:
+	Devices devices_;
+};
+
+
+/*!
+	\class BaosUsbEnumerator
+	\brief Finds all available USB BAOS devices
+*/
+struct kdriveRPC_baos_API BaosUsbEnumerator
+{
+public:
+	typedef kdrive::utility::PropertyCollection Device;
+	typedef std::vector<Device> Devices;
+
+	/*!
+		Creates a Baos Enumerator.
+		If autoScan is true it will automatically scan
+		If false, you will have to explicitly run scan
+	*/
+	BaosUsbEnumerator(bool autoScan = true);
+
+	/*!
+		Destroys the BaosUsbEnumerator
+	*/
+	~BaosUsbEnumerator();
+
+	/*!
+		Searches for usb baos devices
+	*/
+	const Devices& scan();
+
+	/*!
+		Returns the list of found devices
+	*/
+	const Devices& getDevices() const;
+
+	/*!
+		Returns the USB device vendor ID
+	*/
+	static unsigned int getUsbVendorId(const Device& device);
+
+	/*!
+		Returns the USB device product ID
+	*/
+	static unsigned int getUsbProductId(const Device& device);
+
+	/*!
+		Returns the USB manufacturer string
+	*/
+	static std::string getUsbManufacturerString(const Device& device);
+
+	/*!
+		Returns the USB product string
+	*/
+	static std::string getUsbProductString(const Device& device);
+
+	/*!
+		Returns the USB serial number string
+	*/
+	static std::string getUsbSerialNumberString(const Device& device);
 
 private:
 	Devices devices_;

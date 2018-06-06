@@ -1,65 +1,16 @@
-//
-// Copyright (c) 2002-2018 WEINZIERL ENGINEERING GmbH
-// All rights reserved.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT
-// SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY DAMAGES OR OTHER LIABILITY,
-// WHETHER IN CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
-//
 
 #include "pch/kdrive_pch.h"
 #include "kdrive/knx/core/ByteStream.h"
-
-using namespace kdrive::knx;
-using Poco::Exception;
-
-
-/*!
-	This function do nothing, because a byte haven't flip.
-*/
-template <>
-void kdrive::knx::flipData<unsigned char>(ByteStreamUnion<unsigned char>& u)
-{
-	// Nothing to do
-}
-
-/*!
-	This function do nothing, because a char haven't flip.
-*/
-template <>
-void kdrive::knx::flipData<char>(ByteStreamUnion<char>& u)
-{
-	// Nothing to do
-}
-
-template <>
-void kdrive::knx::flipData<float>(ByteStreamUnion<float>& u)
-{
-	flipBytes(u);
-}
-
-template <>
-unsigned char kdrive::knx::fromByteStream<unsigned char, 1>(const unsigned char* buffer, std::size_t bufferLength,std::size_t index)
-{
-	if (bufferLength < 1+index)
-	{
-		throw Exception("Buffer Overrun");
-	}
-
-	return *(buffer+index);
-};
-
-template <>
-char kdrive::knx::fromByteStream<char, 1>(const unsigned char* buffer, std::size_t bufferLength,std::size_t index)
-{
-	if (bufferLength < 1+index)
-	{
-		throw Exception("Buffer Overrun");
-	}
-
-	return static_cast<char>(*(buffer+index));
-};
-
+using namespace kdrive::knx;using Poco::Exception;template<>void kdrive::knx::
+zda00b50860<unsigned char>(z9c9e564eb1<unsigned char>&u){}template<>void kdrive
+::knx::zda00b50860<char>(z9c9e564eb1<char>&u){}template<>void kdrive::knx::
+zda00b50860<float>(z9c9e564eb1<float>&u){flipBytes(u);}template<>unsigned char 
+kdrive::knx::ze378c24725<unsigned char,(0x69d+6741-0x20f1)>(const unsigned char*
+buffer,std::size_t z3ba388a942,std::size_t index){if(z3ba388a942<
+(0x9d8+6597-0x239c)+index){throw Exception(
+"\x42\x75\x66\x66\x65\x72\x20\x4f\x76\x65\x72\x72\x75\x6e");}return*(buffer+
+index);};template<>char kdrive::knx::ze378c24725<char,(0x176f+423-0x1915)>(const
+ unsigned char*buffer,std::size_t z3ba388a942,std::size_t index){if(z3ba388a942<
+(0x10e0+3271-0x1da6)+index){throw Exception(
+"\x42\x75\x66\x66\x65\x72\x20\x4f\x76\x65\x72\x72\x75\x6e");}return static_cast<
+char>(*(buffer+index));};

@@ -1,199 +1,55 @@
-//
-// Copyright (c) 2002-2018 WEINZIERL ENGINEERING GmbH
-// All rights reserved.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT
-// SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY DAMAGES OR OTHER LIABILITY,
-// WHETHER IN CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
-//
 
 #include "pch/kdrive_pch.h"
 #include "kdrive/knx/telegrams/ft12/VariableLengthFrame.h"
 #include "kdrive/knx/defines/FT12Constants.h"
 #include <algorithm>
 #include <numeric>
-
-using namespace kdrive::knx::ft12;
-using kdrive::knx::Buffer;
-
-VariableLengthFrame::VariableLengthFrame()
-{
-}
-
-VariableLengthFrame::~VariableLengthFrame()
-{
-}
-
-/*
-	The frame size is the header length + the two user attributes
-	control field (1 byte) + user data buffer length
-*/
-std::size_t VariableLengthFrame::size() const
-{
-	return HeaderLength + userData_.size() + 1;
-}
-
-/*
-	Note: length is control field + link user data
-*/
-bool VariableLengthFrame::isValid() const
-{
-	return ((startByte1_.get() == FT12Constants::StartVarLengthFrame) &&
-	        (endByte_.get() == FT12Constants::EndFrame) &&
-	        (length1_.get() == length2_.get()) &&
-	        (length1_.get() == (userData_.size() + 1)) &&
-	        (checksum_.get() == calculateChecksum()));
-}
-
-void VariableLengthFrame::setDefaults()
-{
-	startByte1_.set(FT12Constants::StartVarLengthFrame);
-	length1_.set(1);
-	length2_.set(1);
-	startByte2_.set(FT12Constants::StartVarLengthFrame);
-	controlField_.set(0x00);
-	checksum_.set(0x00);
-	endByte_.set(FT12Constants::EndFrame);
-}
-
-unsigned char VariableLengthFrame::getStartByte1() const
-{
-	return startByte1_.get();
-}
-
-unsigned char VariableLengthFrame::getLength1() const
-{
-	return length1_.get();
-}
-
-unsigned char VariableLengthFrame::getLength2() const
-{
-	return length2_.get();
-}
-
-unsigned char VariableLengthFrame::getStartByte2() const
-{
-	return startByte2_.get();
-}
-
-void VariableLengthFrame::setControlField(unsigned char controlField)
-{
-	controlField_.set(controlField);
-}
-
-unsigned char VariableLengthFrame::getControlField() const
-{
-	return controlField_.get();
-}
-
-void VariableLengthFrame::setUserData(const unsigned char* buffer, std::size_t bufferSize)
-{
-	if (buffer && bufferSize)
-	{
-		userData_.resize(bufferSize);
-		std::copy(buffer, buffer + bufferSize, userData_.begin());
-	}
-	else
-	{
-		userData_.clear();
-	}
-}
-
-const std::vector<unsigned char>& VariableLengthFrame::getUserData() const
-{
-	return userData_;
-}
-
-void VariableLengthFrame::setChecksum(unsigned char checksum)
-{
-	checksum_.set(checksum);
-}
-
-unsigned char VariableLengthFrame::getChecksum() const
-{
-	return checksum_.get();
-}
-
-unsigned char VariableLengthFrame::getEndByte() const
-{
-	return endByte_.get();
-}
-
-/*
-	Note: length is control field + link user data
-*/
-void VariableLengthFrame::setVariableAttributes()
-{
-	const unsigned char length = static_cast<unsigned char>(userData_.size()) + 1;
-	const unsigned char checkSum = calculateChecksum();
-
-	length1_.set(length);
-	length2_.set(length);
-	checksum_.set(checkSum);
-}
-
-std::size_t VariableLengthFrame::readImpl(const Buffer& buffer)
-{
-	startByte1_.set(buffer.readByte(StartByte1));
-	length1_.set(buffer.readByte(Length1));
-	length2_.set(buffer.readByte(Length2));
-	startByte2_.set(buffer.readByte(StartByte2));
-	controlField_.set(buffer.readByte(ControlField));
-
-	// offset for control field, which is part of user data
-	const int userDataLength = length1_.get() - 1;
-	const unsigned char* ptr = buffer.readBuffer(LinkUserDataBytes, userDataLength);
-	setUserData(ptr, userDataLength);
-
-	const int checksumOffset = getChecksumOffset();
-	checksum_.set(buffer.readByte(checksumOffset));
-	endByte_.set(buffer.readByte(checksumOffset + 1));
-
-	return size();
-}
-
-std::size_t VariableLengthFrame::writeImpl(Buffer& buffer)
-{
-	buffer.writeByte(StartByte1, startByte1_.get());
-	buffer.writeByte(Length1, length1_.get());
-	buffer.writeByte(Length2, length2_.get());
-	buffer.writeByte(StartByte2, startByte2_.get());
-	buffer.writeByte(ControlField, controlField_.get());
-
-	if (!userData_.empty())
-	{
-		buffer.writeBuffer(LinkUserDataBytes, &userData_.at(0), userData_.size());
-	}
-
-	const int checksumOffset = getChecksumOffset();
-	buffer.writeByte(checksumOffset, checksum_.get());
-	buffer.writeByte(checksumOffset + 1, endByte_.get());
-
-	return size();
-}
-
-/*
-	The sequence of user data characters shall be terminated by an 8 bit checksum.
-	The checksum shall be the arithmetic sum disregarding overflows
-	(sum modulo 256) over all user data octets. User data octets is the control field
-	and the user data.
-*/
-unsigned char VariableLengthFrame::calculateChecksum() const
-{
-	return std::accumulate(userData_.begin(), userData_.end(), controlField_.get());
-}
-
-/*
-	We can't use the Checksum and EndByte offsets because the user data is
-	variable length. This function calculates the real offset of the
-	end of user data (i.e. Checksum field).
-	We have to do user data size - 1 because we already allocate 1 byte
-	for LinkUserDataBytes in the attributes enum
-*/
-int VariableLengthFrame::getChecksumOffset() const
-{
-	return Checksum + (userData_.size() - 1);
-}
+using namespace kdrive::knx::ft12;using kdrive::knx::Buffer;VariableLengthFrame
+::VariableLengthFrame(){}VariableLengthFrame::~VariableLengthFrame(){}std::
+size_t VariableLengthFrame::size()const{return HeaderLength+z14e0d1edf3.size()+
+(0xecb+5300-0x237e);}bool VariableLengthFrame::isValid()const{return((
+z5c1f42d812.get()==FT12Constants::StartVarLengthFrame)&&(z5595af419d.get()==
+FT12Constants::EndFrame)&&(z979d270e80.get()==z86680312bc.get())&&(z979d270e80.
+get()==(z14e0d1edf3.size()+(0x129f+2720-0x1d3e)))&&(zb6fd1245b5.get()==
+zc69eabd572()));}void VariableLengthFrame::setDefaults(){z5c1f42d812.set(
+FT12Constants::StartVarLengthFrame);z979d270e80.set((0x5fb+1818-0xd14));
+z86680312bc.set((0x7a3+7409-0x2493));zb8718915ff.set(FT12Constants::
+StartVarLengthFrame);z5930a43bb3.set((0x841+1222-0xd07));zb6fd1245b5.set(
+(0xab8+379-0xc33));z5595af419d.set(FT12Constants::EndFrame);}unsigned char 
+VariableLengthFrame::z43309a7992()const{return z5c1f42d812.get();}unsigned char 
+VariableLengthFrame::z2042692c9b()const{return z979d270e80.get();}unsigned char 
+VariableLengthFrame::z528afb8f77()const{return z86680312bc.get();}unsigned char 
+VariableLengthFrame::z512ec18926()const{return zb8718915ff.get();}void 
+VariableLengthFrame::setControlField(unsigned char controlField){z5930a43bb3.set
+(controlField);}unsigned char VariableLengthFrame::getControlField()const{return
+ z5930a43bb3.get();}void VariableLengthFrame::setUserData(const unsigned char*
+buffer,std::size_t bufferSize){if(buffer&&bufferSize){z14e0d1edf3.resize(
+bufferSize);std::copy(buffer,buffer+bufferSize,z14e0d1edf3.begin());}else{
+z14e0d1edf3.clear();}}const std::vector<unsigned char>&VariableLengthFrame::
+getUserData()const{return z14e0d1edf3;}void VariableLengthFrame::z5205ffbfd7(
+unsigned char checksum){zb6fd1245b5.set(checksum);}unsigned char 
+VariableLengthFrame::z458c6172ca()const{return zb6fd1245b5.get();}unsigned char 
+VariableLengthFrame::z8ca4a7d491()const{return z5595af419d.get();}void 
+VariableLengthFrame::setVariableAttributes(){const unsigned char length=
+static_cast<unsigned char>(z14e0d1edf3.size())+(0xf24+779-0x122e);const unsigned
+ char checkSum=zc69eabd572();z979d270e80.set(length);z86680312bc.set(length);
+zb6fd1245b5.set(checkSum);}std::size_t VariableLengthFrame::readImpl(const 
+Buffer&buffer){z5c1f42d812.set(buffer.z02b8347997(za7a197b82a));z979d270e80.set(
+buffer.z02b8347997(Length1));z86680312bc.set(buffer.z02b8347997(Length2));
+zb8718915ff.set(buffer.z02b8347997(StartByte2));z5930a43bb3.set(buffer.
+z02b8347997(ControlField));const int z883553e471=z979d270e80.get()-
+(0x91b+4334-0x1a08);const unsigned char*ptr=buffer.z15e6bd8652(zab2a784894,
+z883553e471);setUserData(ptr,z883553e471);const int z125eac62a4=zf7d6122444();
+zb6fd1245b5.set(buffer.z02b8347997(z125eac62a4));z5595af419d.set(buffer.
+z02b8347997(z125eac62a4+(0x1123+1235-0x15f5)));return size();}std::size_t 
+VariableLengthFrame::writeImpl(Buffer&buffer){buffer.zb8203d7346(za7a197b82a,
+z5c1f42d812.get());buffer.zb8203d7346(Length1,z979d270e80.get());buffer.
+zb8203d7346(Length2,z86680312bc.get());buffer.zb8203d7346(StartByte2,zb8718915ff
+.get());buffer.zb8203d7346(ControlField,z5930a43bb3.get());if(!z14e0d1edf3.empty
+()){buffer.za213db16c9(zab2a784894,&z14e0d1edf3.at((0x783+2054-0xf89)),
+z14e0d1edf3.size());}const int z125eac62a4=zf7d6122444();buffer.zb8203d7346(
+z125eac62a4,zb6fd1245b5.get());buffer.zb8203d7346(z125eac62a4+
+(0x1b0+6037-0x1944),z5595af419d.get());return size();}unsigned char 
+VariableLengthFrame::zc69eabd572()const{return std::accumulate(z14e0d1edf3.begin
+(),z14e0d1edf3.end(),z5930a43bb3.get());}int VariableLengthFrame::zf7d6122444()
+const{return Checksum+(z14e0d1edf3.size()-(0x9c6+6657-0x23c6));}

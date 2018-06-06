@@ -1,85 +1,21 @@
-//
-// Copyright (c) 2002-2018 WEINZIERL ENGINEERING GmbH
-// All rights reserved.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT
-// SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY DAMAGES OR OTHER LIABILITY,
-// WHETHER IN CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
-//
 
 #include "pch/kdrive_pch.h"
 #include "kdrive/knx/telegrams/ft12/FixedLengthFrame.h"
 #include "kdrive/knx/defines/FT12Constants.h"
-
-using namespace kdrive::knx::ft12;
-
-FixedLengthFrame::FixedLengthFrame(bool autoSetChecksum)
-
-	: autoSetChecksum_(autoSetChecksum)
-{
-	addFormatter(&startByte_);
-	addFormatter(&controlField_);
-	addFormatter(&checksum_);
-	addFormatter(&endByte_);
-}
-
-FixedLengthFrame::~FixedLengthFrame()
-{
-}
-
-bool FixedLengthFrame::isValid() const
-{
-	return ((getStartByte() == FT12Constants::StartFixedLengthFrame) &&
-	        isValidChecksum() && (getEndByte() == FT12Constants::EndFrame));
-}
-
-void FixedLengthFrame::setDefaults()
-{
-	startByte_.set(FT12Constants::StartFixedLengthFrame);
-	controlField_.set(0x00);
-	checksum_.set(0x00);
-	endByte_.set(FT12Constants::EndFrame);
-}
-
-unsigned char FixedLengthFrame::getStartByte() const
-{
-	return startByte_.get();
-}
-
-void FixedLengthFrame::setControlField(unsigned char controlField)
-{
-	controlField_.set(controlField);
-
-	if (autoSetChecksum_)
-	{
-		setChecksum(controlField);
-	}
-}
-
-unsigned char FixedLengthFrame::getControlField() const
-{
-	return controlField_.get();
-}
-
-void FixedLengthFrame::setChecksum(unsigned char checksum)
-{
-	checksum_.set(checksum);
-}
-
-unsigned char FixedLengthFrame::getChecksum() const
-{
-	return checksum_.get();
-}
-
-bool FixedLengthFrame::isValidChecksum() const
-{
-	return (getControlField() == getChecksum());
-}
-
-unsigned char FixedLengthFrame::getEndByte() const
-{
-	return endByte_.get();
-}
+using namespace kdrive::knx::ft12;FixedLengthFrame::FixedLengthFrame(bool 
+z555d494b60):z7b24692d08(z555d494b60){addFormatter(&z318af989c1);addFormatter(&
+z5930a43bb3);addFormatter(&zb6fd1245b5);addFormatter(&z5595af419d);}
+FixedLengthFrame::~FixedLengthFrame(){}bool FixedLengthFrame::isValid()const{
+return((zf538d46467()==FT12Constants::StartFixedLengthFrame)&&z8bb5df7389()&&(
+z8ca4a7d491()==FT12Constants::EndFrame));}void FixedLengthFrame::setDefaults(){
+z318af989c1.set(FT12Constants::StartFixedLengthFrame);z5930a43bb3.set(
+(0x75+6926-0x1b83));zb6fd1245b5.set((0x1556+10-0x1560));z5595af419d.set(
+FT12Constants::EndFrame);}unsigned char FixedLengthFrame::zf538d46467()const{
+return z318af989c1.get();}void FixedLengthFrame::setControlField(unsigned char 
+controlField){z5930a43bb3.set(controlField);if(z7b24692d08){z5205ffbfd7(
+controlField);}}unsigned char FixedLengthFrame::getControlField()const{return 
+z5930a43bb3.get();}void FixedLengthFrame::z5205ffbfd7(unsigned char checksum){
+zb6fd1245b5.set(checksum);}unsigned char FixedLengthFrame::z458c6172ca()const{
+return zb6fd1245b5.get();}bool FixedLengthFrame::z8bb5df7389()const{return(
+getControlField()==z458c6172ca());}unsigned char FixedLengthFrame::z8ca4a7d491()
+const{return z5595af419d.get();}

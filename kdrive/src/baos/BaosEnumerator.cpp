@@ -15,6 +15,7 @@
 #include "kdrive/baos/core/API.h"
 #include "kdrive/baos/core/Exception.h"
 #include "kdrive/baos/core/String.h"
+#include "kdrive/baos/usb/UsbConnector.h"
 #include "kdrive/utility/Logger.h"
 #include "kdrive/utility/LoggerFormatter.h"
 #include <Poco/Exception.h>
@@ -59,13 +60,19 @@ enum
 	SearchResponseTimeout = 500 /*!< Timeout for get a search response in ms. */
 };
 
+static const std::string UsbVendorId = "knx.usb.vendor_id";
+static const std::string UsbProductId = "knx.usb.product_id";
+static const std::string UsbManufacturerString = "knx.usb.manufacturer_string";
+static const std::string UsbProductString = "knx.usb.product_string";
+static const std::string UsbSerialNumberString = "knx.usb.serial_number_string";
+
 } // end anonymous namespace
 
 /**************************************
-** BaosEnumerator
+** BaosIpEnumerator
 ***************************************/
 
-BaosEnumerator::BaosEnumerator(bool autoScan)
+BaosIpEnumerator::BaosIpEnumerator(bool autoScan)
 {
 	if (autoScan)
 	{
@@ -73,11 +80,11 @@ BaosEnumerator::BaosEnumerator(bool autoScan)
 	}
 }
 
-BaosEnumerator::~BaosEnumerator()
+BaosIpEnumerator::~BaosIpEnumerator()
 {
 }
 
-const BaosEnumerator::Devices& BaosEnumerator::scan()
+const BaosIpEnumerator::Devices& BaosIpEnumerator::scan()
 {
 	devices_.clear();
 
@@ -93,12 +100,12 @@ const BaosEnumerator::Devices& BaosEnumerator::scan()
 	return devices_;
 }
 
-const BaosEnumerator::Devices& BaosEnumerator::getDevices() const
+const BaosIpEnumerator::Devices& BaosIpEnumerator::getDevices() const
 {
 	return devices_;
 }
 
-const BaosEnumerator::Device& BaosEnumerator::find(const std::string& name) const
+const BaosIpEnumerator::Device& BaosIpEnumerator::find(const std::string& name) const
 {
 	for (const auto& device : devices_)
 	{
@@ -111,7 +118,7 @@ const BaosEnumerator::Device& BaosEnumerator::find(const std::string& name) cons
 	throw ClientException("Device Not Found");
 }
 
-const BaosEnumerator::Device& BaosEnumerator::findByAddress(const std::string& ipAddress) const
+const BaosIpEnumerator::Device& BaosIpEnumerator::findByAddress(const std::string& ipAddress) const
 {
 	for (const auto& device : devices_)
 	{
@@ -124,22 +131,22 @@ const BaosEnumerator::Device& BaosEnumerator::findByAddress(const std::string& i
 	throw ClientException("Device Not Found");
 }
 
-const std::string& BaosEnumerator::getName(const Device& device) const
+const std::string& BaosIpEnumerator::getName(const Device& device) const
 {
 	return std::get<BaosDeviceAttr::Name>(device);
 }
 
-const std::string& BaosEnumerator::getInterfaceAddress(const Device& device) const
+const std::string& BaosIpEnumerator::getInterfaceAddress(const Device& device) const
 {
 	return std::get<BaosDeviceAttr::InterfaceAddress>(device);
 }
 
-const std::string& BaosEnumerator::getAddress(const Device& device) const
+const std::string& BaosIpEnumerator::getAddress(const Device& device) const
 {
 	return std::get<BaosDeviceAttr::Address>(device);
 }
 
-unsigned char BaosEnumerator::getVersion(const Device& device) const
+unsigned char BaosIpEnumerator::getVersion(const Device& device) const
 {
 	return std::get<BaosDeviceAttr::Version>(device);
 }
@@ -155,7 +162,7 @@ unsigned char BaosEnumerator::getVersion(const Device& device) const
 	timeout elapses. If this timeout is too fast, increase it to 500
 	or 1000 for example.
 */
-void BaosEnumerator::scanInterface(const NetworkInterface& networkInterface)
+void BaosIpEnumerator::scanInterface(const NetworkInterface& networkInterface)
 {
 	poco_information(LOGGER(),
 	                 format("Search devices on interface: %s (%s)",
@@ -181,7 +188,7 @@ void BaosEnumerator::scanInterface(const NetworkInterface& networkInterface)
 	}
 }
 
-void BaosEnumerator::sendSearchRequestFrame(MulticastSocket& socket)
+void BaosIpEnumerator::sendSearchRequestFrame(MulticastSocket& socket)
 {
 	const IPAddress& address = socket.address().host();
 	StringTokenizer stringTokenizer(address.toString(), ".");
@@ -206,7 +213,7 @@ void BaosEnumerator::sendSearchRequestFrame(MulticastSocket& socket)
 	socket.sendTo(&request.at(0), static_cast<int>(request.size()), destAddress);
 }
 
-void BaosEnumerator::waitForSearchResponseFrames(MulticastSocket& socket)
+void BaosIpEnumerator::waitForSearchResponseFrames(MulticastSocket& socket)
 {
 	std::vector<unsigned char> buffer;
 	while (waitForRx(socket, buffer))
@@ -216,7 +223,7 @@ void BaosEnumerator::waitForSearchResponseFrames(MulticastSocket& socket)
 	}
 }
 
-bool BaosEnumerator::waitForRx(MulticastSocket& socket, std::vector<unsigned char>& buffer)
+bool BaosIpEnumerator::waitForRx(MulticastSocket& socket, std::vector<unsigned char>& buffer)
 {
 	const Timespan timeout = SearchResponseTimeout * 1000;
 	if (socket.poll(timeout, Poco::Net::Socket::SELECT_READ))
@@ -231,7 +238,7 @@ bool BaosEnumerator::waitForRx(MulticastSocket& socket, std::vector<unsigned cha
 	return false;
 }
 
-void BaosEnumerator::addDevice(const std::vector<unsigned char>& buffer, const IPAddress& networkInterface)
+void BaosIpEnumerator::addDevice(const std::vector<unsigned char>& buffer, const IPAddress& networkInterface)
 {
 	if (buffer.size() > 68)
 	{
@@ -257,3 +264,57 @@ void BaosEnumerator::addDevice(const std::vector<unsigned char>& buffer, const I
 		}
 	}
 }
+
+/**************************************
+** BaosUsbEnumerator
+***************************************/
+
+BaosUsbEnumerator::BaosUsbEnumerator(bool autoScan)
+{
+	if (autoScan)
+	{
+		scan();
+	}
+}
+
+BaosUsbEnumerator::~BaosUsbEnumerator()
+{
+}
+
+const BaosUsbEnumerator::Devices& BaosUsbEnumerator::scan()
+{
+	devices_.clear();
+	enumerateBaosUsbDevices(devices_);
+	return devices_;
+}
+
+const BaosUsbEnumerator::Devices& BaosUsbEnumerator::getDevices() const
+{
+	return devices_;
+}
+
+unsigned int BaosUsbEnumerator::getUsbVendorId(const Device& device)
+{
+	return device.getProperty<unsigned int>(UsbVendorId);
+}
+
+unsigned int BaosUsbEnumerator::getUsbProductId(const Device& device)
+{
+	return device.getProperty<unsigned int>(UsbProductId);
+}
+
+std::string BaosUsbEnumerator::getUsbManufacturerString(const Device& device)
+{
+	return device.getProperty<std::string>(UsbManufacturerString);
+}
+
+std::string BaosUsbEnumerator::getUsbProductString(const Device& device)
+{
+	return device.getProperty<std::string>(UsbProductString);
+}
+
+std::string BaosUsbEnumerator::getUsbSerialNumberString(const Device& device)
+{
+	return device.getProperty<std::string>(UsbSerialNumberString);
+}
+

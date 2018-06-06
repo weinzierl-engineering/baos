@@ -121,12 +121,14 @@
 
 	\example BaosEventListener.cpp
 	\example BaosDatapointDescription.cpp
-	\example BaosEnumerator.cpp
+	\example BaosIpEnumerator.cpp
 	\example BaosIndicationListener.cpp
 	\example BaosLightSwitcher.cpp
 	\example BaosMultiConnector.cpp
 	\example BaosMultiThreaded.cpp
 	\example BaosSerial.cpp
+	\example BaosUsb.cpp
+	\example BaosUsbEnumerator.cpp
 */
 
 #include "kdrive/baos/Headers.h"

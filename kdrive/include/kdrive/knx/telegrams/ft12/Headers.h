@@ -1,23 +1,11 @@
-//
-// Copyright (c) 2002-2018 WEINZIERL ENGINEERING GmbH
-// All rights reserved.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT
-// SHALL THE COPYRIGHT HOLDERS BE LIABLE FOR ANY DAMAGES OR OTHER LIABILITY,
-// WHETHER IN CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE
-//
 
-#ifndef __KDRIVE_KNX_TELEGRAMS_FT12_HEADERS_H__
-#define __KDRIVE_KNX_TELEGRAMS_FT12_HEADERS_H__
-
+#ifndef zada9036563
+#define zada9036563
 #include "kdrive/knx/Config.h"
 #include "kdrive/knx/telegrams/ft12/AckFrame.h"
 #include "kdrive/knx/telegrams/ft12/ControlField.h"
 #include "kdrive/knx/telegrams/ft12/FixedLengthFrame.h"
 #include "kdrive/knx/defines/FT12Constants.h"
 #include "kdrive/knx/telegrams/ft12/VariableLengthFrame.h"
+#endif 
 
-#endif // __KDRIVE_KNX_TELEGRAMS_FT12_HEADERS_H__

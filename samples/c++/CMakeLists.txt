@@ -12,7 +12,7 @@
 
 set(samples_TARGETS 
   BaosDatapointDescription
-  BaosEnumerator
+  BaosIpEnumerator
   BaosEventListener
   BaosLightSwitcher
   BaosMultiConnector
@@ -20,6 +20,8 @@ set(samples_TARGETS
   BaosSerial
   BaosSerialLightSwitcher
   BaosServerItem
+  BaosUsb
+  BaosUsbEnumerator
 )
 
 set(LIBS ${KDRIVE_LIBRARY_NAME} Net Foundation ${SYSTEM_LIBS})

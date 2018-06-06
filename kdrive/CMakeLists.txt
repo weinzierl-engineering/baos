@@ -198,6 +198,20 @@ set (KDRIVE_BAOS_SOURCE_FILES_STREAM
 source_group("baos\\stream" FILES ${KDRIVE_BAOS_HEADER_FILES_STREAM})
 source_group("baos\\stream" FILES ${KDRIVE_BAOS_SOURCE_FILES_STREAM})
 
+# baos usb files
+
+set (KDRIVE_BAOS_HEADER_FILES_USB
+  ${KDRIVE_BAOS_INCLUDE}/usb/Headers.h
+  ${KDRIVE_BAOS_INCLUDE}/usb/UsbConnector.h
+)
+
+set (KDRIVE_BAOS_SOURCE_FILES_USB
+  ${KDRIVE_BAOS_SRC}/usb/UsbConnector.cpp
+)
+
+source_group("baos\\usb" FILES ${KDRIVE_BAOS_HEADER_FILES_USB})
+source_group("baos\\usb" FILES ${KDRIVE_BAOS_SOURCE_FILES_USB})
+
 # baos files (all)
 
 LIST(APPEND KDRIVE_BAOS_HEADER_FILES 
@@ -207,6 +221,7 @@ LIST(APPEND KDRIVE_BAOS_HEADER_FILES
   ${KDRIVE_BAOS_HEADER_FILES_PROTOCOLS}
   ${KDRIVE_BAOS_HEADER_FILES_SERVICES}
   ${KDRIVE_BAOS_HEADER_FILES_STREAM}
+  ${KDRIVE_BAOS_HEADER_FILES_USB}
 )
 
 LIST(APPEND KDRIVE_BAOS_SOURCE_FILES 
@@ -216,7 +231,63 @@ LIST(APPEND KDRIVE_BAOS_SOURCE_FILES
   ${KDRIVE_BAOS_SOURCE_FILES_PROTOCOLS}
   ${KDRIVE_BAOS_SOURCE_FILES_SERVICES}
   ${KDRIVE_BAOS_SOURCE_FILES_STREAM}
+  ${KDRIVE_BAOS_SOURCE_FILES_USB}
 )
+
+# ---------- kdrive component: access
+
+# Only needed for baos usb
+
+set(KDRIVE_ACCESS_INCLUDE "${KDRIVE_INCLUDE}/kdrive/access")
+set(KDRIVE_ACCESS_SRC "${KDRIVE_SRC}/access")
+
+set (KDRIVE_ACCESS_HEADER_FILES
+  ${KDRIVE_ACCESS_INCLUDE}/Config.h
+  ${KDRIVE_ACCESS_INCLUDE}/baos/BaosKnxPort.h
+  ${KDRIVE_ACCESS_INCLUDE}/core/AccessPacket.h
+  ${KDRIVE_ACCESS_INCLUDE}/core/AccessPort.h
+  ${KDRIVE_ACCESS_INCLUDE}/core/AccessPortFactory.h
+  ${KDRIVE_ACCESS_INCLUDE}/core/API.h
+  ${KDRIVE_ACCESS_INCLUDE}/core/ErrorCodes.h
+  ${KDRIVE_ACCESS_INCLUDE}/core/Events.h
+  ${KDRIVE_ACCESS_INCLUDE}/core/Exception.h
+  ${KDRIVE_ACCESS_INCLUDE}/core/KnxPacket.h
+  ${KDRIVE_ACCESS_INCLUDE}/core/KnxPort.h
+  ${KDRIVE_ACCESS_INCLUDE}/core/TransportPacket.h
+  ${KDRIVE_ACCESS_INCLUDE}/core/details/RfDomainAddressFilter.h
+  ${KDRIVE_ACCESS_INCLUDE}/core/details/TelegramWaitPolicy.h
+  ${KDRIVE_ACCESS_INCLUDE}/ldm/LinkLayerManagement.h
+  ${KDRIVE_ACCESS_INCLUDE}/ldm/LocalDeviceManagement.h
+  ${KDRIVE_ACCESS_INCLUDE}/ldm/LocalDeviceManagementEmiC.h
+  ${KDRIVE_ACCESS_INCLUDE}/ldm/LocalDeviceManager.h
+  ${KDRIVE_ACCESS_INCLUDE}/usb/UsbPort.h
+  ${KDRIVE_ACCESS_INCLUDE}/usb/UsbPortEnumerator.h
+)
+
+set (KDRIVE_ACCESS_SOURCE_FILES
+  ${KDRIVE_ACCESS_SRC}/baos/BaosKnxPort.cpp
+  ${KDRIVE_ACCESS_SRC}/core/AccessPacket.cpp
+  ${KDRIVE_ACCESS_SRC}/core/AccessPort.cpp
+  ${KDRIVE_ACCESS_SRC}/core/AccessPortFactory.cpp
+  ${KDRIVE_ACCESS_SRC}/core/API.cpp
+  ${KDRIVE_ACCESS_SRC}/core/Events.cpp
+  ${KDRIVE_ACCESS_SRC}/core/Exception.cpp
+  ${KDRIVE_ACCESS_SRC}/core/KnxPacket.cpp
+  ${KDRIVE_ACCESS_SRC}/core/KnxPort.cpp
+  ${KDRIVE_ACCESS_SRC}/core/TransportPacket.cpp
+  ${KDRIVE_ACCESS_SRC}/core/details/RfDomainAddressFilter.cpp
+  ${KDRIVE_ACCESS_SRC}/core/details/TelegramWaitPolicy.cpp
+  ${KDRIVE_ACCESS_SRC}/ldm/LinkLayerManagement.cpp
+  ${KDRIVE_ACCESS_SRC}/ldm/LocalDeviceManagement.cpp
+  ${KDRIVE_ACCESS_SRC}/ldm/LocalDeviceManagementEmiC.cpp
+  ${KDRIVE_ACCESS_SRC}/ldm/LocalDeviceManager.cpp
+  ${KDRIVE_ACCESS_SRC}/usb/UsbPort.cpp
+  ${KDRIVE_ACCESS_SRC}/usb/UsbPortEnumerator.cpp
+
+)
+
+source_group("access" FILES ${KDRIVE_ACCESS_HEADER_FILES})
+source_group("access" FILES ${KDRIVE_ACCESS_SOURCE_FILES})
 
 # ---------- kdrive component: connector
 
@@ -259,6 +330,34 @@ set (KDRIVE_CONNECTOR_SOURCE_FILES
 source_group("connector" FILES ${KDRIVE_CONNECTOR_HEADER_FILES})
 source_group("connector" FILES ${KDRIVE_CONNECTOR_SOURCE_FILES})
 
+# ---------- kdrive component: frame
+
+# only needed for baos usb
+
+set(KDRIVE_FRAME_INCLUDE "${KDRIVE_INCLUDE}/kdrive/frame")
+set(KDRIVE_FRAME_SRC "${KDRIVE_SRC}/frame")
+
+set (KDRIVE_FRAME_HEADER_FILES
+  ${KDRIVE_FRAME_INCLUDE}/Config.h
+  ${KDRIVE_FRAME_INCLUDE}/Frame.h
+  ${KDRIVE_FRAME_INCLUDE}/core/Buffer.h
+  ${KDRIVE_FRAME_INCLUDE}/core/Exception.h
+  ${KDRIVE_FRAME_INCLUDE}/core/Headers.h
+  ${KDRIVE_FRAME_INCLUDE}/usb/Frame.h
+  ${KDRIVE_FRAME_INCLUDE}/usb/Headers.h
+  ${KDRIVE_FRAME_INCLUDE}/usb/Telegrams.h
+)
+
+set (KDRIVE_FRAME_SOURCE_FILES
+  ${KDRIVE_FRAME_SRC}/core/Buffer.cpp
+  ${KDRIVE_FRAME_SRC}/core/Exception.cpp
+  ${KDRIVE_FRAME_SRC}/usb/Frame.cpp
+  ${KDRIVE_FRAME_SRC}/usb/Telegrams.cpp
+)
+
+source_group("frame" FILES ${KDRIVE_FRAME_HEADER_FILES})
+source_group("frame" FILES ${KDRIVE_FRAME_SOURCE_FILES})
+
 # ---------- kdrive component: ft12
 
 set(KDRIVE_FT12_INCLUDE "${KDRIVE_INCLUDE}/kdrive/ft12")
@@ -299,6 +398,28 @@ set (KDRIVE_IO_SERIAL_SOURCE_FILES
 source_group("io\\serial" FILES ${KDRIVE_IO_SERIAL_HEADER_FILES})
 source_group("io\\serial" FILES ${KDRIVE_IO_SERIAL_SOURCE_FILES})
 
+# ---------- kdrive component: io.usbhid
+
+set(KDRIVE_IO_USB_INCLUDE "${KDRIVE_INCLUDE}/kdrive/io/usbhid")
+set(KDRIVE_IO_USB_SRC "${KDRIVE_SRC}/io/usbhid")
+
+set (KDRIVE_IO_USB_HEADER_FILES
+  ${KDRIVE_IO_USB_INCLUDE}/Config.h
+  ${KDRIVE_IO_USB_INCLUDE}/Forwards.h
+  ${KDRIVE_IO_USB_INCLUDE}/hidapi.h
+  ${KDRIVE_IO_USB_INCLUDE}/UsbDriver.h
+  ${KDRIVE_IO_USB_INCLUDE}/UsbVendors.h
+)
+
+set (KDRIVE_IO_USB_SOURCE_FILES
+  ${KDRIVE_IO_USB_SRC}/hid.cpp
+  ${KDRIVE_IO_USB_SRC}/UsbDriver.cpp
+  ${KDRIVE_IO_USB_SRC}/UsbVendors.cpp
+)
+
+source_group("io\\usbhid" FILES ${KDRIVE_IO_USB_HEADER_FILES})
+source_group("io\\usbhid" FILES ${KDRIVE_IO_USB_SOURCE_FILES})
+
 # ---------- kdrive component: knx
 
 set(KDRIVE_KNX_INCLUDE "${KDRIVE_INCLUDE}/kdrive/knx")
@@ -320,14 +441,18 @@ source_group("knx" FILES ${KDRIVE_KNX_SOURCE_FILES_TOP})
 # knx core files
 
 set (KDRIVE_KNX_HEADER_FILES_CORE
+  ${KDRIVE_KNX_INCLUDE}/core/AddressTranslator.h
   ${KDRIVE_KNX_INCLUDE}/core/Core.h
   ${KDRIVE_KNX_INCLUDE}/core/Buffer.h
   ${KDRIVE_KNX_INCLUDE}/core/ByteStream.h
+  ${KDRIVE_KNX_INCLUDE}/core/Types.h
 )
 
 set (KDRIVE_KNX_SOURCE_FILES_CORE
+  ${KDRIVE_KNX_SRC}/core/AddressTranslator.cpp
   ${KDRIVE_KNX_SRC}/core/Buffer.cpp
   ${KDRIVE_KNX_SRC}/core/ByteStream.cpp
+  ${KDRIVE_KNX_SRC}/core/Types.cpp
 )
 
 source_group("knx\\core" FILES ${KDRIVE_KNX_HEADER_FILES_CORE})
@@ -354,12 +479,31 @@ source_group("knx\\datapoint" FILES ${KDRIVE_KNX_SOURCE_FILES_DATAPOINT})
 # knx defines files
 
 set (KDRIVE_KNX_HEADER_FILES_DEFINES
+  ${KDRIVE_KNX_INCLUDE}/defines/ApciCodes.h
+  ${KDRIVE_KNX_INCLUDE}/defines/CemiCodes.h
+  ${KDRIVE_KNX_INCLUDE}/defines/ControlField1.h
+  ${KDRIVE_KNX_INCLUDE}/defines/ControlField2.h
+  ${KDRIVE_KNX_INCLUDE}/defines/DatapointTypes.h
   ${KDRIVE_KNX_INCLUDE}/defines/DatapointTypes.h
   ${KDRIVE_KNX_INCLUDE}/defines/FT12Constants.h
+  ${KDRIVE_KNX_INCLUDE}/defines/KnxLayer.h
+  ${KDRIVE_KNX_INCLUDE}/defines/KnxDefines.h
+  ${KDRIVE_KNX_INCLUDE}/defines/KnxNetIpDefines.h
+  ${KDRIVE_KNX_INCLUDE}/defines/KnxProperty.h
+  ${KDRIVE_KNX_INCLUDE}/defines/MaskVersion.h
+  ${KDRIVE_KNX_INCLUDE}/defines/MProp.h
+  ${KDRIVE_KNX_INCLUDE}/defines/TransportType.h
 )
 
 set (KDRIVE_KNX_SOURCE_FILES_DEFINES
+  ${KDRIVE_KNX_SRC}/defines/ApciCodes.cpp
+  ${KDRIVE_KNX_SRC}/defines/CemiCodes.cpp
+  ${KDRIVE_KNX_SRC}/defines/ControlField1.cpp
   ${KDRIVE_KNX_SRC}/defines/DatapointTypes.cpp
+  ${KDRIVE_KNX_SRC}/defines/KnxLayer.cpp
+  ${KDRIVE_KNX_SRC}/defines/KnxProperty.cpp
+  ${KDRIVE_KNX_SRC}/defines/MaskVersion.cpp
+  ${KDRIVE_KNX_SRC}/defines/MProp.cpp
 )
 
 source_group("knx\\defines" FILES ${KDRIVE_KNX_HEADER_FILES_DEFINES})
@@ -368,9 +512,17 @@ source_group("knx\\defines" FILES ${KDRIVE_KNX_SOURCE_FILES_DEFINES})
 # knx telegrams files
 
 set (KDRIVE_KNX_HEADER_FILES_TELEGRAMS
+  ${KDRIVE_KNX_INCLUDE}/telegrams/cemi/AdditionalInfo.h
+  ${KDRIVE_KNX_INCLUDE}/telegrams/cemi/Frame.h
+  ${KDRIVE_KNX_INCLUDE}/telegrams/cemi/MProp.h
+  ${KDRIVE_KNX_INCLUDE}/telegrams/cemi/RfAdditionalInfo.h
 )
 
 set (KDRIVE_KNX_SOURCE_FILES_TELEGRAMS
+  ${KDRIVE_KNX_SRC}/telegrams/cemi/AdditionalInfo.cpp
+  ${KDRIVE_KNX_SRC}/telegrams/cemi/Frame.cpp
+  ${KDRIVE_KNX_SRC}/telegrams/cemi/MProp.cpp
+  ${KDRIVE_KNX_SRC}/telegrams/cemi/RfAdditionalInfo.cpp
 )
 
 source_group("knx\\telegrams" FILES ${KDRIVE_KNX_HEADER_FILES_TELEGRAMS})
@@ -379,12 +531,26 @@ source_group("knx\\telegrams" FILES ${KDRIVE_KNX_SOURCE_FILES_TELEGRAMS})
 # knx telegrams/formatters files
 
 set (KDRIVE_KNX_HEADER_FILES_TELEGRAMS_FORMATTERS
+  ${KDRIVE_KNX_INCLUDE}/telegrams/formatters/AbstractFrame.h
+  ${KDRIVE_KNX_INCLUDE}/telegrams/formatters/ControlField.h
+  ${KDRIVE_KNX_INCLUDE}/telegrams/formatters/ExtendedControlField.h
   ${KDRIVE_KNX_INCLUDE}/telegrams/formatters/Formatter.h
   ${KDRIVE_KNX_INCLUDE}/telegrams/formatters/Formatters.h
+  ${KDRIVE_KNX_INCLUDE}/telegrams/formatters/SerialNumberFormatter.h
+  ${KDRIVE_KNX_INCLUDE}/telegrams/formatters/Telegram.h
+  ${KDRIVE_KNX_INCLUDE}/telegrams/formatters/TpciApci.h
+  ${KDRIVE_KNX_INCLUDE}/telegrams/formatters/TupleFormatter.h
 )
 
 set (KDRIVE_KNX_SOURCE_FILES_TELEGRAMS_FORMATTERS
+  ${KDRIVE_KNX_SRC}/telegrams/formatters/AbstractFrame.cpp
+  ${KDRIVE_KNX_SRC}/telegrams/formatters/ControlField.cpp
+  ${KDRIVE_KNX_SRC}/telegrams/formatters/ExtendedControlField.cpp
   ${KDRIVE_KNX_SRC}/telegrams/formatters/Formatter.cpp
+  ${KDRIVE_KNX_SRC}/telegrams/formatters/SerialNumberFormatter.cpp
+  ${KDRIVE_KNX_SRC}/telegrams/formatters/Telegram.cpp
+  ${KDRIVE_KNX_SRC}/telegrams/formatters/TpciApci.cpp
+  ${KDRIVE_KNX_SRC}/telegrams/formatters/TupleFormatter.cpp
 )
 
 source_group("knx\\telegrams\\formatters" FILES ${KDRIVE_KNX_HEADER_FILES_TELEGRAMS_FORMATTERS})
@@ -459,19 +625,25 @@ source_group("utility" FILES ${KDRIVE_UTILITY_SOURCE_FILES})
 # ---------- kdrive (all)
 
 LIST(APPEND KDRIVE_HEADER_FILES 
+  ${KDRIVE_ACCESS_HEADER_FILES}
   ${KDRIVE_CONNECTOR_HEADER_FILES}
   ${KDRIVE_BAOS_HEADER_FILES}
+  ${KDRIVE_FRAME_HEADER_FILES}
   ${KDRIVE_FT12_HEADER_FILES}
   ${KDRIVE_IO_SERIAL_HEADER_FILES}
+  ${KDRIVE_IO_USB_HEADER_FILES}
   ${KDRIVE_KNX_HEADER_FILES}
   ${KDRIVE_UTILITY_HEADER_FILES}
 )
 
 LIST(APPEND KDRIVE_SOURCE_FILES 
+  ${KDRIVE_ACCESS_SOURCE_FILES}
   ${KDRIVE_CONNECTOR_SOURCE_FILES}
   ${KDRIVE_BAOS_SOURCE_FILES}
+  ${KDRIVE_FRAME_SOURCE_FILES}
   ${KDRIVE_FT12_SOURCE_FILES}
   ${KDRIVE_IO_SERIAL_SOURCE_FILES}
+  ${KDRIVE_IO_USB_SOURCE_FILES}
   ${KDRIVE_KNX_SOURCE_FILES}
   ${KDRIVE_UTILITY_SOURCE_FILES}
 )

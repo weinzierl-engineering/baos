@@ -137,7 +137,7 @@ if (CMAKE_SYSTEM_NAME MATCHES Linux)
 endif ()
 
 if (WIN32)
-   SET(SYSTEM_LIBS setupapi)
+   SET(SYSTEM_LIBS hid setupapi)
 endif ()
 
 ######################################################################
@@ -175,6 +175,10 @@ if (POCO_STATIC)
 else ()
     set( LIB_MODE SHARED )
 endif(POCO_STATIC)
+
+if (MSVC)
+  add_definitions(-DPOCO_NO_UNWINDOWS)
+endif ()
 
 # poco system libraries
 if (CMAKE_SYSTEM_NAME MATCHES Linux)
