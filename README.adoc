@@ -107,7 +107,7 @@ See http://msdn.microsoft.com/en-us/library/ms173501%28v=vs.90%29.aspx
 
 == User Guide
 
-See <<docs/User_Guide#,docs/User_Guide/User_Guide.adoc>> and for Raspbian <<docs/Raspbian#,docs/Raspbian.adoc>>
+See <<docs/User_Guide/User_Guide#,docs/User_Guide/User_Guide.adoc>> and for Raspbian <<docs/Raspbian#,docs/Raspbian.adoc>>
 
 
 == API Documentation
