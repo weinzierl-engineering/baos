@@ -1,3 +1,0 @@
-
-BAOS SDK
-Version: BAOS-SDK-18.2.0
