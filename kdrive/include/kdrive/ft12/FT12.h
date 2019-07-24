@@ -15,6 +15,7 @@
 
 #include "kdrive/ft12/Config.h"
 #include <Poco/Event.h>
+#include <atomic>
 #include <vector>
 #include <functional>
 
@@ -34,19 +35,24 @@ namespace ft12
 	\note: We don't send the ack. We let the packetizer handle this.
 	Precondition: when we receive a frame it is valid.
 */
-class kdriveFt12_API FT12
+class kdriveFt12_API FT12 final
 {
 public:
 	FT12();
-	~FT12();
+	~FT12() = default;
 
 	/*!
 		Protocol Initialisation
 		Sends a Reset to the interface and waits for an ack
 		This function is synchronous and returns once the ack
-		has been received. If the ack fails, an exception is thrown
+		has been received. If the ack fails then it returns false.
 	*/
-	void init();
+	bool init();
+
+	/*!
+		Returns true if the FT1.2 connection is established otherwise false
+	*/
+	bool isConnectionEstablished() const;
 
 	/*!
 		Sends the buffer to the serial port
@@ -77,6 +83,25 @@ public:
 		handler should queue the data and handle it later...
 	*/
 	void setUserDataCallback(UserDataCallback userDataCallback);
+
+	enum class ResetReason
+	{
+		ResetInd = 0,
+		ServerItemBusStatus
+	};
+
+	/*!
+		Callback function for the received reset telegrams
+	*/
+	typedef std::function<void(ResetReason resetReason)> ReceivedResetCallback;
+
+	/*!
+		Sets the FT1.2 connection reset callback function
+		This is called when a fixed length frame with RESET is received
+		Note: this callback can be called within the Rx Thread context, so the callback
+		handler should queue the data and handle it later...
+	*/
+	void setReceivedResetCallback(ReceivedResetCallback receivedResetCallback);
 
 	/*!
 		Called from the serial port rx task or handler
@@ -185,8 +210,10 @@ private:
 	bool send(const unsigned char* buffer, std::size_t bufferLength);
 
 private:
+	std::atomic<bool> isConnectionEstablished_; /*!< The FT1.2 connection is established*/
 	Sender sender_;
 	UserDataCallback userDataCallback_;
+	ReceivedResetCallback receivedResetCallback_;
 	Poco::Event ackEvent_;
 	long exchangeTimeout_;
 	unsigned char fcbRx_;

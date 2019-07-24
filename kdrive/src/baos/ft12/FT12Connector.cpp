@@ -18,6 +18,7 @@
 #include "kdrive/baos/protocols/Protocol2x.h"
 #include "kdrive/baos/protocols/Protocol12.h"
 #include "kdrive/connector/Wait.h"
+#include "kdrive/connector/Events.h"
 #include "kdrive/knx/telegrams/formatters/Formatter.h"
 #include "kdrive/knx/defines/FT12Constants.h"
 #include "kdrive/utility/Logger.h"
@@ -53,6 +54,7 @@ void initProperties(kdrive::utility::PropertyCollection& collection)
 {
 	collection.setProperty(FT12Connector::PortType, FT12Connector::ConnectorTypeLabel);
 	collection.setProperty(FT12Connector::SerialDeviceName, "");
+    collection.setProperty(FT12Connector::AllowOfflineConnection, false);
 }
 
 enum EmiCodes
@@ -381,14 +383,9 @@ void readPeiIdentify(FT12Connector& port, Generic_PEI_Identify_Con& con)
 ** FT12Connector
 ***************************************/
 
-#define BIND_SENDER() \
-	std::bind(&FT12_Packetizer::sendBuffer, &packetizer_, std::placeholders::_1, std::placeholders::_2)
-
-#define BIND_USER_DATA_CALLBACK() \
-	std::bind(&FT12Connector::onTelegramInd, this, std::placeholders::_1)
-
 const std::string FT12Connector::ConnectorTypeLabel = "baos.serial.ft12";
 const std::string FT12Connector::SerialDeviceName = "baos.serial.device_name";
+const std::string FT12Connector::AllowOfflineConnection = "baos.serial.allow_offline_connection";
 
 /*
 	Set default rx timeout to 20ms
@@ -403,14 +400,21 @@ FT12Connector::FT12Connector()
 {
 	initProperties(*this);
 
-	ft12_.setSender(BIND_SENDER());
-	ft12_.setUserDataCallback(BIND_USER_DATA_CALLBACK());
+	ft12_.setSender(std::bind(&FT12_Packetizer::sendBuffer, &packetizer_, std::placeholders::_1, std::placeholders::_2));
+	ft12_.setUserDataCallback(std::bind(&FT12Connector::onTelegramInd, this, std::placeholders::_1));
+	ft12_.setReceivedResetCallback(std::bind(&FT12Connector::onResetReceived, this, std::placeholders::_1));
+
+	// bind to member function, accept one parameter, the event
+	EventSignal& signal = getEventSignal();
+	signalConnectionEvent_ = signal.connect(std::bind(&FT12Connector::onEvent,
+		this, std::placeholders::_1));
 }
 
 FT12Connector::~FT12Connector()
 {
 	try
 	{
+		signalConnectionEvent_.disconnect();
 		close();
 	}
 	catch (...)
@@ -434,6 +438,16 @@ std::string FT12Connector::getSerialDeviceName() const
 	return getProperty(SerialDeviceName);
 }
 
+void FT12Connector::setAllowOfflineConnection(bool enable)
+{
+	setProperty(AllowOfflineConnection, enable);
+}
+
+bool FT12Connector::isAllowOfflineConnectionEnabled() const
+{
+	return getProperty<bool>(AllowOfflineConnection);
+}
+
 void FT12Connector::openImpl()
 {
 	try
@@ -442,21 +456,35 @@ void FT12Connector::openImpl()
 
 		serialPort_.open(getSerialDeviceName(), DefaultBaudrate, "8E1", kdrive::io::serial::SerialPort::FLOW_NONE);
 		startRxThread();
-		ft12_.init();
 
-		// Get version from PeiIdentify confirm
-		Generic_PEI_Identify_Con con;
-		readPeiIdentify(*this, con);
-
-		if (con.isEmi2Frame())
+		const bool ackReceived = ft12_.init();
+		if (ackReceived)
 		{
-			setVersion(ProtocolVersions::V12);
-			setPacketFactory(std::make_shared<PacketFactory12>());
+			// Get version from PeiIdentify confirm
+			Generic_PEI_Identify_Con con;
+			readPeiIdentify(*this, con);
+
+			if (con.isEmi2Frame())
+			{
+				setVersion(ProtocolVersions::V12);
+				setPacketFactory(std::make_shared<PacketFactory12>());
+			}
+			else
+			{
+				setVersion(ProtocolVersions::V20);
+				setPacketFactory(std::make_shared<PacketFactory2x>());
+			}
 		}
 		else
 		{
-			setVersion(ProtocolVersions::V20);
-			setPacketFactory(std::make_shared<PacketFactory2x>());
+			if (isAllowOfflineConnectionEnabled())
+			{
+				poco_warning(LOGGER(), "Ignore: FT1.2 connection could not init. Now wait for Reset");
+			}
+			else
+			{
+				throw Poco::TimeoutException("FT1.2 ack missing");
+			}
 		}
 	}
 	catch (...)
@@ -488,6 +516,11 @@ void FT12Connector::txImpl(Packet::Ptr packet)
 {
 	try
 	{
+		if (!ft12_.isConnectionEstablished())
+		{
+			throw Poco::Exception("FT1.2 connection is not established");
+		}
+
 		unsigned char* buffer = &txBuffer_.at(0);
 		std::memset(buffer, 0, FT12Constants::MaxBufferSize);
 		const std::size_t size = packet->writeToBuffer(buffer, FT12Constants::MaxBufferSize);
@@ -526,5 +559,46 @@ void FT12Connector::onTelegramInd(const std::vector<unsigned char>& buffer)
 	{
 		Packet::Ptr packet = create(&buffer.at(0), buffer.size());
 		routeRx(packet);
+	}
+}
+
+void FT12Connector::onResetReceived(FT12::ResetReason resetReason)
+{
+	poco_warning(LOGGER(), "Received a Reset.ind");
+
+	if (resetReason == FT12::ResetReason::ServerItemBusStatus)
+	{
+		setPacketFactory(std::make_shared<PacketFactory2x>());
+	}
+
+	routeEvent(ConnectorEvents::TransportReset);
+}
+
+void FT12Connector::onEvent(unsigned long e)
+{
+	if (e == ConnectorEvents::TransportReset)
+	{
+		poco_information(LOGGER(), "Try to reinitialize transport after reset");
+		try
+		{
+			// Get version from PeiIdentify confirm
+			Generic_PEI_Identify_Con con;
+			readPeiIdentify(*this, con);
+
+			if (con.isEmi2Frame())
+			{
+				setVersion(ProtocolVersions::V12);
+				setPacketFactory(std::make_shared<PacketFactory12>());
+			}
+			else
+			{
+				setVersion(ProtocolVersions::V20);
+				setPacketFactory(std::make_shared<PacketFactory2x>());
+			}
+		}
+		catch (Exception& e)
+		{
+			poco_warning_f1(LOGGER(), "Reinitialize failed: %s", e.displayText());
+		}
 	}
 }

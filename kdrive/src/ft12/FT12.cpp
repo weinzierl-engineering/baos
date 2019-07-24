@@ -40,20 +40,24 @@ const int FT12::repeatLimit_ = 3;
 
 FT12::FT12()
 
-	: exchangeTimeout_(300),
+	: isConnectionEstablished_(false),
+	  exchangeTimeout_(300),
 	  fcbRx_(0),
 	  fcbTx_(0)
 {
 }
 
-FT12::~FT12()
-{
-}
-
-void FT12::init()
+bool FT12::init()
 {
 	resetFCBs();
-	sendFixedLengthFrame(FT12Constants::SendReset);
+	const bool ackReceived = sendFixedLengthFrame(FT12Constants::SendReset);
+	isConnectionEstablished_ = ackReceived;
+	return ackReceived;
+}
+
+bool FT12::isConnectionEstablished() const
+{
+	return isConnectionEstablished_;
 }
 
 void FT12::setSender(Sender sender)
@@ -64,6 +68,11 @@ void FT12::setSender(Sender sender)
 void FT12::setUserDataCallback(UserDataCallback userDataCallback)
 {
 	userDataCallback_ = userDataCallback;
+}
+
+void FT12::setReceivedResetCallback(ReceivedResetCallback receivedResetCallback)
+{
+	receivedResetCallback_ = receivedResetCallback;
 }
 
 void FT12::onReceive(const unsigned char* buffer, std::size_t bufferSize)
@@ -172,6 +181,11 @@ void FT12::onFixedFrameRx(const unsigned char* buffer, std::size_t bufferLength)
 	if (controlField.getFunctionCode() == FT12Constants::SendReset)
 	{
 		resetFCBs();
+
+		if (receivedResetCallback_)
+		{
+			receivedResetCallback_(ResetReason::ResetInd);
+		}
 	}
 }
 
@@ -186,6 +200,11 @@ void FT12::onFixedFrameRx(const unsigned char* buffer, std::size_t bufferLength)
 */
 void FT12::onVariableFrameRx(const unsigned char* buffer, std::size_t bufferLength)
 {
+	static const std::vector<unsigned char> serverItemBusDisconnected =
+		{ 0xF0, 0xC2, 0x00, 0x0A, 0x00, 0x01, 0x00, 0x0A, 0x01, 0x00 }; 
+	static const std::vector<unsigned char> serverItemBusConnected =
+		{ 0xF0, 0xC2, 0x00, 0x0A, 0x00, 0x01, 0x00, 0x0A, 0x01, 0x01 };
+
 	const FormatterReader<VariableLengthFrame> variableLengthFrame(buffer, bufferLength);
 	const ControlField controlField(variableLengthFrame.getControlField());
 
@@ -193,6 +212,14 @@ void FT12::onVariableFrameRx(const unsigned char* buffer, std::size_t bufferLeng
 	    (controlField.getFrameCountBit() ? FT12Constants::FCB_SET : 0x00) ==
 	    (fcbRx_ ? 0x00 : FT12Constants::FCB_SET))
 	{
+		const std::vector<unsigned char> data = variableLengthFrame.getUserData();
+		if (!isConnectionEstablished_ && 
+			((data == serverItemBusDisconnected) || (data == serverItemBusConnected)))
+		{
+			isConnectionEstablished_ = true;
+			receivedResetCallback_(ResetReason::ServerItemBusStatus);
+		}
+
 		toggleRxFCB();
 
 		if (userDataCallback_)

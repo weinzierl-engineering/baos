@@ -19,6 +19,7 @@
 #include "kdrive/ft12/FT12.h"
 #include "kdrive/ft12/FT12Packetizer.h"
 #include "kdrive/io/serial/SerialPort.h"
+#include <boost/signals2.hpp>
 #include <vector>
 
 namespace kdrive
@@ -81,9 +82,22 @@ public:
 	*/
 	std::string getSerialDeviceName() const;
 
+	/*!
+		Enable or disable allow of offline (unpowered) FT1.2 connection
+	*/
+	void setAllowOfflineConnection(bool enable);
+
+	/*!
+		Returns true, if offline (unpowered) FT1.2 connection is allowed. Otherwise false.
+		Default: false
+		\see setAllowDisconnectedFt12
+	*/
+	bool isAllowOfflineConnectionEnabled() const;
+
 public:
 	static const std::string ConnectorTypeLabel;
 	static const std::string SerialDeviceName; /*!< Property key for the serial device name e.g. COM1 */
+	static const std::string AllowOfflineConnection; /*!< Property Key for open connection also when ft12 connection not exist */
 
 private:
 	/*!
@@ -137,12 +151,26 @@ private:
 	*/
 	void onTelegramInd(const std::vector<unsigned char>& buffer);
 
+	/*!
+		Called when a FT1.2 Reset (or BAOS ServerItem: Bus Connected) received
+	*/
+	void onResetReceived(kdrive::ft12::FT12::ResetReason resetReason);
+
+	/*!
+		Event Notification callback handler
+		This function is called when we receive a event notification.
+		When we receive a TransportReset event we simply try to read 
+		the device properties
+	*/
+	void onEvent(unsigned long e);
+
 private:
 	kdrive::io::serial::SerialPort serialPort_;
 	std::vector<unsigned char> txBuffer_;
 	std::vector<unsigned char> rxBuffer_;
 	kdrive::ft12::FT12 ft12_;
 	kdrive::ft12::FT12_Packetizer packetizer_;
+	boost::signals2::scoped_connection signalConnectionEvent_; /*!< Signal connection for event signal. */
 };
 
 }
