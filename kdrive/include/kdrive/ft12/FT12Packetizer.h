@@ -107,14 +107,13 @@ public:
 
 private:
 	/*!
-		Attempts to read bytesToRead bytes from the serial port
-		into the buffer. Validation is performed to ensure that
-		bytesToRead is less than or equal to the bufferSize
+		Attempts to read bytesToRead bytes from the serial port into the buffer.
+		The caller must ensure that the buffer is big enough for bytesToRead bytes
 		the timeout is an internal timeout and specifies the inter-character
 		timeout we expect between bytes of a frame. This is not the timeout
 		value specified in the constructor, which is the inter-frame timeout.
 	*/
-	bool readBytes(char* buffer, std::size_t bufferSize, std::size_t bytesToRead, long timeout);
+	std::size_t readBytes(char* buffer, std::size_t bytesToRead, long timeout);
 
 	/*!
 		Attempts to read any of the three FT1.2 frame types

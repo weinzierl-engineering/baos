@@ -53,12 +53,17 @@ FT12_Packetizer::~FT12_Packetizer()
 std::size_t FT12_Packetizer::get(unsigned char* buffer, std::size_t bufferSize)
 {
 	BOOST_ASSERT(buffer && "Invalid Buffer Pointer");
-	BOOST_ASSERT(bufferSize && "Invalid Buffer Size");
+	BOOST_ASSERT(bufferSize >= 1 && "Invalid Buffer Size");
 
 	void* pV = static_cast<void*>(buffer);
 	char* ptr = static_cast<char*>(pV);
 
-	const std::size_t length = readBytes(ptr, bufferSize, 1, timeout_) ? readFrame(buffer, bufferSize) : 0;
+	std::size_t length = 0;
+
+	if (readBytes(ptr, 1, timeout_) == 1)
+	{
+		length = readFrame(buffer, bufferSize);
+	}
 
 	if (length && (LOGGER().getLevel() >= Message::PRIO_DEBUG))
 	{
@@ -89,10 +94,8 @@ void FT12_Packetizer::enableAutoAck(bool enabled)
 	autoAck_ = enabled;
 }
 
-bool FT12_Packetizer::readBytes(char* buffer, std::size_t bufferSize, std::size_t bytesToRead, long timeout)
+std::size_t FT12_Packetizer::readBytes(char* buffer, std::size_t bytesToRead, long timeout)
 {
-	BOOST_ASSERT(bytesToRead <= bufferSize && "Buffer Overflow");
-
 	std::size_t length = 0;
 	while ((length < bytesToRead) && serialPort_.poll(timeout))
 	{
@@ -104,7 +107,7 @@ bool FT12_Packetizer::readBytes(char* buffer, std::size_t bufferSize, std::size_
 		}
 	}
 
-	return length == bytesToRead ? true : false;
+	return length;
 }
 
 std::size_t FT12_Packetizer::readFrame(unsigned char* buffer, std::size_t bufferSize)
@@ -136,7 +139,7 @@ std::size_t FT12_Packetizer::readFixedFrame(unsigned char* buffer, std::size_t b
 
 	// we already have the start byte, so read the other three bytes,
 	// and add one to the length to adjust for the start byte
-	std::size_t length = readBytes(ptr + 1, bufferSize - 1, FixedLengthFrame::Length - 1, shortTimeout) + 1;
+	std::size_t length = readBytes(ptr + 1, FixedLengthFrame::Length - 1, shortTimeout) + 1;
 
 	// we already know that the first byte, the start byte, matches, so no need to check
 	const bool valid = (length == FixedLengthFrame::Length) &&
@@ -164,19 +167,17 @@ std::size_t FT12_Packetizer::readVariableFrame(unsigned char* buffer, std::size_
 	void* pV = static_cast<void*>(buffer);
 	char* ptr = static_cast<char*>(pV);
 
-	// we have already read the start byte, so adjust the pointer and buffer size
+	// we have already read the start byte, so adjust the pointer
 	++ptr;
-	--bufferSize;
 
 	// try and read the two length bytes and the end of header (second start byte)
-	if (!readBytes(ptr, bufferSize, 3, shortTimeout))
+	if (readBytes(ptr, 3, shortTimeout) != 3)
 	{
 		poco_information(logger, "Unable to read variable frame length bytes");
 		return 0;
 	}
 
 	ptr += 3;
-	bufferSize -= 3;
 
 	const unsigned char length1 = buffer[VariableLengthFrame::Length1];
 	const unsigned char length2 = buffer[VariableLengthFrame::Length2];
@@ -193,8 +194,10 @@ std::size_t FT12_Packetizer::readVariableFrame(unsigned char* buffer, std::size_
 		return 0;
 	}
 
+	BOOST_ASSERT(bufferSize >= (VariableLengthFrame::HeaderLength + length1 + 2) && "Invalid Buffer Size");
+
 	// try and read the user data bytes and final two characters, checksum and end byte
-	if (!readBytes(ptr, bufferSize, length1 + 2, shortTimeout))
+	if (readBytes(ptr, length1 + 2, shortTimeout) != length1 + 2)
 	{
 		poco_information(logger, "Unable to read variable length end of frame");
 		return 0;
