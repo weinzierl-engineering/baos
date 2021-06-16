@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2018 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2021 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -224,43 +224,32 @@ void BaosDatapointDescriptions::readFromDevice()
 	}
 	else
 	{
-		// Calculate max datapoint number
-		unsigned int count = 0;
 		try
 		{
 			// currently only 777 has server item to get the datapoint count
 			BaosServerItems serverItems(connector_);
-			count = serverItems.getMaxDatapoints();
+			const unsigned int count = serverItems.getMaxDatapoints();
+			readFromDevice(1, count);
 		}
 		catch (NoItemFoundServerException&)
 		{
-			// we try to read max 1000 datapoints
-			// it's a 771 with 250 or a 772/830 with 1000 datapoints
-			count = 1000;
-		}
+			poco_debug(LOGGER(), "... this BAOS device do not support the server item MaxDatapoints");
 
-		// Calculate max block size (depend on current buffer size)
-		BaosServerItems serverItems(connector_);
-		const unsigned int bufferSize = serverItems.getBufferSize();
-		unsigned short blockSize = (bufferSize - 6) / 5; // header is 6 bytes and each item has 5 bytes
-		const unsigned short maxBlock = 50;
-		blockSize = std::max(blockSize, maxBlock); // limit it because it need a lot of time to read a large range
+			// There is no server item to get the datapoint count for older devices (771/772/773/774...).
+			// So we read the first 250 and then try to read the reset (until 1000).
+			// Success for BAOS 772/774 and bad service parameter exception for e.g. BAOS 771/773
 
-		// We simply read blocks until we on the end or we get a BAD_SERVICE_PARAMETER error
-		// (i.e. out of range; e.g. for 771)
+			// read the first 250
+			readFromDevice(1, 250);
 
-		bool finished = false;
-		unsigned int offset = 1;
-		while (!finished && (offset < count))
-		{
+			// try to read the reset
 			try
 			{
-				readDescriptions_ProtocolV20(offset, blockSize);
-				offset += blockSize;
+				readFromDevice(251, 750);
 			}
 			catch (BadServiceParameterServerException&)
 			{
-				finished = true;
+				poco_debug(LOGGER(), "... this BAOS device do not support more than 250 datapoints");
 			}
 		}
 	}
@@ -276,7 +265,37 @@ void BaosDatapointDescriptions::readFromDevice(unsigned short startId, unsigned 
 	}
 	else
 	{
-		readDescriptions_ProtocolV20(startId, count);
+		// Calculate max block size (depend on current buffer size)
+		BaosServerItems serverItems(connector_);
+		const unsigned int bufferSize = serverItems.getBufferSize();
+		unsigned short blockSize = (bufferSize - 6) / 5; // header is 6 bytes and each item has 5 bytes
+		const unsigned short maxBlock = 50;
+		blockSize = std::min(blockSize, maxBlock); // limit it because it needs a lot of time to read a large range
+
+		// We simply read blocks until we are on the end of the datapoint range or we get a BAD_SERVICE_PARAMETER error
+		// (i.e. out of range; e.g. for 771)
+
+		bool finished = false;
+		const unsigned int endId = (startId + count) - 1;
+		unsigned int offset = startId;
+		while (!finished && (offset <= endId))
+		{
+			try
+			{
+				// If offset + blockSize is bigger than the max 'count' of datapoints
+				// the device returns the BadServiceParameterException
+
+				const unsigned int remainingSize = (endId - offset) + 1;
+				const unsigned int size = std::min<unsigned int>(remainingSize, blockSize);
+
+				readDescriptions_ProtocolV20(offset, size);
+				offset += size;
+			}
+			catch (BadServiceParameterServerException&)
+			{
+				finished = true;
+			}
+		}
 	}
 }
 
@@ -357,7 +376,7 @@ void BaosDatapointDescriptions::readDescriptions_ProtocolV20(unsigned short star
 			poco_debug(LOGGER(), format("... until id %u read", static_cast<unsigned int>(lastReadId)));
 		}
 	}
-	// if no more activate datapoints exists in the range an exception with "No item found" will throw
+	// if no more activated datapoints exist in range, an exception with "No item found" will be thrown
 	catch (NoItemFoundServerException&)
 	{
 		poco_debug(LOGGER(), "... no more active datapoint exists");

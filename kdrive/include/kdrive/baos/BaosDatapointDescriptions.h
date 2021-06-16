@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2002-2018 WEINZIERL ENGINEERING GmbH
+// Copyright (c) 2002-2021 WEINZIERL ENGINEERING GmbH
 // All rights reserved.
 //
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -280,7 +280,6 @@ public:
 		Before the new values are read the current values from the request range are erased.
 		\param startId the id of the first datapoint
 		\param count the number of datapoints to read
-		\return the datapoint id of the last get descriptions
 	*/
 	void readFromDevice(unsigned short startId, unsigned short count);
 
