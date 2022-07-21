@@ -68,7 +68,8 @@ endif ()
 # Set compiler specific build flags
 if (CMAKE_COMPILER_IS_GNUCXX)
 
-  if ((NOT ("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "arm.*")) AND
+  if ((NOT ("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "aarch64 ")) AND
+      (NOT ("${CMAKE_SYSTEM_PROCESSOR}" MATCHES "arm.*")) AND
       (NOT ("${CMAKE_SYSTEM_PROCESSOR}" STREQUAL "mipsel")))
     add_definitions(-msse)
   endif ()
