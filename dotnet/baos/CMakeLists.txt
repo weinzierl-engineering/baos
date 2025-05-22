@@ -55,12 +55,17 @@ set (SOURCE_FILES
 
 set(target_APP kdriveBAOS_dotnet)
 
-# add clr compile flags
-string(REPLACE "/EHsc" "/EHa" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
-string(REPLACE "/RTC1" "" CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /clr")
-
 add_library(${target_APP} SHARED ${HEADER_FILES} ${SOURCE_FILES})
+
+if("${CMAKE_VERSION}" VERSION_GREATER_EQUAL 3.12.4)
+	# Mixed unmanaged/managed C++ using .NET Framework.
+	set_target_properties(${target_APP} PROPERTIES COMMON_LANGUAGE_RUNTIME "")
+else ()
+	# add clr compile flags
+	string(REPLACE "/EHsc" "/EHa" CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS})
+	string(REPLACE "/RTC1" "" CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG})
+	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /clr")
+endif ()
 
 # sets the "keyword" attribute in the project file (otherwise default value is "Win32Proj")
 # needed when you want changed some .net specific properties e.g. target framework version 
