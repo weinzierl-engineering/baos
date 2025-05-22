@@ -664,4 +664,4 @@ add_library(${KDRIVE_LIBRARY_NAME} ${WZSDK_LINKMODE}
 
 # kdrive need Poco Foundation and Poco Net
 add_dependencies(${KDRIVE_LIBRARY_NAME} Net Foundation)
-target_link_libraries(${KDRIVE_LIBRARY_NAME} Net Foundation ${SYSTEM_LIBS})
+target_link_libraries(${KDRIVE_LIBRARY_NAME} Net Foundation Boost::boost ${SYSTEM_LIBS})

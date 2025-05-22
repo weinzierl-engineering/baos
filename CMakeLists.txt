@@ -45,6 +45,8 @@ sdk_set_option(WZSDK_SAMPLES "Build Samples" TRUE)
 sdk_set_option(WZSDK_SAMPLES_QT "Build Qt Samples" FALSE)
 sdk_set_option(WZSDK_BINDINGS "Build Bindings" TRUE)
 
+sdk_set_option(WZSDK_BOOST_USE_BUNDLED "Use bundled boost (1) or installed version (0)" TRUE)
+
 # ---------- ENVIRONMENT
 
 if (NOT MSVC)
@@ -107,18 +109,32 @@ MESSAGE( STATUS "Build libraries as ${WZSDK_LINKMODE}" )
 
 # ---------- BOOST
 
-# try and find boost
-find_package(Boost)
+if (WZSDK_BOOST_USE_BUNDLED)
 
-# Add boost include path
-if (Boost_INCLUDE_DIR)
-  include_directories(SYSTEM "${Boost_INCLUDE_DIR}")
-endif ()
+	# root location of poco
+	set(Boost_DIR "${BAOS_SDK_DIR}/thirdparty/boost")
 
-# Add boost link path
-if (Boost_LIBRARY_DIRS)
-  link_directories("${Boost_LIBRARY_DIRS}")
-endif ()
+	# TARGET
+	add_library(boost INTERFACE)
+	add_library(Boost::boost ALIAS boost)
+
+	# INCLUDE DIRECTORIES
+	set(Boost_INCLUDE_DIR "${Boost_DIR}")
+	target_include_directories(boost INTERFACE "${Boost_INCLUDE_DIR}")
+
+else()
+
+	# try and find boost
+	find_package(Boost)
+
+	# Add boost include path
+	if (Boost_INCLUDE_DIR)
+	  include_directories(SYSTEM "${Boost_INCLUDE_DIR}")
+	endif ()
+
+endif()
+
+
 
 # ---------- QT
 
