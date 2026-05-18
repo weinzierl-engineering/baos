@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <array>
+#include <cstdint>
 namespace kdrive{namespace knx{class z91680f515b z498f6d084e{public:enum{Length=
 (0xc90+3334-0x1990)};typedef std::array<unsigned char,Length>DataBuffer;
 z498f6d084e();z498f6d084e(const DataBuffer&data);z498f6d084e(const std::vector<
