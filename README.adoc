@@ -47,6 +47,7 @@ thirdparty::    open-source Poco platform abstraction library
 * KNX IP BAOS 772
 * KNX IP BAOS 773
 * KNX IP BAOS 774
+* KNX IP BAOS 774.1 (only with legacy mode enabled (auto connect) in ETS configuration)
 * KNX IP BAOS 777
 * KNX Serial BAOS 870
 * KNX BAOS Module 820
@@ -57,6 +58,14 @@ thirdparty::    open-source Poco platform abstraction library
 * KNX USB Interface 312
 * KNX USB Interface 322
 * KNX USB Interface 332 Stick
+
+[IMPORTANT]
+====
+KNX IP BAOS 774.1 is supported only when legacy mode is enabled in the ETS configuration:
+General Settings -> Object Server -> BAOS services -> "Enabled (auto connect)".
+
+See also <<docs/User_Guide/User_Guide#chap-User_Guide-GettingStarted-BAOS7741,User Guide: KNX IP BAOS 774.1 ETS Configuration>>.
+====
 
 
 == Requirements

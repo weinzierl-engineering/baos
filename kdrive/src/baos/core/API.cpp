@@ -27,5 +27,5 @@ bool ProtocolVersions::is1x(unsigned char version)
 
 bool ProtocolVersions::is2x(unsigned char version)
 {
-	return version == ProtocolVersions::V20;
+	return ((version & 0xF0) == ProtocolVersions::V20);
 }

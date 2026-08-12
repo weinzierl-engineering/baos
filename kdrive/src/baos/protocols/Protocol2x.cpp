@@ -151,9 +151,10 @@ Packet::Ptr PacketFactory2x::create(const unsigned char* buffer, std::size_t buf
 
 			if (dataPacket)
 			{
+				// the minor protocol version is not in the protocol version field
 				std::shared_ptr<HeaderPolicy> headerPolicy = std::make_shared<HeaderPolicy2x>();
 				dataPacket->setHeaderPolicy(headerPolicy);
-				dataPacket->setVersion(version_);
+				dataPacket->setVersion(version_ & 0xF0);
 				packet = dataPacket;
 			}
 		}

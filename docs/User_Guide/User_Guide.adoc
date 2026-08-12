@@ -123,6 +123,17 @@ BAOS Protocol Versions::
     The protocol can be auto-detected using the enumeration function, which includes the
     version information.
 
+[[chap-User_Guide-GettingStarted-BAOS7741]]
+[IMPORTANT]
+.KNX IP BAOS 774.1 ETS Configuration
+====
+KNX IP BAOS 774.1 is supported only when legacy mode is enabled in ETS:
+General Settings -> Object Server -> BAOS services -> "Enabled (auto connect)".
+
+.ETS setting for KNX IP BAOS 774.1 (legacy mode / auto connect)
+image::images/774_1.jpg[scaledwidth=70%]
+====
+
 
 [apendix]
 == Acknowledgements

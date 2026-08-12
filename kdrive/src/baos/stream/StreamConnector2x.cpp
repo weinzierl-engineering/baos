@@ -211,7 +211,7 @@ std::size_t StreamConnector2x::encapsulate(const Packet::Ptr packet, unsigned ch
 	}
 
 	buffer[TransportHeader::KnxNetIpHeaderSize] = KnxNetIpHeaderSizeValue;
-	buffer[TransportHeader::Version] = getVersion();
+	buffer[TransportHeader::Version] = getVersion() & 0xF0;
 	buffer[TransportHeader::ObjectServerRequestHigh] = (ObjectServerRequestValue >> 8) & 0xFF;
 	buffer[TransportHeader::ObjectServerRequestLow] = ObjectServerRequestValue & 0xFF;
 	buffer[TransportHeader::FrameSizeHigh] = (frameSize >> 8) & 0xFF;
@@ -251,9 +251,10 @@ bool StreamConnector2x::packetize(int& bufferOffset)
 	bool isValidPacket = false;
 	const int size = static_cast<int>(frameBuffer_.size());
 	bool eraseData = false;
+	const unsigned char majorVersion = getVersion() & 0xF0;
 	for (int index = 0; index < size; ++index)
 	{
-		switch (isValid(getVersion(), &frameBuffer_.at(index), frameBuffer_.size() - index))
+		switch (isValid(majorVersion, &frameBuffer_.at(index), frameBuffer_.size() - index))
 		{
 			case ValidationCode::Valid:
 				// we have a valid frame
